@@ -48,18 +48,27 @@ Version: 0.1
 # Context Diagram and interfaces
 
 ## Context Diagram
-\<Define here Context diagram using UML use case diagram>
-
-\<actors are a subset of stakeholders>
+```plantuml
+@startuml
+left to right direction
+actor User as u
+actor Owner as o
+actor Administrator as a
+actor Map as m
+u -- (EZGas)
+o -- (EZGas)
+a -- (EZGas)
+m -- (EZGas)
+@enduml
+```
 
 ## Interfaces
-\<describe here each interface in the context diagram>
-
-\<GUIs will be described graphically in a separate document>
-
 | Actor | Logical Interface | Physical Interface  |
 | ------------- |:-------------:| -----:|
-|       |  |  |
+| User | GUI | Screen/Mouse, Keyboard |
+| Owner | GUI | Screen/Mouse, Keyboard |
+| Administrator | GUI | Screen/Mouse, Keyboard |
+| Maps Service | API | Internet |
 
 # Stories and personas
 \<A Persona is a realistic impersonation of an actor. Define here a few personas and describe in plain text how a persona interacts with the system>
