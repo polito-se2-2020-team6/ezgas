@@ -1,10 +1,10 @@
 # Requirements Document 
 
-Authors:
+Authors: Alessandro Borione, Giacomo Garaccione, Corrado Vecchio, Marco Vinai
 
-Date:
+Date: 07/04/2020
 
-Version:
+Version: 0.1
 
 # Contents
 
@@ -13,17 +13,26 @@ Version:
 	+ [Context Diagram](#context-diagram)
 	+ [Interfaces](#interfaces) 
 	
+- [Requirements Document](#requirements-document)
+- [Contents](#contents)
+- [Stakeholders](#stakeholders)
+- [Context Diagram and interfaces](#context-diagram-and-interfaces)
+	- [Context Diagram](#context-diagram)
+	- [Interfaces](#interfaces)
 - [Stories and personas](#stories-and-personas)
 - [Functional and non functional requirements](#functional-and-non-functional-requirements)
-	+ [Functional Requirements](#functional-requirements)
-	+ [Non functional requirements](#non-functional-requirements)
+	- [Functional Requirements](#functional-requirements)
+	- [Non Functional Requirements](#non-functional-requirements)
 - [Use case diagram and use cases](#use-case-diagram-and-use-cases)
-	+ [Use case diagram](#use-case-diagram)
-	+ [Use cases](#use-cases)
-    	+ [Relevant scenarios](#relevant-scenarios)
+	- [Use case diagram](#use-case-diagram)
+		- [Use case 1, UC1](#use-case-1-uc1)
+				- [Scenario 1.1](#scenario-11)
+				- [Scenario 1.2](#scenario-12)
+		- [Use case 2, UC2](#use-case-2-uc2)
+		- [Use case](#use-case)
 - [Glossary](#glossary)
-- [System design](#system-design)
-- [Deployment diagram](#deployment-diagram)
+- [System Design](#system-design)
+- [Deployment Diagram](#deployment-diagram)
 
 
 # Stakeholders
@@ -31,7 +40,10 @@ Version:
 
 | Stakeholder name  | Description | 
 | ----------------- |:-----------:|
-|                   |             | 
+| Users             | Use the application to find the best deal in terms of cost/distance for gas and share their experiences with community |
+| Owners            | Use the application to insert and update prices and info about their gas stations and services |
+| Administror       | Controls the users reports about their experiences in gas stations (comments, errors prices, complaints) |
+| Maps Service      | Provides needed maps to the application and offers navigation service |
 
 # Context Diagram and interfaces
 
