@@ -90,9 +90,50 @@ Frank is the head master of Vodafone Italia, and he travels around Italy every d
 
 \<will match to high level use cases>
 
-| ID        | Description  |
+| ID        | Description  | Priority |
 | ------------- |:-------------:| 
-|  FR1     |  |
+|  FR1       |  Manage Account |  |
+|  FR1.1     |  Manage user registration | primary |
+|  FR1.2     |  Manage owner registration | primary |
+|  FR1.3     |  Manage log in | primary |
+|  FR1.4     |  Manage account deletion | primary |
+|  FR1.5     |  Manage log out | primary |
+||||
+|  FR2     	 |  Manage Gas station|  |
+|  FR2.1     |  Manage Gas station insertion | primary |
+|  FR2.2     |  Manage Gas station deletion | primary |
+|  FR2.3     |  Manage fuel type insertion | primary |
+|  FR2.4     |  Manage fuel price update | primary |
+|  FR2.5     |  Manage fuel type deletion | primary |
+|  FR2.6     |  Manage service insertion | primary |
+|  FR2.7     |  Manage service update | primary |
+|  FR2.8     |  Manage service deletion | primary |
+||||
+|  FR3    	 |   Manage Administrator operations | |
+|  FR3.1  	 |   Manage owner account approval | primary |
+|  FR3.2   	 |   Manage comment moderation | secondary |
+|  FR3.3     |   Manage price error report | secondary |
+||||
+|  FR4 		 |	 Manage user experience| |
+|  FR4.1     |   Get user area of interest | primary |
+|  FR4.1.1   |   Get user area of interest by current position|
+|  FR4.1.2   |   Get user area of interest by specific city|
+|  FR4.2     |   Show map and gas stations| primary |
+|  FR4.3     |   Manage selection and display Gas Station info| primary |
+|  FR4.3.1 	 |   Manage navigation service | secondary |
+|  FR4.4     |   Manage filters | secondary |
+|  FR4.5     |   Manage favourites selection | secondary |
+|  FR4.6     |   Manage favourites display | secondary |
+|  FR4.7     |   Manage favourites deletion | secondary |
+|  FR4.8     |   Manage comment insertion | secondary |
+|  FR4.9     |   Manage price error report | secondary |
+
+
+
+
+
+
+
 |  FR2     |   |
 
 ## Non Functional Requirements
