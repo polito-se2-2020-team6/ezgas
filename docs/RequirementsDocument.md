@@ -91,7 +91,7 @@ Frank is the head master of Vodafone Italia, and he travels around Italy every d
 \<will match to high level use cases>
 
 | ID        | Description  | Priority |
-| ------------- |:-------------:| 
+| ------------- |:-------------:|----:|
 |  FR1       |  Manage Account |  |
 |  FR1.1     |  Manage user registration | primary |
 |  FR1.2     |  Manage owner registration | primary |
