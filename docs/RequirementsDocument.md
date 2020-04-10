@@ -86,10 +86,6 @@ Frank is the head master of Vodafone Italia, and he travels around Italy every d
 
 ## Functional Requirements
 
-\<In the form DO SOMETHING, or VERB NOUN, describe high level capabilities of the system>
-
-\<will match to high level use cases>
-
 | ID        | Description  | Priority |
 | ------------- |:-------------:|----:|
 |  FR1       |  Manage Account |  |
@@ -129,22 +125,15 @@ Frank is the head master of Vodafone Italia, and he travels around Italy every d
 |  FR4.9     |   Manage price error report | secondary |
 
 
-
-
-
-
-
-|  FR2     |   |
-
 ## Non Functional Requirements
 
-\<Describe constraints on functional requirements>
 
 | ID        | Type (efficiency, reliability, ..)           | Description  | Refers to |
 | ------------- |:-------------:| :-----:| -----:|
-|  NFR1     |   |  | |
-|  NFR2     | |  | |
-|  NFR3     | | | |
+| NFR1 | Usability | Application should be usable with no particular training (any user can easliy understand how the application works)  | All FR |
+| NFR2 | Performance | All implemented functions should complete in no more than 3-4 seconds (function can return either success or failure) | All FR |
+| NFR3 | Portability | The application should run the same way on both smartphone and computer, and on all major Operating System (Linux, Windows, Apple, Android, iOS) | All FR |
+| NFR4 | Localization | Prices have three digit decimal precision | FR2, FR4 |
 
 
 # Use case diagram and use cases
