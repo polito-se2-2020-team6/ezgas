@@ -8,13 +8,9 @@ Version: 0.1
 
 # Contents
 
-- [Stakeholders](#stakeholders)
-- [Context Diagram and interfaces](#context-diagram-and-interfaces)
-	+ [Context Diagram](#context-diagram)
-	+ [Interfaces](#interfaces) 
-	
 - [Requirements Document](#requirements-document)
 - [Contents](#contents)
+- [Abstract](#abstract)
 - [Stakeholders](#stakeholders)
 - [Context Diagram and interfaces](#context-diagram-and-interfaces)
 	- [Context Diagram](#context-diagram)
@@ -30,6 +26,9 @@ Version: 0.1
 - [Glossary](#glossary)
 - [System Design](#system-design)
 - [Deployment Diagram](#deployment-diagram)
+
+# Abstract
+EZGas is a crowdsourcing Web Application that informs users about prices and locations of different gas stations. The user can access this service using a smartphone or a PC and can easily get which is the nearest or cheaper gas station, so that he can manage his travels. At the same time gas station owners can use this platform to get better reputation and advertising.
 
 
 # Stakeholders
