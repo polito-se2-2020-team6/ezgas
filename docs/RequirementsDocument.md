@@ -598,7 +598,6 @@ rectangle "EZGas system" {
 
 ```plantuml
 @startuml
-scale 1.5
 
 class EZGas
 class Person {
@@ -660,9 +659,9 @@ class Comment {
 	+ Offensive
 }
 class OwnerAccountRequest {
-	+ DateOfRequest
-	+ Approved
-	+ DateOfApproval
+		+ DateOfRequest
+		+ Approved
+		+ DateOfApproval
 }
 
 EZGas -- "*" Person
@@ -677,21 +676,21 @@ Owner -- "0..*" GasStation :"> owns"
 User "0..*" -- "0..*" GasStation :"favourites"
 
 GasStation -- Position
-GasStation "0..*" -- "0..*" ServiceType :"> offers"
+GasStation "0..*" --- "0..*" ServiceType :"> offers"
 (GasStation, ServiceType) -- Service
 
 
 FuelType "0..*" -- "0..*" GasStation :"< sells"
 (GasStation, FuelType) -- FuelPrice
 
-PhotoStation -- "0..*" GasStation
-PhotoService -- "0..*" Service
+PhotoStation "0..*" -- GasStation
+PhotoService "0..*" -- Service
 
-User "0..* " -- Comment :"> publishes"
-Comment -- "0..*" GasStation
+User -- "0..*" Comment :"> publishes"
+Comment "0..*" -- GasStation
 
 Owner -- "1..*" OwnerAccountRequest :"> submits"
-OwnerAccountRequest "*" -- Admin :"< checks"
+OwnerAccountRequest "0..*" -- Admin :"< checks"
 
 @enduml
 ```
