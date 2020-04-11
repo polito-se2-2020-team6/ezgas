@@ -597,9 +597,105 @@ rectangle "EZGas system" {
 
 # Glossary
 
-\<use UML class diagram to define important concepts in the domain of the system, and their relationships> 
+```plantuml
+@startuml
+scale 1.5
 
-\<concepts are used consistently all over the document, ex in use cases, requirements etc>
+class EZGas
+class Person {
+	+ SessionId
+	+ Latitude
+	+ Longitude
+}
+class User {
+	+ Username
+	+ Password
+	+ E-Mail
+	+ Type
+}
+class Owner {
+	+ PIva
+	+ Name
+	+ Surname
+	+ DateOfBirth
+	+ FiscalCode
+	+ Address
+}
+class Admin {
+	+ Name
+	+ Surname
+}
+class GasStation {
+	+ Name
+	+ Description
+	+ Address
+}
+class FuelType {
+	+ Type
+	+ Unit
+}
+class FuelPrice {
+	+ UnitPrice
+	+ ReportCounter
+}
+class Position {
+	+ Latitude
+	+ Longitude
+}
+class ServiceType {
+	+ Type
+}
+class Service {
+	+ Description
+}
+class PhotoStation {
+	+ Id
+	+ Base64
+}
+class PhotoService {
+	+ Id
+	+ Base64
+}
+class Comment {
+	+ Text
+	+ Offensive
+}
+class OwnerAccountRequest {
+	+ DateOfRequest
+	+ Approved
+	+ DateOfApproval
+}
+
+EZGas -- "*" Person
+EZGas -- "*" GasStation
+
+Person <|-- User
+User <|-- Owner
+User <|-- Admin
+
+Owner -- "0..*" GasStation :"> owns"
+
+User "0..*" -- "0..*" GasStation :"favourites"
+
+GasStation -- Position
+GasStation "0..*" -- "0..*" ServiceType :"> offers"
+(GasStation, ServiceType) -- Service
+
+
+FuelType "0..*" -- "0..*" GasStation :"< sells"
+(GasStation, FuelType) -- FuelPrice
+
+PhotoStation -- "0..*" GasStation
+PhotoService -- "0..*" Service
+
+User "0..* " -- Comment :"> publishes"
+Comment -- "0..*" GasStation
+
+Owner -- "1..*" OwnerAccountRequest :"> submits"
+OwnerAccountRequest "*" -- Admin :"< checks"
+
+@enduml
+```
 
 # System Design
 \<describe here system design>
