@@ -698,11 +698,53 @@ OwnerAccountRequest "*" -- Admin :"< checks"
 ```
 
 # System Design
-\<describe here system design>
+```plantuml
+@startuml
+scale 1.5
 
-\<must be consistent with Context diagram>
+class "EZGas System" {
+	+ F1 ManageAccount()
+	+ F2 ManageGasStation()
+	+ F3 ManageAdministratorOperation()
+	+ F4 ManageUserExperience()
+}
+
+class Server
+class Database
+class Computer
+
+"EZGas System" o-- Server
+"EZGas System" o-- Computer
+
+Server -- Database
+
+
+@enduml
+```
 
 # Deployment Diagram 
 
-\<describe here deployment diagram >
+```plantuml
+@startuml
+scale 1.5
 
+node "EZGas System" as E {
+	node "Web Server" as W
+	node "Application Server" as A
+	node "Database" as D
+
+	W -- A
+	A -- D
+}
+node "Map System" as M
+
+node "PC Client" as P
+node "Smartphone" as S
+
+E -- M :"internet"
+
+E -- P :"internet"
+E -- S :"internet"
+
+@enduml
+```
