@@ -22,6 +22,32 @@ Version: 0.1
 - [Use case diagram and use cases](#use-case-diagram-and-use-cases)
 	- [Use case diagram](#use-case-diagram)
 - [Use cases](#use-cases)
+		- [Use case 1, UC1 - FR1.1 Manage User Registration](#use-case-1-uc1---fr11-manage-user-registration)
+		- [Use case 2, UC2 - FR1.2 Manage Owner Registration](#use-case-2-uc2---fr12-manage-owner-registration)
+		- [Use case 3, UC3 - FR1.3 Manage Log In](#use-case-3-uc3---fr13-manage-log-in)
+		- [Use case 4, UC4 - FR1.4 Account Deletion](#use-case-4-uc4---fr14-account-deletion)
+		- [Use case 5, UC5 - FR1.5 Manage Log Out](#use-case-5-uc5---fr15-manage-log-out)
+		- [Use case 6, UC6 - FR2.1 Manage Gas Station Insertion](#use-case-6-uc6---fr21-manage-gas-station-insertion)
+		- [Use case 7, UC7 - FR2.2 Manage Gas Station Deletion](#use-case-7-uc7---fr22-manage-gas-station-deletion)
+		- [Use case 8, UC8 - FR2.3 Manage Fuel Type Insertion](#use-case-8-uc8---fr23-manage-fuel-type-insertion)
+		- [Use case 9, UC9 - FR2.4 Manage Fuel Price Update](#use-case-9-uc9---fr24-manage-fuel-price-update)
+		- [Use case 10, UC10 - FR2.5 Manage Fuel Type Deletion](#use-case-10-uc10---fr25-manage-fuel-type-deletion)
+		- [Use case 11, UC11 - FR2.6 Manage Service Insertion](#use-case-11-uc11---fr26-manage-service-insertion)
+		- [Use case 12, UC12 - FR2.7 Manage Service Update](#use-case-12-uc12---fr27-manage-service-update)
+		- [Use case 13, UC13 - FR2.8 Manage Service Deletion](#use-case-13-uc13---fr28-manage-service-deletion)
+		- [Use case 14, UC14 - FR3.1 Manage Owner Account Approval](#use-case-14-uc14---fr31-manage-owner-account-approval)
+		- [Use case 15, UC15 - FR3.2 Manage Comment Moderation](#use-case-15-uc15---fr32-manage-comment-moderation)
+		- [Use case 16, UC16 - FR3.3 Manage Price Error Report](#use-case-16-uc16---fr33-manage-price-error-report)
+		- [Use case 17, UC17 - FR4.1 Get User Area of Interest](#use-case-17-uc17---fr41-get-user-area-of-interest)
+		- [Use case 18, UC18 - FR4.2 Show Map and Gas Stations](#use-case-18-uc18---fr42-show-map-and-gas-stations)
+		- [Use case 19, UC19 - FR4.3 Selection and Display Gas Station Info](#use-case-19-uc19---fr43-selection-and-display-gas-station-info)
+		- [Use case 20, UC20 - FR4.3.1 Manage Navigation Service](#use-case-20-uc20---fr431-manage-navigation-service)
+		- [Use case 21, UC21 - FR4.4 Manage Filters](#use-case-21-uc21---fr44-manage-filters)
+		- [Use case 22, UC22 - FR4.5 Manage Favourites Selection](#use-case-22-uc22---fr45-manage-favourites-selection)
+		- [Use case 23, UC23 - FR4.6 Manage Favourites Display](#use-case-23-uc23---fr46-manage-favourites-display)
+		- [Use case 24, UC24 - FR4.7 Manage Favourites Deletion](#use-case-24-uc24---fr47-manage-favourites-deletion)
+		- [Use case 25, UC25 - FR4.8 Manage Comment Insertion](#use-case-25-uc25---fr48-manage-comment-insertion)
+		- [Use case 26, UC26 - FR4.9 Manage Price Error Report](#use-case-26-uc26---fr49-manage-price-error-report)
 - [Scenarios](#scenarios)
 - [Glossary](#glossary)
 - [System Design](#system-design)
@@ -88,7 +114,7 @@ Frank is the head master of Vodafone Italia, and he travels around Italy every d
 | FR1.1   |           Manage user registration            |   primary |
 | FR1.2   |           Manage owner registration           |   primary |
 | FR1.3   |                 Manage log in                 |   primary |
-| FR1.4   |            Manage account deletion            |   primary |
+| FR1.4   |            Manage account deletion            |   secondary |
 | FR1.5   |                Manage log out                 |   primary |
 |         |                                               |           |
 | FR2     |              Manage Gas station               |           |
@@ -99,7 +125,7 @@ Frank is the head master of Vodafone Italia, and he travels around Italy every d
 | FR2.5   |           Manage fuel type deletion           |   primary |
 | FR2.6   |           Manage service insertion            |   primary |
 | FR2.7   |             Manage service update             |   primary |
-| FR2.8   |            Manage service deletion            |   primary |
+| FR2.8   |            Manage service deletion            |   secondary |
 |         |                                               |           |
 | FR3     |        Manage Administrator operations        |           |
 | FR3.1   |         Manage owner account approval         |   primary |
@@ -177,7 +203,7 @@ rectangle "EZGas system" {
 ```
 
 # Use cases
-###Use case 1, UC1 - FR1.1 Manage User Registration
+### Use case 1, UC1 - FR1.1 Manage User Registration
 | Actors Involved  |                                                     User                                                     |
 | ---------------- | :----------------------------------------------------------------------------------------------------------: |
 | Precondition     |           User does not already have an existing EZGas account, must also have an existing e-mail            |
@@ -185,7 +211,7 @@ rectangle "EZGas system" {
 | Nominal Scenario | User inserts all his/her information as required by the app, these informations are registered on the system |
 | Variants         |            Password is deemed not secure enough, username already exists, e-mail validation fails            |
 
-###Use case 2, UC2 - FR1.2 Manage Owner Registration
+### Use case 2, UC2 - FR1.2 Manage Owner Registration
 | Actors Involved  |                                                                            Owner                                                                            |
 | ---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | Precondition     | Owner does not already have an existing EZGas account, must also have an existing e-mail and p.iva, owns a gas station not already registered in the system |
@@ -193,7 +219,7 @@ rectangle "EZGas system" {
 | Nominal Scenario |                        Owner inserts all his/her information as required by the app, these informations are registered on the system                        |
 | Variants         |                                   Password is deemed not secure enough, username already exists, e-mail validation fails                                    |
 
-###Use case 3, UC3 - FR1.3 Manage Log In
+### Use case 3, UC3 - FR1.3 Manage Log In
 | Actors Involved  |                              User, Owner, Adminstrator                               |
 | ---------------- | :----------------------------------------------------------------------------------: |
 | Precondition     | Person already has an existing EZGas account and is not already logged in in the app |
@@ -201,7 +227,7 @@ rectangle "EZGas system" {
 | Nominal Scenario |         Person inserts his account informations (e-mail/username, password)          |
 | Variants         |                       E-mail/username/password is not correct                        |
 
-###Use case 4, UC4 - FR1.4 Account Deletion
+### Use case 4, UC4 - FR1.4 Account Deletion
 | Actors Involved  |                                    User, Owner, Adminstrator                                     |
 | ---------------- | :----------------------------------------------------------------------------------------------: |
 | Precondition     |               Person already has an existing EZGas account and wants to delete it                |
@@ -209,7 +235,7 @@ rectangle "EZGas system" {
 | Nominal Scenario | Person chooses to delete his account and, after re-inserting his password, confirms the deletion |
 | Variants         |                                     Password is not correct                                      |
 
-###Use case 5, UC5 - FR1.5 Manage Log Out
+### Use case 5, UC5 - FR1.5 Manage Log Out
 | Actors Involved  |                           User, Owner, Adminstrator                           |
 | ---------------- | :---------------------------------------------------------------------------: |
 | Precondition     | Person already has an existing EZGas account and already logged in in the app |
@@ -217,7 +243,7 @@ rectangle "EZGas system" {
 | Nominal Scenario |                   Person chooses to log out of the account                    |
 | Variants         |                                                                               |
 
-###Use case 6, UC6 - FR2.1 Manage Gas Station Insertion
+### Use case 6, UC6 - FR2.1 Manage Gas Station Insertion
 | Actors Involved  |                                                                                     Owner                                                                                     |
 | ---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | Precondition     |                                     Owner has logged in with an existing account, the gas station is not already registered in the system                                     |
@@ -225,7 +251,7 @@ rectangle "EZGas system" {
 | Nominal Scenario | Owner inserts all the informations about the gas station (name, location, fuel types, photo, prices), as required by the app, these informations are registered on the system |
 | Variants         |                                                                        Not all form fields are filled                                                                         |
 
-###Use case 7, UC7 - FR2.2 Manage Gas Station Deletion
+### Use case 7, UC7 - FR2.2 Manage Gas Station Deletion
 | Actors Involved  |                                                Owner                                                |
 | ---------------- | :-------------------------------------------------------------------------------------------------: |
 | Precondition     |  Owner has logged in with an existing account, the gas station is already registered in the system  |
@@ -233,7 +259,7 @@ rectangle "EZGas system" {
 | Nominal Scenario | Owner chooses to delete the gas station and, after re-inserting his password, confirms the deletion |
 | Variants         |                                       Password is not correct                                       |
 
-###Use case 8, UC8 - FR2.3 Manage Fuel Type Insertion
+### Use case 8, UC8 - FR2.3 Manage Fuel Type Insertion
 | Actors Involved  |                                                               Owner                                                               |
 | ---------------- | :-------------------------------------------------------------------------------------------------------------------------------: |
 | Precondition     | Owner has logged in with an existing account, the gas station is already registered in the system, the fuel type isn't registered |
@@ -241,7 +267,7 @@ rectangle "EZGas system" {
 | Nominal Scenario |                                           Owner inserts the new fuel type and its price                                           |
 | Variants         |                                                  Not all form fields are filled                                                   |
 
-###Use case 9, UC9 - FR2.4 Manage Fuel Price Update
+### Use case 9, UC9 - FR2.4 Manage Fuel Price Update
 | Actors Involved  |                                                                       Owner                                                                        |
 | ---------------- | :------------------------------------------------------------------------------------------------------------------------------------------------: |
 | Precondition     | Owner has logged in with an existing account, the gas station is already registered in the system, the fuel type's associated price is out of date |
@@ -249,7 +275,7 @@ rectangle "EZGas system" {
 | Nominal Scenario |                                     Owner chooses the fuel type with out of date price and inserts the new one                                     |
 | Variants         |                                                           Not all form fields are filled                                                           |
 
-###Use case 10, UC10 - FR2.5 Manage Fuel Type Deletion
+### Use case 10, UC10 - FR2.5 Manage Fuel Type Deletion
 | Actors Involved  |                                                                   Owner                                                                    |
 | ---------------- | :----------------------------------------------------------------------------------------------------------------------------------------: |
 | Precondition     |                     Owner has logged in with an existing account, the gas station is already registered in the system                      |
@@ -257,7 +283,7 @@ rectangle "EZGas system" {
 | Nominal Scenario | Owner chooses to delete the fuel type from the ones offered by his gas station and, after re-inserting his password, confirms the deletion |
 | Variants         |                                                          Password is not correct                                                           |
 
-###Use case 11, UC11 - FR2.6 Manage Service Insertion
+### Use case 11, UC11 - FR2.6 Manage Service Insertion
 | Actors Involved  |                                                              Owner                                                              |
 | ---------------- | :-----------------------------------------------------------------------------------------------------------------------------: |
 | Precondition     | Owner has logged in with an existing account, the gas station is already registered in the system, the service isn't registered |
@@ -265,7 +291,7 @@ rectangle "EZGas system" {
 | Nominal Scenario |                         Owner inserts the new service and its informations (type, description, photos)                          |
 | Variants         |                                                 Not all form fields are filled                                                  |
 
-###Use case 12, UC12 - FR2.7 Manage Service Update
+### Use case 12, UC12 - FR2.7 Manage Service Update
 | Actors Involved  |                                                                            Owner                                                                             |
 | ---------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | Precondition     | Owner has logged in with an existing account, the gas station is already registered in the system, some or all of the service's informations are out of date |
@@ -273,7 +299,7 @@ rectangle "EZGas system" {
 | Nominal Scenario |                                       Owner chooses the service with out of date informations and inserts the new ones                                       |
 | Variants         |                                                                Not all form fields are filled                                                                |
 
-###Use case 13, UC13 - FR2.8 Manage Service Deletion
+### Use case 13, UC13 - FR2.8 Manage Service Deletion
 | Actors Involved  |                                                                      Owner                                                                       |
 | ---------------- | :----------------------------------------------------------------------------------------------------------------------------------------------: |
 | Precondition     |                        Owner has logged in with an existing account, the gas station is already registered in the system                         |
@@ -281,7 +307,7 @@ rectangle "EZGas system" {
 | Nominal Scenario | Owner chooses chooses to delete the service from the ones offered by his gas station and, after re-inserting his password, confirms the deletion |
 | Variants         |                                                             Password is not correct                                                              |
 
-###Use case 14, UC14 - FR3.1 Manage Owner Account Approval
+### Use case 14, UC14 - FR3.1 Manage Owner Account Approval
 | Actors Involved  |                                                                 Adminstrator                                                                 |
 | ---------------- | :------------------------------------------------------------------------------------------------------------------------------------------: |
 | Precondition     |                   Admin is already logged in, Owner has inserted his p.iva, is waiting for the confirmation of his account                   |
@@ -290,7 +316,7 @@ rectangle "EZGas system" {
 | Variants         |                                                           The p.iva does not exist                                                           |
 |                  |                                The p.iva owner informations are different from the ones used for the account                                 |
 
-###Use case 15, UC15 - FR3.2 Manage Comment Moderation
+### Use case 15, UC15 - FR3.2 Manage Comment Moderation
 | Actors Involved  |                                                           Adminstrator                                                           |
 | ---------------- | :------------------------------------------------------------------------------------------------------------------------------: |
 | Precondition     |                                      Some User has inserted a comment flagged as offensive                                       |
@@ -298,7 +324,7 @@ rectangle "EZGas system" {
 | Nominal Scenario | Admin checks if the flagged comment is indeed offensive and, if it is, removes it and sends a message to the User that posted it |
 | Variants         |                                                   The comment is not offensive                                                   |
 
-###Use case 16, UC16 - FR3.3 Manage Price Error Report
+### Use case 16, UC16 - FR3.3 Manage Price Error Report
 | Actors Involved  |                                                                 Adminstrator                                                                 |
 | ---------------- | :------------------------------------------------------------------------------------------------------------------------------------------: |
 | Precondition     |       An error in the registered price of some Gas Station has been notified by a large amount of users (at least 10 different users)        |
@@ -306,7 +332,7 @@ rectangle "EZGas system" {
 | Nominal Scenario | Admin receives the different notifications of price errors and, after making sure they come from real users and not bots, contacts the Owner |
 | Variants         |                                         The Admin ignores the reports and does not update the Owner                                          |
 
-###Use case 17, UC17 - FR4.1 Get User Area of Interest
+### Use case 17, UC17 - FR4.1 Get User Area of Interest
 | Actors Involved  |                                                          User                                                           |
 | ---------------- | :---------------------------------------------------------------------------------------------------------------------: |
 | Precondition     |                          User has logged in and wants to know the Gas Station in a chosen area                          |
@@ -315,7 +341,7 @@ rectangle "EZGas system" {
 | Variants         |                                               The address does not exist                                                |
 |                  |                                          The user's position can't be obtained                                          |
 
-###Use case 18, UC18 - FR4.2 Show Map and Gas Stations
+### Use case 18, UC18 - FR4.2 Show Map and Gas Stations
 | Actors Involved  |                                                   User, Map Service                                                   |
 | ---------------- | :-------------------------------------------------------------------------------------------------------------------: |
 | Precondition     |                                         User has decided his area of interest                                         |
@@ -323,7 +349,7 @@ rectangle "EZGas system" {
 | Nominal Scenario | The application shows the user all the gas station in a defined range (10-20 Km) centered around the area of interest |
 | Variants         |                           Map Service does not work properly and can't load maps correctly                            |
 
-###Use case 19, UC19 - FR4.3 Selection and Display Gas Station Info
+### Use case 19, UC19 - FR4.3 Selection and Display Gas Station Info
 | Actors Involved  |                                  User, Map Service                                  |
 | ---------------- | :---------------------------------------------------------------------------------: |
 | Precondition     |             User has seen the Gas Stations around his area of interest              |
@@ -331,7 +357,7 @@ rectangle "EZGas system" {
 | Nominal Scenario | User chooses a gas station and the application shows all its associated information |
 | Variants         |     If a price is reported as wrong a red exclamation mark appears close to it      |
 
-###Use case 20, UC20 - FR4.3.1 Manage Navigation Service
+### Use case 20, UC20 - FR4.3.1 Manage Navigation Service
 | Actors Involved  |                               User, Map Service                                |
 | ---------------- | :----------------------------------------------------------------------------: |
 | Precondition     | User has looked at a Gas Station's location and wants to know how to get to it |
@@ -339,7 +365,7 @@ rectangle "EZGas system" {
 | Nominal Scenario |    The application shows the directions to follow to get to the gas station    |
 | Variants         |                            User takes a wrong turn                             |
 
-###Use case 21, UC21 - FR4.4 Manage Filters
+### Use case 21, UC21 - FR4.4 Manage Filters
 | Actors Involved  |                                                      User                                                      |
 | ---------------- | :------------------------------------------------------------------------------------------------------------: |
 | Precondition     |            User wants to choose a Gas Station based on more detailed information (prices, services)            |
@@ -347,7 +373,7 @@ rectangle "EZGas system" {
 | Nominal Scenario | The application reduces the shown gas stations, leaving only the ones that pass the selection made by the user |
 | Variants         |                                                                                                                |
 
-###Use case 22, UC22 - FR4.5 Manage Favourites Selection
+### Use case 22, UC22 - FR4.5 Manage Favourites Selection
 | Actors Involved  |                                       User                                       |
 | ---------------- | :------------------------------------------------------------------------------: |
 | Precondition     |    User is already logged in and wants to add to his favourites a Gas Station    |
@@ -355,7 +381,7 @@ rectangle "EZGas system" {
 | Nominal Scenario | User chooses a gas station and adds it to his favourites using the proper button |
 | Variants         |                      The gas station is already registered                       |
 
-###Use case 23, UC23 - FR4.6 Manage Favourites Display
+### Use case 23, UC23 - FR4.6 Manage Favourites Display
 | Actors Involved  |                                         User                                         |
 | ---------------- | :----------------------------------------------------------------------------------: |
 | Precondition     |        User is already logged and wants to see all his favourite Gas Stations        |
@@ -363,7 +389,7 @@ rectangle "EZGas system" {
 | Nominal Scenario |                User uses the proper button to see all his favourites                 |
 | Variants         |                                                                                      |
 
-###Use case 24, UC24 - FR4.7 Manage Favourites Deletion
+### Use case 24, UC24 - FR4.7 Manage Favourites Deletion
 | Actors Involved  |                                                   User                                                    |
 | ---------------- | :-------------------------------------------------------------------------------------------------------: |
 | Precondition     |               User is already logged and wants to remove a Gas Station from his favourites                |
@@ -371,7 +397,7 @@ rectangle "EZGas system" {
 | Nominal Scenario | From his list of favourites, the user chooses a gas station to remove and confirms with the proper button |
 | Variants         |                                                                                                           |
 
-###Use case 25, UC25 - FR4.8 Manage Comment Insertion
+### Use case 25, UC25 - FR4.8 Manage Comment Insertion
 | Actors Involved  |                                               User                                                |
 | ---------------- | :-----------------------------------------------------------------------------------------------: |
 | Precondition     | User is already logged and wants to share his experience at a specific Gas Station with a comment |
@@ -380,7 +406,7 @@ rectangle "EZGas system" {
 | Variants         |                           Comment is flagged as offensive by the system                           |
 
 
-###Use case 26, UC26 - FR4.9 Manage Price Error Report
+### Use case 26, UC26 - FR4.9 Manage Price Error Report
 | Actors Involved  |                                           User                                            |
 | ---------------- | :---------------------------------------------------------------------------------------: |
 | Precondition     |    User is already logged and wants to report a price error in a specific Gas Station     |
@@ -398,7 +424,7 @@ rectangle "EZGas system" {
 | Post condition |                             User has a registered account                             |
 | Step#          |                                      Description                                      |
 | 1              |                   User opens the app, the home page is shown to him                   |
-| 2              |                           User selects the `Sign In` button                           |
+| 2              |                           User selects the `Sign Up as user` button                           |
 | 3              |                      User inserts e-mail, username and password                       |
 | 4              | User receives a confirmation mail from the system with a link to activate the account |
 | 5              |                                User clicks on the link                                |
@@ -413,7 +439,7 @@ rectangle "EZGas system" {
 | Post condition |                                     Owner has a registered account                                     |
 | Step#          |                                              Description                                               |
 | 1              |                           Owner opens the app, the home page is shown to him                           |
-| 2              |                    Owner selects the `Sign In` button and selects `as owner` option                    |
+| 2              |                    Owner selects the `Sign Up as owner` button                   |
 | 3              |             Owner inserts e-mail, username and password, p.iva and anagraphic information              |
 | 4              |                              Owner wait for approval by the administrator                              |
 | 5              |                         Request is deemed valid [Scenario 14.1](#scenario-141)                         |
@@ -430,7 +456,7 @@ rectangle "EZGas system" {
 | Post condition |                   Owner does not have a registered account                    |
 | Step#          |                                  Description                                  |
 | 1              |              Owner opens the app, the home page is shown to him               |
-| 2              |       Owner selects the `Sign In` button and selects `as owner` option        |
+| 2              |       Owner selects the `Sign Up as owner` button         |
 | 3              | Owner inserts e-mail, username and password, p.iva and anagraphic information |
 | 4              |                 Owner wait for approval by the administrator                  |
 | 5              |           Request is deemed invalid [Scenario 14.2](#scenario-142)            |
