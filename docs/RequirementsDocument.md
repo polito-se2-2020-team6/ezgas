@@ -248,7 +248,7 @@ rectangle "EZGas system" {
 | ---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | Precondition     |                                     Owner has logged in with an existing account, the gas station is not already registered in the system                                     |
 | Post condition   |                                      The gas station is correctly registered in the system with all its fuel types and associated prices                                      |
-| Nominal Scenario | Owner inserts all the informations about the gas station (name, location, fuel types, photo, prices), as required by the app, these informations are registered on the system |
+| Nominal Scenario | Owner inserts all the informations about the gas station (name, address, description, phone number, fuel types, photo, prices), as required by the app, these informations are registered on the system |
 | Variants         |                                                                        Not all form fields are filled                                                                         |
 
 ### Use case 7, UC7 - FR2.2 Manage Gas Station Deletion
@@ -329,7 +329,7 @@ rectangle "EZGas system" {
 | ---------------- | :------------------------------------------------------------------------------------------------------------------------------------------: |
 | Precondition     |       An error in the registered price of some Gas Station has been notified by a large amount of users (at least 10 different users)        |
 | Post condition   |                                                     The Gas Station's Owner is notified                                                      |
-| Nominal Scenario | Admin receives the different notifications of price errors and, after making sure they come from real users and not bots, contacts the Owner |
+| Nominal Scenario | Admin receives the different notifications of price errors and contacts the Owner |
 | Variants         |                                         The Admin ignores the reports and does not update the Owner                                          |
 
 ### Use case 17, UC17 - FR4.1 Get User Area of Interest
@@ -644,6 +644,7 @@ class Owner {
 	+ DateOfBirth
 	+ FiscalCode
 	+ Address
+	+ Phone Number
 }
 class Admin {
 	+ Name
@@ -653,6 +654,7 @@ class GasStation {
 	+ Name
 	+ Description
 	+ Address
+	+ Phone Number
 }
 class FuelType {
 	+ Type
