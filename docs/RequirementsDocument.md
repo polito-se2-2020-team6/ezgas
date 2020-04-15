@@ -288,7 +288,7 @@ rectangle "EZGas system" {
 | ---------------- | :-----------------------------------------------------------------------------------------------------------------------------: |
 | Precondition     | Owner has logged in with an existing account, the gas station is already registered in the system, the service isn't registered |
 | Post condition   |                                        The service is correctly registered in the system                                        |
-| Nominal Scenario |                         Owner inserts the new service and its informations (type, description, photos)                          |
+| Nominal Scenario |                         Owner inserts the new service and its informations (type, description)                          |
 | Variants         |                                                 Not all form fields are filled                                                  |
 
 ### Use case 12, UC12 - FR2.7 Manage Service Update
@@ -513,7 +513,7 @@ rectangle "EZGas system" {
 | Step#          |                                                           Description                                                           |
 | 1              |                                               Owner selects gas station to update                                               |
 | 2              |                                               Owner selects `Add service` option                                                |
-| 3              |                                  Owner inserts service information (type, description, photo)                                   |
+| 3              |                                  Owner inserts service information (type,description)                                   |
 | 4              |                                    Owner selects `Submit`, and the system sends him a e-mail                                    |
 | 5              |                                    Owner is redirected to the updated gas station info page                                     |
 
@@ -678,10 +678,6 @@ class PhotoStation {
 	+ Id
 	+ Base64
 }
-class PhotoService {
-	+ Id
-	+ Base64
-}
 class Comment {
 	+ Text
 	+ Offensive
@@ -712,7 +708,6 @@ FuelType "0..*" -- "0..*" GasStation :"< sells"
 (GasStation, FuelType) -- FuelPrice
 
 PhotoStation "0..*" -- GasStation
-PhotoService "0..*" -- Service
 
 User -- "0..*" Comment :"> publishes"
 Comment "0..*" -- GasStation
