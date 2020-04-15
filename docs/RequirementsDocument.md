@@ -49,6 +49,20 @@ Version: 0.1
 		- [Use case 25, UC25 - FR4.8 Manage Comment Insertion](#use-case-25-uc25---fr48-manage-comment-insertion)
 		- [Use case 26, UC26 - FR4.9 Manage Price Error Report](#use-case-26-uc26---fr49-manage-price-error-report)
 - [Scenarios](#scenarios)
+		- [Scenario 1.1](#scenario-11)
+		- [Scenario 2.1](#scenario-21)
+		- [Scenario 2.2](#scenario-22)
+		- [Scenario 6.1](#scenario-61)
+		- [Scenario 8.1](#scenario-81)
+		- [Scenario 9.1](#scenario-91)
+		- [Scenario 11.1](#scenario-111)
+		- [Scenario 11.2](#scenario-112)
+		- [Scenario 14.1](#scenario-141)
+		- [Scenario 14.2](#scenario-142)
+		- [Scenario 20.1](#scenario-201)
+		- [Scenario 22.1](#scenario-221)
+		- [Scenario 25.1](#scenario-251)
+		- [Scenario 26.1](#scenario-261)
 - [Glossary](#glossary)
 - [System Design](#system-design)
 - [Deployment Diagram](#deployment-diagram)
@@ -416,7 +430,7 @@ rectangle "EZGas system" {
 
 # Scenarios
 
-###Scenario 1.1 
+### Scenario 1.1 
 
 | Scenario 1.1   |                                  Corresponds to UC1                                   |
 | -------------- | :-----------------------------------------------------------------------------------: |
@@ -431,7 +445,7 @@ rectangle "EZGas system" {
 | 6              |            User is redirected to the home page and is considered logged in            |
 
 
-###Scenario 2.1
+### Scenario 2.1
 
 | Scenario 2.1   |                                           Corresponds to UC2                                           |
 | -------------- | :----------------------------------------------------------------------------------------------------: |
@@ -448,7 +462,7 @@ rectangle "EZGas system" {
 | 8              | Owner is redirected to the home page, where he can insert new gas stations and is considered logged in |
 
 
-###Scenario 2.2
+### Scenario 2.2
 
 | Scenario 2.2   |                              Corresponds to UC2                               |
 | -------------- | :---------------------------------------------------------------------------: |
@@ -462,7 +476,7 @@ rectangle "EZGas system" {
 | 5              |           Request is deemed invalid [Scenario 14.2](#scenario-142)            |
 | 6              |       Owner receives a mail from the system with denied request details       |
 
-###Scenario 6.1
+### Scenario 6.1
 
 | Scenario 6.1   |                                      Corresponds to UC6, UC3                                      |
 | -------------- | :-----------------------------------------------------------------------------------------------: |
@@ -477,7 +491,7 @@ rectangle "EZGas system" {
 | 6              |                     Owner selects `Submit`, and the system sends him a e-mail                     |
 | 7              |                       Owner is redirected to the new gas station info page                        |
 
-###Scenario 8.1
+### Scenario 8.1
 
 | Scenario 8.1   |                                                        Corresponds to UC8                                                         |
 | -------------- | :-------------------------------------------------------------------------------------------------------------------------------: |
@@ -490,7 +504,7 @@ rectangle "EZGas system" {
 | 4              |                                     Owner selects `Submit`, and the system sends him a e-mail                                     |
 | 5              |                                     Owner is redirected to the updated gas station info page                                      |
 
-###Scenario 9.1
+### Scenario 9.1
 
 | Scenario 9.1   |                                                                Corresponds to UC9                                                                |
 | -------------- | :----------------------------------------------------------------------------------------------------------------------------------------------: |
@@ -504,7 +518,7 @@ rectangle "EZGas system" {
 | 5              |                                                              Owner selects `Submit`                                                              |
 | 6              |                                             Owner is redirected to the updated gas station info page                                             |
 
-###Scenario 11.1
+### Scenario 11.1
 
 | Scenario 11.1  |                                                       Corresponds to UC11                                                       |
 | -------------- | :-----------------------------------------------------------------------------------------------------------------------------: |
@@ -517,7 +531,7 @@ rectangle "EZGas system" {
 | 4              |                                    Owner selects `Submit`, and the system sends him a e-mail                                    |
 | 5              |                                    Owner is redirected to the updated gas station info page                                     |
 
-###Scenario 11.2
+### Scenario 11.2
 
 | Scenario 11.2  |                                                       Corresponds to UC11                                                       |
 | -------------- | :-----------------------------------------------------------------------------------------------------------------------------: |
@@ -532,7 +546,7 @@ rectangle "EZGas system" {
 | 6              |                                    Owner selects `Submit`, and the system sends him a e-mail                                    |
 | 7              |                                    Owner is redirected to the updated gas station info page                                     |
 
-###Scenario 14.1
+### Scenario 14.1
 
 | Scenario 14.1  |                              Corresponds to UC14, UC3                               |
 | -------------- | :---------------------------------------------------------------------------------: |
@@ -548,7 +562,7 @@ rectangle "EZGas system" {
 | 7              |                              Admin accepts the request                              |
 
 
-###Scenario 14.2
+### Scenario 14.2
 
 | Scenario 14.2  |                                           Corresponds to UC14                                            |
 | -------------- | :------------------------------------------------------------------------------------------------------: |
@@ -561,7 +575,7 @@ rectangle "EZGas system" {
 | 4              |       Information inserted by the Owner do not match the ones in the Agenzia delle Entrate website       |
 | 5              |                                        Admin rejects the request                                         |
 
-###Scenario 20.1
+### Scenario 20.1
 
 | Scenario 20.1  |                                             Corresponds to UC20, UC17, UC18, UC19                                              |
 | -------------- | :----------------------------------------------------------------------------------------------------------------------------: |
@@ -577,7 +591,7 @@ rectangle "EZGas system" {
 | 7              |                                               Users moves to indicated location                                                |
 |                |                                     Repeat steps *6* and *7* until gas station is reached                                      |
 
-###Scenario 22.1
+### Scenario 22.1
 
 | Scenario 22.1  |                                             Corresponds to UC22, UC17, UC18, UC19                                             |
 | -------------- | :---------------------------------------------------------------------------------------------------------------------------: |
@@ -590,7 +604,7 @@ rectangle "EZGas system" {
 | 4              |                                          System shows gas stations information page                                           |
 | 5              |                                            User selects `Add to favourites` option                                            |
 
-###Scenario 25.1
+### Scenario 25.1
 
 | Scenario 25.1  |                      Corresponds to UC25, UC23                       |
 | -------------- | :------------------------------------------------------------------: |
@@ -603,7 +617,7 @@ rectangle "EZGas system" {
 | 4              |                User writes a comment in the text area                |
 | 5              |                     User selects `Submit` option                     |
 
-###Scenario 26.1
+### Scenario 26.1
 
 | Scenario 26.1  |                                           Corresponds to UC26, UC3, UC17, UC18, UC19                                           |
 | -------------- | :----------------------------------------------------------------------------------------------------------------------------: |
