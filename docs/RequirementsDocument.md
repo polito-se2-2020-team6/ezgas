@@ -21,7 +21,7 @@ Version: 0.1
 	- [Non Functional Requirements](#non-functional-requirements)
 - [Use case diagram and use cases](#use-case-diagram-and-use-cases)
 	- [Use case diagram](#use-case-diagram)
-    - [Use cases](#use-cases)
+	- [Use cases](#use-cases)
 		- [Use case 1, UC1 - FR1.1 Manage User Registration](#use-case-1-uc1---fr11-manage-user-registration)
 		- [Use case 2, UC2 - FR1.2 Manage Owner Registration](#use-case-2-uc2---fr12-manage-owner-registration)
 		- [Use case 3, UC3 - FR1.3 Manage Log In](#use-case-3-uc3---fr13-manage-log-in)
@@ -128,7 +128,7 @@ Frank is the head master of Vodafone Italia, and he travels around Italy every d
 | FR1.1   |           Manage user registration            |   primary |
 | FR1.2   |           Manage owner registration           |   primary |
 | FR1.3   |                 Manage log in                 |   primary |
-| FR1.4   |            Manage account deletion            |   secondary |
+| FR1.4   |            Manage account deletion            | secondary |
 | FR1.5   |                Manage log out                 |   primary |
 |         |                                               |           |
 | FR2     |              Manage Gas station               |           |
@@ -139,7 +139,7 @@ Frank is the head master of Vodafone Italia, and he travels around Italy every d
 | FR2.5   |           Manage fuel type deletion           |   primary |
 | FR2.6   |           Manage service insertion            |   primary |
 | FR2.7   |             Manage service update             |   primary |
-| FR2.8   |            Manage service deletion            |   secondary |
+| FR2.8   |            Manage service deletion            | secondary |
 |         |                                               |           |
 | FR3     |        Manage Administrator operations        |           |
 | FR3.1   |         Manage owner account approval         |   primary |
@@ -216,7 +216,7 @@ rectangle "EZGas system" {
 @enduml
 ```
 
-# Use cases
+## Use cases
 ### Use case 1, UC1 - FR1.1 Manage User Registration
 | Actors Involved  |                                                     User                                                     |
 | ---------------- | :----------------------------------------------------------------------------------------------------------: |
@@ -258,12 +258,12 @@ rectangle "EZGas system" {
 | Variants         |                                                                               |
 
 ### Use case 6, UC6 - FR2.1 Manage Gas Station Insertion
-| Actors Involved  |                                                                                     Owner                                                                                     |
-| ---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| Precondition     |                                     Owner has logged in with an existing account, the gas station is not already registered in the system                                     |
-| Post condition   |                                      The gas station is correctly registered in the system with all its fuel types and associated prices                                      |
+| Actors Involved  |                                                                                                  Owner                                                                                                  |
+| ---------------- | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| Precondition     |                                                  Owner has logged in with an existing account, the gas station is not already registered in the system                                                  |
+| Post condition   |                                                   The gas station is correctly registered in the system with all its fuel types and associated prices                                                   |
 | Nominal Scenario | Owner inserts all the informations about the gas station (name, address, description, phone number, fuel types, photo, prices), as required by the app, these informations are registered on the system |
-| Variants         |                                                                        Not all form fields are filled                                                                         |
+| Variants         |                                                                                     Not all form fields are filled                                                                                      |
 
 ### Use case 7, UC7 - FR2.2 Manage Gas Station Deletion
 | Actors Involved  |                                                Owner                                                |
@@ -302,7 +302,7 @@ rectangle "EZGas system" {
 | ---------------- | :-----------------------------------------------------------------------------------------------------------------------------: |
 | Precondition     | Owner has logged in with an existing account, the gas station is already registered in the system, the service isn't registered |
 | Post condition   |                                        The service is correctly registered in the system                                        |
-| Nominal Scenario |                         Owner inserts the new service and its informations (type, description)                          |
+| Nominal Scenario |                             Owner inserts the new service and its informations (type, description)                              |
 | Variants         |                                                 Not all form fields are filled                                                  |
 
 ### Use case 12, UC12 - FR2.7 Manage Service Update
@@ -339,12 +339,12 @@ rectangle "EZGas system" {
 | Variants         |                                                   The comment is not offensive                                                   |
 
 ### Use case 16, UC16 - FR3.3 Manage Price Error Report
-| Actors Involved  |                                                                 Adminstrator                                                                 |
-| ---------------- | :------------------------------------------------------------------------------------------------------------------------------------------: |
-| Precondition     |       An error in the registered price of some Gas Station has been notified by a large amount of users (at least 10 different users)        |
-| Post condition   |                                                     The Gas Station's Owner is notified                                                      |
-| Nominal Scenario | Admin receives the different notifications of price errors and contacts the Owner |
-| Variants         |                                         The Admin ignores the reports and does not update the Owner                                          |
+| Actors Involved  |                                                          Adminstrator                                                           |
+| ---------------- | :-----------------------------------------------------------------------------------------------------------------------------: |
+| Precondition     | An error in the registered price of some Gas Station has been notified by a large amount of users (at least 10 different users) |
+| Post condition   |                                               The Gas Station's Owner is notified                                               |
+| Nominal Scenario |                        Admin receives the different notifications of price errors and contacts the Owner                        |
+| Variants         |                                   The Admin ignores the reports and does not update the Owner                                   |
 
 ### Use case 17, UC17 - FR4.1 Get User Area of Interest
 | Actors Involved  |                                                          User                                                           |
@@ -430,7 +430,7 @@ rectangle "EZGas system" {
 
 # Scenarios
 
-### Scenario 1.1 
+## Scenario 1.1 
 
 | Scenario 1.1   |                                  Corresponds to UC1                                   |
 | -------------- | :-----------------------------------------------------------------------------------: |
@@ -438,14 +438,14 @@ rectangle "EZGas system" {
 | Post condition |                             User has a registered account                             |
 | Step#          |                                      Description                                      |
 | 1              |                   User opens the app, the home page is shown to him                   |
-| 2              |                           User selects the `Sign Up as user` button                           |
+| 2              |                       User selects the `Sign Up as user` button                       |
 | 3              |                      User inserts e-mail, username and password                       |
 | 4              | User receives a confirmation mail from the system with a link to activate the account |
 | 5              |                                User clicks on the link                                |
 | 6              |            User is redirected to the home page and is considered logged in            |
 
 
-### Scenario 2.1
+## Scenario 2.1
 
 | Scenario 2.1   |                                           Corresponds to UC2                                           |
 | -------------- | :----------------------------------------------------------------------------------------------------: |
@@ -453,7 +453,7 @@ rectangle "EZGas system" {
 | Post condition |                                     Owner has a registered account                                     |
 | Step#          |                                              Description                                               |
 | 1              |                           Owner opens the app, the home page is shown to him                           |
-| 2              |                    Owner selects the `Sign Up as owner` button                   |
+| 2              |                              Owner selects the `Sign Up as owner` button                               |
 | 3              |             Owner inserts e-mail, username and password, p.iva and anagraphic information              |
 | 4              |                              Owner wait for approval by the administrator                              |
 | 5              |                         Request is deemed valid [Scenario 14.1](#scenario-141)                         |
@@ -462,7 +462,7 @@ rectangle "EZGas system" {
 | 8              | Owner is redirected to the home page, where he can insert new gas stations and is considered logged in |
 
 
-### Scenario 2.2
+## Scenario 2.2
 
 | Scenario 2.2   |                              Corresponds to UC2                               |
 | -------------- | :---------------------------------------------------------------------------: |
@@ -470,13 +470,13 @@ rectangle "EZGas system" {
 | Post condition |                   Owner does not have a registered account                    |
 | Step#          |                                  Description                                  |
 | 1              |              Owner opens the app, the home page is shown to him               |
-| 2              |       Owner selects the `Sign Up as owner` button         |
+| 2              |                  Owner selects the `Sign Up as owner` button                  |
 | 3              | Owner inserts e-mail, username and password, p.iva and anagraphic information |
 | 4              |                 Owner wait for approval by the administrator                  |
 | 5              |           Request is deemed invalid [Scenario 14.2](#scenario-142)            |
 | 6              |       Owner receives a mail from the system with denied request details       |
 
-### Scenario 6.1
+## Scenario 6.1
 
 | Scenario 6.1   |                                      Corresponds to UC6, UC3                                      |
 | -------------- | :-----------------------------------------------------------------------------------------------: |
@@ -491,7 +491,7 @@ rectangle "EZGas system" {
 | 6              |                     Owner selects `Submit`, and the system sends him a e-mail                     |
 | 7              |                       Owner is redirected to the new gas station info page                        |
 
-### Scenario 8.1
+## Scenario 8.1
 
 | Scenario 8.1   |                                                        Corresponds to UC8                                                         |
 | -------------- | :-------------------------------------------------------------------------------------------------------------------------------: |
@@ -504,7 +504,7 @@ rectangle "EZGas system" {
 | 4              |                                     Owner selects `Submit`, and the system sends him a e-mail                                     |
 | 5              |                                     Owner is redirected to the updated gas station info page                                      |
 
-### Scenario 9.1
+## Scenario 9.1
 
 | Scenario 9.1   |                                                                Corresponds to UC9                                                                |
 | -------------- | :----------------------------------------------------------------------------------------------------------------------------------------------: |
@@ -518,7 +518,7 @@ rectangle "EZGas system" {
 | 5              |                                                              Owner selects `Submit`                                                              |
 | 6              |                                             Owner is redirected to the updated gas station info page                                             |
 
-### Scenario 11.1
+## Scenario 11.1
 
 | Scenario 11.1  |                                                       Corresponds to UC11                                                       |
 | -------------- | :-----------------------------------------------------------------------------------------------------------------------------: |
@@ -527,11 +527,11 @@ rectangle "EZGas system" {
 | Step#          |                                                           Description                                                           |
 | 1              |                                               Owner selects gas station to update                                               |
 | 2              |                                               Owner selects `Add service` option                                                |
-| 3              |                                  Owner inserts service information (type,description)                                   |
+| 3              |                                      Owner inserts service information (type,description)                                       |
 | 4              |                                    Owner selects `Submit`, and the system sends him a e-mail                                    |
 | 5              |                                    Owner is redirected to the updated gas station info page                                     |
 
-### Scenario 11.2
+## Scenario 11.2
 
 | Scenario 11.2  |                                                       Corresponds to UC11                                                       |
 | -------------- | :-----------------------------------------------------------------------------------------------------------------------------: |
@@ -546,7 +546,7 @@ rectangle "EZGas system" {
 | 6              |                                    Owner selects `Submit`, and the system sends him a e-mail                                    |
 | 7              |                                    Owner is redirected to the updated gas station info page                                     |
 
-### Scenario 14.1
+## Scenario 14.1
 
 | Scenario 14.1  |                              Corresponds to UC14, UC3                               |
 | -------------- | :---------------------------------------------------------------------------------: |
@@ -562,7 +562,7 @@ rectangle "EZGas system" {
 | 7              |                              Admin accepts the request                              |
 
 
-### Scenario 14.2
+## Scenario 14.2
 
 | Scenario 14.2  |                                           Corresponds to UC14                                            |
 | -------------- | :------------------------------------------------------------------------------------------------------: |
@@ -575,7 +575,7 @@ rectangle "EZGas system" {
 | 4              |       Information inserted by the Owner do not match the ones in the Agenzia delle Entrate website       |
 | 5              |                                        Admin rejects the request                                         |
 
-### Scenario 20.1
+## Scenario 20.1
 
 | Scenario 20.1  |                                             Corresponds to UC20, UC17, UC18, UC19                                              |
 | -------------- | :----------------------------------------------------------------------------------------------------------------------------: |
@@ -591,7 +591,7 @@ rectangle "EZGas system" {
 | 7              |                                               Users moves to indicated location                                                |
 |                |                                     Repeat steps *6* and *7* until gas station is reached                                      |
 
-### Scenario 22.1
+## Scenario 22.1
 
 | Scenario 22.1  |                                             Corresponds to UC22, UC17, UC18, UC19                                             |
 | -------------- | :---------------------------------------------------------------------------------------------------------------------------: |
@@ -604,7 +604,7 @@ rectangle "EZGas system" {
 | 4              |                                          System shows gas stations information page                                           |
 | 5              |                                            User selects `Add to favourites` option                                            |
 
-### Scenario 25.1
+## Scenario 25.1
 
 | Scenario 25.1  |                      Corresponds to UC25, UC23                       |
 | -------------- | :------------------------------------------------------------------: |
@@ -617,7 +617,7 @@ rectangle "EZGas system" {
 | 4              |                User writes a comment in the text area                |
 | 5              |                     User selects `Submit` option                     |
 
-### Scenario 26.1
+## Scenario 26.1
 
 | Scenario 26.1  |                                           Corresponds to UC26, UC3, UC17, UC18, UC19                                           |
 | -------------- | :----------------------------------------------------------------------------------------------------------------------------: |
@@ -676,7 +676,6 @@ class FuelType {
 }
 class FuelPrice {
 	+ UnitPrice
-	+ ReportCounter
 }
 class Position {
 	+ Latitude
@@ -697,37 +696,37 @@ class Comment {
 	+ Offensive
 }
 class OwnerAccountRequest {
-		+ DateOfRequest
-		+ Approved
-		+ DateOfApproval
+	+ DateOfRequest
+	+ Approved
+	+ DateOfApproval
 }
 
-EZGas -- "*" Person
-EZGas -- "*" GasStation
+Person "*" -up- EZGas
+GasStation "*" -up- EZGas
 
-Person <|-- User
-User <|-- Owner
-User <|-- Admin
+Person <|-down- User
+User <|-down- Owner
+User <|-down- Admin
 
-Owner -- "0..*" GasStation :"> owns"
+Owner -left- "0..*" GasStation :"> owns"
 
-User "0..*" -- "0..*" GasStation :"favourites"
+User "0..*" -down- "0..*" GasStation :"favourites"
+User "0..*" -left- "0..*" FuelPrice :"> reports"
 
-GasStation -- Position
-GasStation "0..*" --- "0..*" ServiceType :"> offers"
-(GasStation, ServiceType) -- Service
+GasStation -down- Position
+GasStation "0..*" -down- "0..*" ServiceType :"> offers"
+(GasStation, ServiceType) -left- Service
 
+FuelType "0..*" -down- "0..*" GasStation :"< sells"
+(GasStation, FuelType) -right- FuelPrice
 
-FuelType "0..*" -- "0..*" GasStation :"< sells"
-(GasStation, FuelType) -- FuelPrice
+PhotoStation "0..*" -right- GasStation
 
-PhotoStation "0..*" -- GasStation
+User -down- "0..*" Comment :"> publishes"
+Comment "0..*" -down- GasStation
 
-User -- "0..*" Comment :"> publishes"
-Comment "0..*" -- GasStation
-
-Owner -- "1..*" OwnerAccountRequest :"> submits"
-OwnerAccountRequest "0..*" -- Admin :"< checks"
+Owner -right- "1..*" OwnerAccountRequest :"> submits"
+OwnerAccountRequest "0..*" -right- Admin :"< checks"
 
 @enduml
 ```
