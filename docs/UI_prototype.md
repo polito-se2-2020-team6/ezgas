@@ -6,6 +6,34 @@ Date: 15/04/2020
 
 Version: 1.1
 
+# Contents
+- [Graphical User Interface Prototype](#graphical-user-interface-prototype)
+- [Contents](#contents)
+  - [Log In Page](#log-in-page)
+  - [Sign Up](#sign-up)
+    - [Sign Up as User](#sign-up-as-user)
+    - [Sign Up as Owner](#sign-up-as-owner)
+  - [Homepage](#homepage)
+    - [Homepage Guest](#homepage-guest)
+    - [Homepage Logged In User](#homepage-logged-in-user)
+    - [Homepage Owner](#homepage-owner)
+    - [Homepage Admin](#homepage-admin)
+  - [Map](#map)
+    - [Search Map](#search-map)
+    - [Filter Selection On Map](#filter-selection-on-map)
+    - [Filtered Map](#filtered-map)
+    - [Favourites Selection On Map](#favourites-selection-on-map)
+  - [Gas Stations As List](#gas-stations-as-list)
+    - [Favourites](#favourites)
+    - [Search Result](#search-result)
+    - [Search Result Filtered](#search-result-filtered)
+  - [Gas Station Page](#gas-station-page)
+    - [User View](#user-view)
+    - [Owner View](#owner-view)
+  - [Owner Functionalities](#owner-functionalities)
+    - [Insert Gas Station](#insert-gas-station)
+    - [Add Fuel Type](#add-fuel-type)
+    - [Add Service](#add-service)
 
 ## Log In Page
 ![](Images/Log_In_Page.png)<br>
