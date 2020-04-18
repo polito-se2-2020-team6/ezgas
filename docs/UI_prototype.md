@@ -58,7 +58,8 @@ GUI shown to registered user when he accesses the app. It offers the same functi
 ### Homepage Owner
 ![](Images/Homepage_Owner.png)<br>
 Refers to step 8 of [Scenarios 2.1](RequirementsDocument.md#scenario21), step 4 of [Scenario 6.1](RequirementsDocument.md#scenario61), starting point of [Scenario 8.1](RequirementsDocument.md#scenario81), [Scenario 9.1](RequirementsDocument.md#scenario91), [Scenario 11.1](RequirementsDocument.md#scenario111) and [Scenario 11.2](RequirementsDocument.md#scenario112). 
-GUI shown when a registered owner accesses to the app. Since an owner is considered an extension of a normal user, the GUI offers the same functionalities as the user homepage with the addition of a table containing his gas stations. There is a button to [add a gas station](#add-gas-station).
+GUI shown when a registered owner accesses to the app. Since an owner is considered an extension of a normal user, the GUI offers the same functionalities as the user homepage with the addition of a table containing his gas stations. There is a button to [add a gas station](#insert-gas-station). Clicking on a gas station from the table, the owner is redirected to the [Gas Station page](#owner-view).
+
 ### Homepage Admin
 ![](Images/Homepage_Admin.png)<br>
 Refers to starting point of Scenario [14.1](RequirementsDocument.md#scenario141), starting point of Scenario [14.2](RequirementsDocument.md#scenario142)
