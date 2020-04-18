@@ -5,35 +5,106 @@ Authors: Alessandro Borione, Giacomo Garaccione, Corrado Vecchio, Marco Vinai
 Date: 15/04/2020
 
 Version: 1.1
+
+
 ## Log In Page
-![](Images/Log_In_Page.png)
+![](Images/Log_In_Page.png)<br>
 GUI shown when everyone opens the app. It allows to access as [owner](#homepage-owner), [user](#homepage-logged-in-user) or [admin](#homepage-admin) by inserting username and password but also to use the application as [guest](#homepage-guest) with limited functionalities. There is also the possibility to sign up [as owner](#sign-up-as-owner) or [as user](#sign-up-as-user).
 ## Sign Up 
 ### Sign Up as User
-![](Images/Sign_Up_User.png)
-Manages [UC1](RequirementsDocument.md#use-case-1-uc1---fr11-manage-user-registration). 
+![](Images/Sign_Up_User.png)<br>
+Manages [Use Case 1](RequirementsDocument.md#use-case-1-uc1---fr11-manage-user-registration). 
 GUI shown when an user decides to create a new account on EZGas application. All displayed fields are mandatory.
 ### Sign Up as Owner
-![](Images/Sign_Up_Owner.png)
-Manages [UC2](RequirementsDocument.md#use-case-2-uc2---fr12-manage-owner-registration). 
+![](Images/Sign_Up_Owner.png)<br>
+Manages [Use Case 2](RequirementsDocument.md#use-case-2-uc2---fr12-manage-owner-registration). 
 GUI shown when an owner decides to create a new account on EZGas application. All displayed fields are mandatory. 
 ## Homepage
 ### Homepage Guest 
-![](Images/Homepage_Guest.png)
-GUI shown when a guest user accesses the app. He can use his current position or insert a specific address in order to open the [map view](#map) with the available gas stations or to get a [list] of the same gas stations. It also offers the chance to log in or to [sign up](#sign-up-as-user). 
+![](Images/Homepage_Guest.png)<br>
+GUI shown when a guest user accesses the app. He can use his current position or insert a specific address in order to open the [map view](#map) with the available gas stations or to get a [list](#search-result) of the same gas stations. It also offers the chance to log in or to [sign up](#sign-up-as-user). 
 ### Homepage Logged In User
-![](Images/Homepage_User.png)
-Refers to starting point of Scenarios [20.1](RequirementsDocument.md#scenario201), [22.1](RequirementsDocument.md#scenario221), [25.1](RequirementsDocument.md#scenario251), [26.1](RequirementsDocument.md#scenario261) 
-GUI shown to registered user when he accesses the app. It offers the same functionalities as the guest version with the addition of a button to show favourites and one to log out. 
+![](Images/Homepage_User.png)<br>
+Refers to starting point of [Scenarios 20.1](RequirementsDocument.md#scenario201), [22.1](RequirementsDocument.md#scenario221), [25.1](RequirementsDocument.md#scenario251), [26.1](RequirementsDocument.md#scenario261) 
+GUI shown to registered user when he accesses the app. It offers the same functionalities as the guest version with the addition of a button to [show favourites](#favourites) and one to log out. 
 ### Homepage Owner
-![](Images/Homepage_Owner.png)
-Refers to step 8 of Scenarios [2.1](RequirementsDocument.md#scenario21), step 4 of Scenario [6.1](RequirementsDocument.md#scenario61), starting point of Scenario [8.1](RequirementsDocument.md#scenario81), Scenario [9.1](RequirementsDocument.md#scenario91), Scenario [11.1](RequirementsDocument.md#scenario111) and Scenario [11.2](RequirementsDocument.md#scenario112). 
-GUI shown when a registered owner accesses to the app. Since an owner is considered an extension of a normal user, the GUI offers the same functionalities as the user homepage with the addition of a table containing his gas stations. There is a button to [add a gas station](Add Gas Station).
+![](Images/Homepage_Owner.png)<br>
+Refers to step 8 of [Scenarios 2.1](RequirementsDocument.md#scenario21), step 4 of [Scenario 6.1](RequirementsDocument.md#scenario61), starting point of [Scenario 8.1](RequirementsDocument.md#scenario81), [Scenario 9.1](RequirementsDocument.md#scenario91), [Scenario 11.1](RequirementsDocument.md#scenario111) and [Scenario 11.2](RequirementsDocument.md#scenario112). 
+GUI shown when a registered owner accesses to the app. Since an owner is considered an extension of a normal user, the GUI offers the same functionalities as the user homepage with the addition of a table containing his gas stations. There is a button to [add a gas station](#add-gas-station).
 ### Homepage Admin
-![](Images/Homepage_Admin.png)
+![](Images/Homepage_Admin.png)<br>
+Refers to starting point of Scenario [14.1](RequirementsDocument.md#scenario141), starting point of Scenario [14.2](RequirementsDocument.md#scenario142)
+GUI shown when the admin accesses the app. It shows the owner requests not managed yet, a list of all comments flagged as offensive and a list of all reported price with the associated report counter.
+
 ## Map
-![](Images/Map.png)
 
+### Search Map
+![](Images/Map.png)<br>
+Refers to step 2 of [Scenario 20.1](RequirementsDocument.md#scenario201), step 2 of [Scenario 22.1](RequirementsDocument.md#scenario221), step 2 of [Scenario 26.1](RequirementsDocument.md#scenario261)
+GUI shown when a user decides the area of interest and clicks "View on Map" on the homepage. It shows all Gas Stations' positions with also a list of the fuel types they offer and the associated price. In the higher side of the page there are buttons used to go back to the homepage, to [show the user's list of favourites](#favourites-selection-on-map), to [apply filters to the searched gas stations](#filter-selection-on-map), to input a new address and to log out. If a Gas Station is clicked the user gets redirected to [its page](#user-view).
 
+### Filter Selection On Map
+![](Images/Select_Filter_Map.png)<br>
+Refers to [Use Case 21](RequirementsDocument.md#use-case-21-uc21---fr44-manage-filters)
+GUI shown when a user clicks on the "Apply Filter" button. The menu allows to limit the number of results showing only the ones matching the chosen fuel types and/or services. After clicking on the "Go" button the [map](#filtered-map) is updated to only show the matching gas stations
 
-\<Report here the GUI that you propose. You are free to organize it as you prefer. A suggested presentation matches the Use cases and scenarios defined in the Requirement document. The GUI can be shown as a sequence of graphical files (jpg, png)  >
+### Filtered Map
+![](Images/Filtered_Map.png)<br>
+Refers to [Use Case 21](RequirementsDocument.md#use-case-21-uc21---fr44-manage-filters)
+GUI shown after the selection of filters in the normal map. The filters are applied and the gas stations that don't match are removed.
+
+### Favourites Selection On Map
+![](Images/Select_Favourites_Map.png)<br>
+Refers to [Use Case 23](RequirementsDocument.md#use-case-23-uc23---fr46-manage-favourites-display)
+GUI shown when an user clicks on the "Favourites" button. Clicking on the blue arrow button starts the navigation to the gas station ([Use Case 20](RequirementsDocument.md#use-case-20-uc20---fr431-manage-navigation-service)) while clicking on the gas station name redirects to the [gas station page](#user-view). The distance is calculated as the crow flies.
+
+## Gas Stations As List
+
+### Favourites
+![](Images/My_Favourites.png)<br>
+Refers to steps 1, 2 of [Scenario 25.1](RequirementsDocument.md#scenario251)
+GUI shown when a user clicks on the "My Favourites" button in the homepage. It shows all information of the favourites, clicking on the gas station name redirects to the [gas station page](#user-view), clicking on the position marker shows the gas station's location on the [map](#search-map). It is possible to apply filters to the list and also to change the way the list is sorted. Services are represented only by their icon, without the description.
+
+### Search Result
+![](Images/Search_Result_List.png)<br>
+Refers to [Use Case 18](RequirementsDocument.md#use-case-18-uc18---fr42-show-map-and-gas-stations)
+GUI shown when a person clicks on the "Get List of Gas Stations" button in the homepage. It shows all information of the gas stations in range of the selected area of interest, clicking on the gas station name redirects to the [gas station page](#user-view), clicking on the position marker shows the gas station's location on the [map](#search-map). It is possible to apply filters to the list and also to change the way the list is sorted. Services are represented only by their icon, without the description.
+Clicking on the ☆ button allows a logged in user to add the gas station to his favourites.
+The search bar allows to change the area of interest, while clicking on the map icon redirects to the [map](#search-map).
+
+### Search Result Filtered
+![](Images/Search_Result_Filtered.png)<br>
+Refers to [Use Case 21](RequirementsDocument.md#use-case-21-uc21---fr44-manage-filters)
+Pop-up shown when a person clicks on the filter icon. It allows to select specific fuel types and/or services to restrict the list, showing only the gas stations that match the criteria.
+
+## Gas Station Page
+
+### User View
+![](Images/Gas_Station_User.png)<br>
+Refers to [Use Case 19](RequirementsDocument.md#use-case-19-uc19---fr43-selection-and-display-gas-station-info), step 4 of [Scenario 22.1](RequirementsDocument.md#scenario221), steps 3, 4, 5 of [Scenario 25.1](RequirementsDocument.md#scenario251), steps 4, 5 of [Scenario 26.1](RequirementsDocument.md#scenario261)
+GUI shown when an user wants to see more information about a specific gas station, including all offered services. It is possible to leave a comment by filling the form and clicking the "Leave a comment" button ([Use Case 25](RequirementsDocument.md#use-case-25-uc25---fr48-manage-comment-insertion)), to report an error in fuel price by clicking the report button ([Use Case 26](RequirementsDocument.md#use-case-26-uc26---fr49-manage-price-error-report)) and to add the gas station to the list of favourites by clicking on the ☆ shaped button near the name.
+A guest can only see the information because all of the buttons are disabled for non logged in users.
+
+### Owner View
+![](Images/Gas_Station_Owner.png)<br>
+Refers to steps 1, 2 of [Scenario 8.1](RequirementsDocument.md#scenario81), steps 1, 2 of [Scenario 9.1](RequirementsDocument.md#scenario91), steps 1, 2 of [Scenario 11.1](RequirementsDocument.md#scenario111), steps 1, 2 of [Scenario 11.2](RequirementsDocument.md#scenario112)
+GUI shown to the owner of the specific gas station. It allows the owner to edit the prices of the offered fuel types with the "Change Price" button ([Use Case 9](RequirementsDocument.md#use-case-9-uc9---fr24-manage-fuel-price-update)), to [add a new fuel type](#add-fuel-type) with the corresponding button ([Use Case 8](RequirementsDocument.md#use-case-8-uc8---fr23-manage-fuel-type-insertion)), to [add a new service](#add-service) with the corresponding button ([Use Case 11](RequirementsDocument.md#use-case-11-uc11---fr26-manage-service-insertion)) and to remove services or fuel types no longer offered ([Use Case 10](RequirementsDocument.md#use-case-10-uc10---fr25-manage-fuel-type-deletion) and [Use Case 13](RequirementsDocument.md#use-case-13-uc13---fr28-manage-service-deletion)) by clicking on the small red cross.
+
+## Owner Functionalities
+
+### Insert Gas Station
+![](Images/Add_Gas_Station_Form.png)<br>
+Refers to steps 5, 6 of [Scenario 6.1](RequirementsDocument.md#scenario61)
+Form shown when an owner clicks on the "Add a Gas Station" button in the [homepage](#homepage-owner). It contains textboxes for all important information and a list of drop-down menus for choosing all offered fuel types. Adding an image and inserting a description are not mandatory.
+
+### Add Fuel Type
+![](Images/Add_Fuel_Pop_Up.png)<br>
+Refers to [Use Case 8](RequirementsDocument.md#use-case-8-uc8---fr23-manage-fuel-type-insertion), steps 3, 4 of [Scenario 8.1](RequirementsDocument.md#scenario81)
+Pop-up shown when an owner clicks on the "Add Fuel Type" button in a [gas station page](#owner-view). It contains a drop-down menu listing all possible fuel types and a textbox to be filled with its price.
+
+### Add Service
+![](Images/Add_Service_Pop_Up.png)<br>
+Refers to steps 3, 4 of [Scenario 11.1](RequirementsDocument.md#scenario111)
+Pop-up shown when an owner clicks on the "Add Service" button in a [gas station page](#owner-view). It contains a drop-down menu listing all possible services and a textbox to be filled with its description.
+
+All pages shown to a guest user have in the upper part both the log in and the sign up form, while all pages shown to a logged in user have in the same spot the log out button and the "My Favourites" button.

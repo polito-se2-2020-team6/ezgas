@@ -624,7 +624,7 @@ rectangle "EZGas system" {
 | Precondition   |      Gas Station is already registered in the system, User has a registered account, Displayed fuel price is not updated       |
 | Post condition |                             The gas station segnalation counter for that specific fuel is updated                              |
 | Step#          |                                                          Description                                                           |
-| 1              |                                          User selects `Serach` using current position                                          |
+| 1              |                                          User selects `Search` using current position                                          |
 | 2              | System shows map centered around the user location, based on a selected range, and paints on top of it the nearby gas stations |
 | 3              |                                        Users selects one of the displayed gas stations                                         |
 | 4              |                                          User selects one of the displayed fuel types                                          |
