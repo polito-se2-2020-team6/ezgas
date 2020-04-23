@@ -47,6 +47,10 @@ Version:
 | Integration Testing | 10                              |
 | Acceptance Testing  | 5                               |
 | Management          | 10                              |
-###
-Insert here Gantt chart with above activities
 
+
+### Gantt Chart
+
+![](Images/gantt.png)
+
+Saturdays and Sundays appear in the chart but there is no work done on these days.
