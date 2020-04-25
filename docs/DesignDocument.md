@@ -268,6 +268,7 @@ package "it.polito.ezgas.converter" {
 	class "UserConverter"
 	class "PriceListConverter"
 	class "GasStationConverter"
+	class "GeoPointConverter"
 	class "IdPwConverter"
 	class "LoginConverter"
 }
@@ -276,6 +277,7 @@ package "it.polito.ezgas.dto" {
 	class "UserDto"
 	class "PriceListDto"
 	class "GasStationDto"
+	class "GeoPointDto"
 	class "IdPwDto"
 	class "LoginDto"
 }
@@ -406,6 +408,7 @@ package "it.polito.ezgas.repository" {
 	class "UserRepository"
 	class "PriceListRepository"
 	class "GasStationRepository"
+	class "GeoPointRepository"
 	class "IdPwRepository"
 	class "LoginRepository"
 }
