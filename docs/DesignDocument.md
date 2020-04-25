@@ -447,7 +447,6 @@ n -- ps
 | FR5.3 Evaluate Price List                           |   X   |           |            |          |      X      |                   |
 
 # Verification sequence diagrams 
-\<select key scenarios from the requirement document. For each of them define a sequence diagram showing that the scenario can be implemented by the classes and methods in the design>
 
 ### Scenario 10.1
 
@@ -459,9 +458,18 @@ GasStation -> PriceList : 2 - getPriceList()
 PriceList -> User : 3 - getUser()
 User -> User : 4 - increaseUserReputation()
 
+@enduml
+```
 
+### Scenario 10.2
 
+```plantuml
+@startuml
 
+User -> GasStation : 1 - getGasStationById()
+GasStation -> PriceList : 2 - getPriceList()
+PriceList -> User : 3 - getUser()
+User -> User : 4 - decreaseUserReputation()
 
 @enduml
 ```
