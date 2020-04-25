@@ -422,32 +422,29 @@ n -- ps
 
 # Verification traceability matrix
 
-\<for each functional requirement from the requirement document, list which classes concur to implement it>
 
-
-
-|                                                     | User  | PriceList | GasStation | UserService | GasStationService |
-| --------------------------------------------------- | :---: | :-------: | :--------: | :---------: | :---------------: |
-| **FR1 Manage Users**                                |       |           |            |             |                   |
-| FR1.1 New/Edit User                                 |       |           |            |      X      |                   |
-| FR1.2 Delete User                                   |       |           |            |      X      |                   |
-| FR1.3 List all Users                                |       |           |            |      X      |                   |
-| FR1.4 Search User                                   |       |           |            |      X      |                   |
-| **FR2 Manage Rights**                               |       |           |            |             |                   |
-| **FR3 Manage Gas Station**                          |       |           |            |             |                   |
-| FR3.1 New/Edit Gas Station                          |       |           |            |             |         X         |
-| FR3.2 Delete Gas Station                            |       |           |            |             |         X         |
-| FR3.3 List all Gas Stations                         |       |           |            |             |         X         |
-| **FR4 Search Gas Station**                          |       |           |            |             |                   |
-| FR4.1 Radius r Geo Point                            |       |           |            |             |         X         |
-| FR4.2 Radius r Address                              |       |           |            |             |         X         |
-| FR4.3 Show on Map                                   |       |           |            |             |                   |
-| FR4.4 Sort according to Fuel Price                  |       |           |            |             |                   |
-| FR4.5 Filter according to Fuel Type and Car Sharing |       |           |            |             |         X         |
-| **FR5 Manage Price List and Trust**                 |       |           |            |             |                   |
-| FR5.1 New Price List                                |       |           |            |             |                   |
-| FR5.2 Update Trust Level of Price List              |       |           |            |             |                   |
-| FR5.3 Evaluate Price List                           |       |           |            |             |                   |
+|                                                     | User  | PriceList | GasStation | GeoPoint | UserService | GasStationService |
+| --------------------------------------------------- | :---: | :-------: | :--------: | :------: | :---------: | :---------------: |
+| **FR1 Manage Users**                                |       |           |            |          |             |                   |
+| FR1.1 New/Edit User                                 |   X   |           |            |          |      X      |                   |
+| FR1.2 Delete User                                   |       |           |            |          |      X      |                   |
+| FR1.3 List all Users                                |       |           |            |          |      X      |                   |
+| FR1.4 Search User                                   |   X   |           |            |          |      X      |                   |
+| **FR2 Manage Rights**                               |   X   |           |            |          |             |                   |
+| **FR3 Manage Gas Station**                          |       |           |            |          |             |                   |
+| FR3.1 New/Edit Gas Station                          |       |           |     X      |          |             |         X         |
+| FR3.2 Delete Gas Station                            |       |           |            |          |             |         X         |
+| FR3.3 List all Gas Stations                         |       |           |            |          |             |         X         |
+| **FR4 Search Gas Station**                          |       |           |     X      |    X     |             |                   |
+| FR4.1 Radius r Geo Point                            |       |           |     X      |    X     |             |         X         |
+| FR4.2 Radius r Address                              |       |           |     X      |    X     |             |         X         |
+| FR4.3 Show on Map                                   |       |     X     |     X      |    X     |             |                   |
+| FR4.4 Sort according to Fuel Price                  |       |     X     |     X      |          |             |                   |
+| FR4.5 Filter according to Fuel Type and Car Sharing |       |           |     X      |          |             |         X         |
+| **FR5 Manage Price List and Trust**                 |       |           |            |          |             |                   |
+| FR5.1 New Price List                                |       |     X     |            |          |             |                   |
+| FR5.2 Update Trust Level of Price List              |       |     X     |            |          |             |                   |
+| FR5.3 Evaluate Price List                           |   X   |           |            |          |      X      |                   |
 
 # Verification sequence diagrams 
 \<select key scenarios from the requirement document. For each of them define a sequence diagram showing that the scenario can be implemented by the classes and methods in the design>
