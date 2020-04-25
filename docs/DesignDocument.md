@@ -1,11 +1,11 @@
 # Design Document 
 
 
-Authors: 
+Authors: Alessandro Borione, Giacomo Garaccione, Corrado Vecchio, Marco Vinai
 
-Date:
+Date: 25/04/2020
 
-Version:
+Version: 1.0
 
 
 # Contents
@@ -220,9 +220,10 @@ Contains Service classes that implement the Service Interfaces in the Service pa
 
 ```plantuml
 @startuml
+scale 0.8
 package "Backend" {
 
-package "it.polito.ezgas.service" as ps {
+package "it.polito.ezgas.service" as service {
    interface "GasStationService" as gss {
 		+ getGasStationById(Integer) : GasStationDto
 		+ saveGasStation(GasStationDto) : GasStationDto
@@ -257,14 +258,14 @@ package "it.polito.ezgas.service" as ps {
 	asi -up-|> us
 }
 
-package "it.polito.ezgas.controller" {
+package "it.polito.ezgas.controller" as controller {
 	class "GasStationController"
 	class "UserController"
 	class "AnonymousUserController"
 	class "AdminUserController"
 }
 
-package "it.polito.ezgas.converter" {
+package "it.polito.ezgas.converter" as converter {
 	class "UserConverter"
 	class "PriceListConverter"
 	class "GasStationConverter"
@@ -273,7 +274,7 @@ package "it.polito.ezgas.converter" {
 	class "LoginConverter"
 }
 
-package "it.polito.ezgas.dto" {
+package "it.polito.ezgas.dto" as dto {
 	class "UserDto"
 	class "PriceListDto"
 	class "GasStationDto"
@@ -282,7 +283,7 @@ package "it.polito.ezgas.dto" {
 	class "LoginDto"
 }
 
-package "it.polito.ezgas.entity" {
+package "it.polito.ezgas.entity" as entity {
 	class "User" as u {
 		- id : Integer
 		- accountName : String
@@ -298,17 +299,19 @@ package "it.polito.ezgas.entity" {
 		+ getTrustLevel() : Integer
 		+ getAccessRight() : AccessRight
 	}
+
 	class "PriceList" as pl {
-		- idPrice: Integer
-		- timeTag: Date
-		- dieselPrice: double
-		- gasolinePrice: double
-		- premumDieselPrice: double
-		- premumGasolinePrice: double
-		- lpgPrice: double
-		- methanPrice: double 
-		- trustLevel: Integer
-		- user: User
+		- idPrice : Integer
+		- timeTag : Date
+		- dieselPrice : double
+		- gasolinePrice : double
+		- premumDieselPrice : double
+		- premumGasolinePrice : double
+		- lpgPrice : double
+		- methanPrice : double 
+		- trustLevel : Integer
+		- user : User
+
 		- setTimeTag(Date) : void
 		- setDieselPrice(double) : void
 		- setGasolinePrice(double) : void
@@ -318,93 +321,101 @@ package "it.polito.ezgas.entity" {
 		- setMethanPrice(double) : void
 		- setTrustLevel(Integer) : void
 		- setUser(Integer): void
-		+ getId () : Integer
-		+ getTimeTag (): Date 
+		+ getId() : Integer
+		+ getTimeTag(): Date 
 		+ getDieselPrice() : double
 		+ getGasolinePrice() : double
 		+ getPremumDieselPrice() : double
 		+ getPremumGasolinePrice() : double
 		+ getLpgPrice() : double
 		+ getMethanPrice() : double
-		+ getTrustLevel (): Integer
-		+ getUser(): User
+		+ getTrustLevel() : Integer
+		+ getUser() : User
 	}
+
 	class "GasStation" as gs {
-		- id: Integer
-		- name: String
-		- address: String
-		- brand: String
-		- hasDiesel: Boolean
-		- hasGasoline: Boolean
-		- hasPremiumDiesel: Boolean
-		- hasPremiumGasoline: Boolean
-		- hasLPG: Boolean
-		- hasMethan: Boolean
-		- carSharingCompany: String
-		- priceList: PriceList
-		- geoPoint: GeoPoint
-		- setName(String): void
-		- setAddress(String): void
-		- setBrand(String): void
-		- setHasDiesel(Boolean): void
-		- setHasGasoline(Boolean): void
-		- setHasPremiumDiesel(Boolean): void
-		- setHasPremiumGaoline(Boolean): void
-		- setHasLPG(Boolean): void
-		- setHasMethan(Boolean): void
-		- setCarSharingCompany(String): void
-		- setPriceList(PriceList): void
-		- setGeoPoint(GeoPoint): void
-		+ getId(): Integer
-		+ getName(): String
-		+ getAddress(): String
-		+ getBrand(): String
-		+ getHasDiesel(): Boolean
-		+ getHasGasoline(): Boolean
-		+ getHasPremiumDiesel(): Boolean
-		+ getHasPremiumGaoline(): Boolean
-		+ getHasLPG(): Boolean
-		+ getHasMethan(): Boolean
-		+ getCarSharingCOmpany(): String
-		+ getPriceList(): PriceList
-		+ getGeoPoint(): GeoPoint
-		
+		- id : Integer
+		- name : String
+		- address : String
+		- brand : String
+		- hasDiesel : Boolean
+		- hasGasoline : Boolean
+		- hasPremiumDiesel : Boolean
+		- hasPremiumGasoline : Boolean
+		- hasLPG : Boolean
+		- hasMethan : Boolean
+		- carSharingCompany : String
+		- priceList : PriceList
+		- geoPoint : GeoPoint
+
+		- setName(String) : void
+		- setAddress(String) : void
+		- setBrand(String) : void
+		- setHasDiesel(Boolean) : void
+		- setHasGasoline(Boolean) : void
+		- setHasPremiumDiesel(Boolean) : void
+		- setHasPremiumGaoline(Boolean) : void
+		- setHasLPG(Boolean) : void
+		- setHasMethan(Boolean) : void
+		- setCarSharingCompany(String) : void
+		- setPriceList(PriceList) : void
+		- setGeoPoint(GeoPoint) : void
+		+ getId() : Integer
+		+ getName() : String
+		+ getAddress() : String
+		+ getBrand() : String
+		+ getHasDiesel() : Boolean
+		+ getHasGasoline() : Boolean
+		+ getHasPremiumDiesel() : Boolean
+		+ getHasPremiumGaoline() : Boolean
+		+ getHasLPG() : Boolean
+		+ getHasMethan() : Boolean
+		+ getCarSharingCOmpany() : String
+		+ getPriceList() : PriceList
+		+ getGeoPoint() : GeoPoint
 	}
-	class "GeoPoint" as gp{
-		- latitude: double
-		- longitude: double
-		- setLatitude(double): void
-		- setLongitude(double): void
-		+ getLatitude(): double
-		+ getLongitude(): double
-		+ computeDistance(GeoPoint): double
+
+	class "GeoPoint" as gp {
+		- latitude : double
+		- longitude : double
+
+		- setLatitude(double) : void
+		- setLongitude(double) : void
+		+ getLatitude() : double
+		+ getLongitude() : double
+		+ computeDistance(GeoPoint) : double
 	}
+
 	class "IdPw" as ip {
-		- email: String
-		- password: String
-		- setEmail(String): void
-		- setPassword(String): void
-		+ getEmail(): String
-		+ getPassword(): String
+		- email : String
+		- password : String
+
+		- setEmail(String) : void
+		- setPassword(String) : void
+		+ getEmail() : String
+		+ getPassword() : String
 	}
+
 	class "Login" as l {
-		- userId: Integer
-		- timeStamp: Date
-		- sessionId: Integer
-		- setUserId(Integer): void
-		- setTimeStamp(Date): void
-		- setSessionId(): void
-		+ getUserId(): Integer
-		+ getTimeStamp(): Date
-		+ getSessionId(): Integer
+		- userId : Integer
+		- timeStamp : Date
+		- sessionId : Integer
+
+		- setUserId(Integer) : void
+		- setTimeStamp(Date) : void
+		- setSessionId() : void
+		+ getUserId() : Integer
+		+ getTimeStamp() : Date
+		+ getSessionId() : Integer
 	}
+
 	class "AccessRight" << (e,yellow) >>{
-		+ Admin
-		+ User
+		+ ADMIN
+		+ USER
 	}
 }
 
-package "it.polito.ezgas.repository" {
+package "it.polito.ezgas.repository" as repository {
 	class "UserRepository"
 	class "PriceListRepository"
 	class "GasStationRepository"
@@ -412,11 +423,10 @@ package "it.polito.ezgas.repository" {
 	class "IdPwRepository"
 	class "LoginRepository"
 }
-
-	
 }
-note "see folder ServicePackage" as n
-n -- ps
+
+
+
 @enduml
 ```
 
