@@ -216,19 +216,7 @@ The Java interfaces are already defined (see file ServicePackage.zip) and the lo
 Contains Service classes that implement the Service Interfaces in the Service package.
 
 
-
-
-
-
-
-
-
-
 # Low level design
-
-<Based on the official requirements and on the Spring Boot design guidelines, define the required classes (UML class diagram) of the back-end in the proper packages described in the high-level design section.>
-
-
 
 ```plantuml
 @startuml
@@ -257,10 +245,8 @@ package "it.polito.ezgas.service" as ps {
 		+ increaseUserReputation(Integer) : Integer
 		+ decreaseUserReputation(Integer) : Integer
    }
-}
 
-package "it.polito.ezgas.serviceImpl" {
-	class "GasStationServiceImpl" as gssi
+   	class "GasStationServiceImpl" as gssi
 	class "UserServiceImpl" as usi
 	class "AnonymousUserServiceImpl" as ausi
 	class "AdminUserServiceImpl" as asi
@@ -270,7 +256,6 @@ package "it.polito.ezgas.serviceImpl" {
 	ausi -up-|> us
 	asi -up-|> us
 }
-
 
 package "it.polito.ezgas.controller" {
 	class "GasStationController"
@@ -297,27 +282,124 @@ package "it.polito.ezgas.dto" {
 
 package "it.polito.ezgas.entity" {
 	class "User" as u {
+		- id : Integer
 		- accountName : String
  		- email : String
  		- trustLevel : Integer
-		- accessRight : Integer
-
+		- accessRight : AccessRight
 		- setAccountName(String) : void
 		- setEmail(String) : void
 		- setTrustLevel(Integer) : void
-		- setAccessRight(Integer) : void
+		- setAccessRight(AccessRight) : void
 		+ getAccountName() : String
 		+ getEmail() : String
 		+ getTrustLevel() : Integer
-		+ getAccessRight() : Integer
+		+ getAccessRight() : AccessRight
 	}
-	class "PriceList"
-	class "GasStation"
+	class "PriceList" as pl {
+		- idPrice: Integer
+		- timeTag: Date
+		- dieselPrice: double
+		- gasolinePrice: double
+		- premumDieselPrice: double
+		- premumGasolinePrice: double
+		- lpgPrice: double
+		- methanPrice: double 
+		- trustLevel: Integer
+		- user: User
+		- setTimeTag(Date) : void
+		- setDieselPrice(double) : void
+		- setGasolinePrice(double) : void
+		- setPremumDieselPrice(double) : void
+		- setPremumGasolinePrice(double) : void
+		- setLpgPrice(double) : void
+		- setMethanPrice(double) : void
+		- setTrustLevel(Integer) : void
+		- setUser(Integer): void
+		+ getId () : Integer
+		+ getTimeTag (): Date 
+		+ getDieselPrice() : double
+		+ getGasolinePrice() : double
+		+ getPremumDieselPrice() : double
+		+ getPremumGasolinePrice() : double
+		+ getLpgPrice() : double
+		+ getMethanPrice() : double
+		+ getTrustLevel (): Integer
+		+ getUser(): User
+	}
+	class "GasStation" as gs {
+		- id: Integer
+		- name: String
+		- address: String
+		- brand: String
+		- hasDiesel: Boolean
+		- hasGasoline: Boolean
+		- hasPremiumDiesel: Boolean
+		- hasPremiumGasoline: Boolean
+		- hasLPG: Boolean
+		- hasMethan: Boolean
+		- carSharingCompany: String
+		- priceList: PriceList
+		- geoPoint: GeoPoint
+		- setName(String): void
+		- setAddress(String): void
+		- setBrand(String): void
+		- setHasDiesel(Boolean): void
+		- setHasGasoline(Boolean): void
+		- setHasPremiumDiesel(Boolean): void
+		- setHasPremiumGaoline(Boolean): void
+		- setHasLPG(Boolean): void
+		- setHasMethan(Boolean): void
+		- setCarSharingCompany(String): void
+		- setPriceList(PriceList): void
+		- setGeoPoint(GeoPoint): void
+		+ getId(): Integer
+		+ getName(): String
+		+ getAddress(): String
+		+ getBrand(): String
+		+ getHasDiesel(): Boolean
+		+ getHasGasoline(): Boolean
+		+ getHasPremiumDiesel(): Boolean
+		+ getHasPremiumGaoline(): Boolean
+		+ getHasLPG(): Boolean
+		+ getHasMethan(): Boolean
+		+ getCarSharingCOmpany(): String
+		+ getPriceList(): PriceList
+		+ getGeoPoint(): GeoPoint
+		
+	}
+	class "GeoPoint" as gp{
+		- latitude: double
+		- longitude: double
+		- setLatitude(double): void
+		- setLongitude(double): void
+		+ getLatitude(): double
+		+ getLongitude(): double
+		+ computeDistance(GeoPoint): double
+	}
 	class "IdPw" as ip {
-		- email
-		- password
+		- email: String
+		- password: String
+		- setEmail(String): void
+		- setPassword(String): void
+		+ getEmail(): String
+		+ getPassword(): String
 	}
-	class "Login"
+	class "Login" as l {
+		- userId: Integer
+		- timeStamp: Date
+		- sessionId: Integer
+		- setUserId(Integer): void
+		- setTimeStamp(Date): void
+		- setSessionId(): void
+		+ getUserId(): Integer
+		+ getTimeStamp(): Date
+		+ getSessionId(): Integer
+	}
+	class "AccessRight" << (e,yellow) >>{
+		+ Admin
+		+ User
+	}
 }
 
 package "it.polito.ezgas.repository" {
@@ -335,20 +417,9 @@ n -- ps
 @enduml
 ```
 
-
-
-
-
-
-
-
 # Verification traceability matrix
 
 \<for each functional requirement from the requirement document, list which classes concur to implement it>
-
-
-
-
 
 
 
