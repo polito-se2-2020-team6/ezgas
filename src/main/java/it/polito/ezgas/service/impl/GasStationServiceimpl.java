@@ -2,11 +2,11 @@ package it.polito.ezgas.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
 
 import exception.GPSDataException;
 import exception.InvalidGasStationException;
@@ -25,7 +25,7 @@ import it.polito.ezgas.service.GasStationService;
  */
 @Service
 public class GasStationServiceimpl implements GasStationService {
-	
+
 	@Autowired GasStationRepository gasStationRepository;
 
 	@Override
@@ -38,8 +38,8 @@ public class GasStationServiceimpl implements GasStationService {
 		else {
 			throw new InvalidGasStationException("ERROR: GasStation not found");
 		}
-			
-}
+
+	}
 
 	@Override
 	public GasStationDto saveGasStation(GasStationDto gasStationDto) throws PriceException, GPSDataException {
@@ -51,10 +51,10 @@ public class GasStationServiceimpl implements GasStationService {
 	public List<GasStationDto> getAllGasStations() {
 		// TODO Auto-generated method stub
 		return gasStationRepository.findAll()
-									.stream()
-									.map(gasStation -> GasStationMapper.toGSDto(gasStation))
-									.collect(Collectors.toList());
-		
+				.stream()
+				.map(gasStation -> GasStationMapper.toGSDto(gasStation))
+				.collect(Collectors.toList());
+
 	}
 
 	@Override
@@ -85,27 +85,57 @@ public class GasStationServiceimpl implements GasStationService {
 	@Override
 	public List<GasStationDto> getGasStationsWithoutCoordinates(String gasolinetype, String carsharing)
 			throws InvalidGasTypeException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if(!isGasolineTypeValid(gasolinetype)) throw new InvalidGasTypeException(gasolinetype);
+		
+		return getGasStationByCarSharing(carsharing)
+				.parallelStream()
+				.filter(gasStation -> mapGasolineTypeToMethod(gasolinetype).test(gasStation))
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	public void setReport(Integer gasStationId, double dieselPrice, double superPrice, double superPlusPrice,
 			double gasPrice, double methanePrice, Integer userId)
-			throws InvalidGasStationException, PriceException, InvalidUserException {
+					throws InvalidGasStationException, PriceException, InvalidUserException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public List<GasStationDto> getGasStationByCarSharing(String carSharing) {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<GasStation> gss = gasStationRepository.findByCarSharing(carSharing);
+		return gss
+				.stream()
+				.map(gasStation -> GasStationMapper.toGSDto(gasStation))
+				.collect(Collectors.toList());
 	}
-	
-	
-	
-	
-	
+
+	private boolean isGasolineTypeValid(String gasolinetype) {
+		switch(gasolinetype) {
+		case "diesel":
+//		case "lpg":
+		case "gas":
+		case "methane":
+		case "super":
+		case "superplus": return true;
+		default: return false;
+		}
+	}
+
+	private Predicate<GasStationDto> mapGasolineTypeToMethod(String gasolinetype) {
+		switch(gasolinetype) {
+		case "diesel": return GasStationDto::getHasDiesel;
+//		case "lpg": return GasStationDto::getHasLPG;
+		case "gas": return GasStationDto::getHasGas;
+		case "methane": return GasStationDto::getHasMethane;
+		case "super": return GasStationDto::getHasSuper;
+		case "superplus": return GasStationDto::getHasSuperPlus;
+		default: return (gsdto) -> false;
+		}
+	}
+
+
 
 }
