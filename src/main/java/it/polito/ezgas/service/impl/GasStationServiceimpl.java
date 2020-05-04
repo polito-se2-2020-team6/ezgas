@@ -216,7 +216,7 @@ public class GasStationServiceimpl implements GasStationService {
 		}
 	}
 
-	// Haverstine formula. Takes into account cuvature of Earth, but assumes a sphere.
+	// Haversine formula. Takes into account cuvature of Earth, but assumes a sphere.
 	// With long distances, error < 0.1%.
 	// Return value in Km.
 	// https://en.wikipedia.org/wiki/Haversine_formula
