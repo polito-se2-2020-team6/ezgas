@@ -49,10 +49,10 @@ public class GasStationServiceimpl implements GasStationService {
 					gasStationDto.getHasGas() && gasStationDto.getGasPrice()<=0 ||
 					gasStationDto.getHasSuper() && gasStationDto.getSuperPrice()<=0 ||
 					gasStationDto.getHasSuperPlus() && gasStationDto.getSuperPlusPrice()<=0) {
-				throw new PriceException("Price not valid or setted");
+				throw new PriceException("ERROR: Price not valid or setted");
 			}
 			else if (gasStationDto.getLat()<-90 || gasStationDto.getLat()>90 || gasStationDto.getLon()>180 || gasStationDto.getLon()<-180 ) {
-				throw new GPSDataException("Invalid latitude or longitude values");
+				throw new GPSDataException("ERROR: Invalid latitude or longitude values");
 			}
 			else
 				return gasStationDto;
@@ -71,8 +71,15 @@ public class GasStationServiceimpl implements GasStationService {
 
 	@Override
 	public Boolean deleteGasStation(Integer gasStationId) throws InvalidGasStationException {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<GasStation> gs = Optional.ofNullable(gasStationRepository.findOne(gasStationId));
+		if (!gs.isPresent())
+			throw new InvalidGasStationException("ERROR: Gas Station not found!");
+		gasStationRepository.delete(gs.get());
+		gs = Optional.ofNullable(gasStationRepository.findOne(gasStationId));
+		if (!gs.isPresent())
+			return true;
+		else 
+			return false;
 	}
 
 	@Override
