@@ -30,7 +30,6 @@ public class GasStationServiceimpl implements GasStationService {
 
 	@Override
 	public GasStationDto getGasStationById(Integer gasStationId) throws InvalidGasStationException {
-		// TODO Auto-generated method stub
 		Optional<GasStation> gs = Optional.ofNullable(gasStationRepository.findOne(gasStationId));
 		if (gs.isPresent()) {
 			return GasStationMapper.toGSDto(gs.get());
@@ -43,13 +42,26 @@ public class GasStationServiceimpl implements GasStationService {
 
 	@Override
 	public GasStationDto saveGasStation(GasStationDto gasStationDto) throws PriceException, GPSDataException {
-		// TODO Auto-generated method stub
+		Optional<GasStation> gs = Optional.ofNullable(gasStationRepository.findOne(gasStationDto.getGasStationId()));
+		if (!gs.isPresent()) {
+			if (gasStationDto.getHasDiesel() && gasStationDto.getDieselPrice()<=0 ||
+					gasStationDto.getHasMethane() && gasStationDto.getMethanePrice()<=0 ||
+					gasStationDto.getHasGas() && gasStationDto.getGasPrice()<=0 ||
+					gasStationDto.getHasSuper() && gasStationDto.getSuperPrice()<=0 ||
+					gasStationDto.getHasSuperPlus() && gasStationDto.getSuperPlusPrice()<=0) {
+				throw new PriceException("ERROR: Price not valid or setted");
+			}
+			else if (gasStationDto.getLat()<-90 || gasStationDto.getLat()>90 || gasStationDto.getLon()>180 || gasStationDto.getLon()<-180 ) {
+				throw new GPSDataException("ERROR: Invalid latitude or longitude values");
+			}
+			else
+				return gasStationDto;
+			}
 		return null;
 	}
 
 	@Override
 	public List<GasStationDto> getAllGasStations() {
-		// TODO Auto-generated method stub
 		return gasStationRepository.findAll()
 				.stream()
 				.map(gasStation -> GasStationMapper.toGSDto(gasStation))
@@ -59,8 +71,15 @@ public class GasStationServiceimpl implements GasStationService {
 
 	@Override
 	public Boolean deleteGasStation(Integer gasStationId) throws InvalidGasStationException {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<GasStation> gs = Optional.ofNullable(gasStationRepository.findOne(gasStationId));
+		if (!gs.isPresent())
+			throw new InvalidGasStationException("ERROR: Gas Station not found!");
+		gasStationRepository.delete(gs.get());
+		gs = Optional.ofNullable(gasStationRepository.findOne(gasStationId));
+		if (!gs.isPresent())
+			return true;
+		else 
+			return false;
 	}
 
 	@Override
