@@ -49,23 +49,33 @@ public class GasStationServiceimpl implements GasStationService {
 
 	@Override
 	public GasStationDto saveGasStation(GasStationDto gasStationDto) throws PriceException, GPSDataException {
-		Optional<GasStation> gs = Optional.ofNullable(gasStationRepository.findOne(gasStationDto.getGasStationId()));
-		if (!gs.isPresent()) {
-			if (gasStationDto.getHasDiesel() && gasStationDto.getDieselPrice()<=0 || !gasStationDto.getHasDiesel() && gasStationDto.getDieselPrice()>0 ||
-					//					gasStationDto.getHasLpg() && gasStationDto.getLpgPrice() <= 0 || !gasStationDto.getHasLpg() && gasStationDto.getLpgPrice() > 0 ||
-					gasStationDto.getHasGas() && gasStationDto.getGasPrice()<=0 || !gasStationDto.getHasGas() && gasStationDto.getGasPrice()>0 ||
-					gasStationDto.getHasMethane() && gasStationDto.getMethanePrice()<=0 || !gasStationDto.getHasMethane() && gasStationDto.getMethanePrice()>0 ||
-					gasStationDto.getHasSuper() && gasStationDto.getSuperPrice()<=0 || !gasStationDto.getHasSuper() && gasStationDto.getSuperPrice()>0 ||
-					gasStationDto.getHasSuperPlus() && gasStationDto.getSuperPlusPrice()<=0 || !gasStationDto.getHasSuperPlus() && gasStationDto.getSuperPlusPrice()>0) {
+		//set default prices (0)	
+		
+				gasStationDto.setDieselPrice(gasStationDto.getHasDiesel() ? 0 : -1);
+		// 				gasStationDto.setLpgPrice(gasStationDto.getHasLpg() ? 0 : -1);
+
+				gasStationDto.setGasPrice(gasStationDto.getHasGas() ? 0 : -1);
+		gasStationDto.setMethanePrice(gasStationDto.getHasMethane() ? 0 : -1);
+		gasStationDto.setSuperPrice(gasStationDto.getHasSuper() ? 0 : -1);
+		gasStationDto.setSuperPlusPrice(gasStationDto.getHasSuperPlus() ? 0 : -1);
+
+		//check not valid prices
+			if (!gasStationDto.getHasDiesel() && gasStationDto.getDieselPrice() != -1||
+					//			!gasStationDto.getHasLpg() && gasStationDto.getLpgPrice() != -1 ||
+				 !gasStationDto.getHasGas() && gasStationDto.getGasPrice() != -1||
+				!gasStationDto.getHasMethane() && gasStationDto.getMethanePrice() !=-1 ||
+				!gasStationDto.getHasSuper() && gasStationDto.getSuperPrice() !=-1 ||
+				!gasStationDto.getHasSuperPlus() && gasStationDto.getSuperPlusPrice() !=-1) {
 				throw new PriceException("ERROR: Price not valid or setted");
 			}
 			else if (gasStationDto.getLat()<-90 || gasStationDto.getLat()>90 || gasStationDto.getLon()>180 || gasStationDto.getLon()<-180 ) {
 				throw new GPSDataException("ERROR: Invalid latitude(" + gasStationDto.getLat() + ") or longitude(" + gasStationDto.getLon() + ") values");
 			}
-			else
-				return gasStationDto;
-		}
-		return null;
+			else {
+				GasStation gs = gasStationRepository.save(GasStationMapper.toGS(gasStationDto));
+			
+				return GasStationMapper.toGSDto(gs);
+			}
 	}
 
 	@Override
@@ -182,6 +192,8 @@ public class GasStationServiceimpl implements GasStationService {
 		gs.setReportTimestamp(new Date().toString()); // TODO: Maybe change
 		// pr.trust_level = 50 * (U.trust_level +5)/10 + 50 * obsolescence
 		gs.setReportDependability(50 * (u.getReputation() + 5) / 10 + 50 * 1);
+		
+		gasStationRepository.save(gs);
 	}
 
 	@Override
@@ -195,6 +207,8 @@ public class GasStationServiceimpl implements GasStationService {
 	}
 
 	private boolean isGasolineTypeValid(String gasolinetype) {
+		if (gasolinetype==null)
+			return true;
 		switch(gasolinetype) {
 		case "Diesel":
 			//		case "LPG":
@@ -207,6 +221,8 @@ public class GasStationServiceimpl implements GasStationService {
 	}
 
 	private Predicate<GasStationDto> mapGasolineTypeToMethod(String gasolinetype) {
+		if (gasolinetype == null) 
+			return (gsdto) -> true;
 		switch(gasolinetype) {
 		case "Diesel": return GasStationDto::getHasDiesel;
 		//		case "LPG": return GasStationDto::getHasLPG;
