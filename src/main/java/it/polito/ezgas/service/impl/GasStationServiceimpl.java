@@ -42,7 +42,7 @@ public class GasStationServiceimpl implements GasStationService {
 			return GasStationMapper.toGSDto(gs.get());
 		}
 		else {
-			throw new InvalidGasStationException("ERROR: GasStation not found");
+			throw new InvalidGasStationException("ERROR: Gas Station "+ gasStationId +" not found!");
 		}
 
 	}
@@ -51,17 +51,16 @@ public class GasStationServiceimpl implements GasStationService {
 	public GasStationDto saveGasStation(GasStationDto gasStationDto) throws PriceException, GPSDataException {
 		Optional<GasStation> gs = Optional.ofNullable(gasStationRepository.findOne(gasStationDto.getGasStationId()));
 		if (!gs.isPresent()) {
-			// TODO Marco: Check also !hasFuelType && price > 0 ?
-			if (gasStationDto.getHasDiesel() && gasStationDto.getDieselPrice()<=0 ||
-					//					gasStationDto.getHasLpg() && gasStationDto.getLpgPrice() <= 0 ||
-					gasStationDto.getHasGas() && gasStationDto.getGasPrice()<=0 ||
-					gasStationDto.getHasMethane() && gasStationDto.getMethanePrice()<=0 ||
-					gasStationDto.getHasSuper() && gasStationDto.getSuperPrice()<=0 ||
-					gasStationDto.getHasSuperPlus() && gasStationDto.getSuperPlusPrice()<=0) {
+			if (gasStationDto.getHasDiesel() && gasStationDto.getDieselPrice()<=0 || !gasStationDto.getHasDiesel() && gasStationDto.getDieselPrice()>0 ||
+					//					gasStationDto.getHasLpg() && gasStationDto.getLpgPrice() <= 0 || !gasStationDto.getHasLpg() && gasStationDto.getLpgPrice() > 0 ||
+					gasStationDto.getHasGas() && gasStationDto.getGasPrice()<=0 || !gasStationDto.getHasGas() && gasStationDto.getGasPrice()>0 ||
+					gasStationDto.getHasMethane() && gasStationDto.getMethanePrice()<=0 || !gasStationDto.getHasMethane() && gasStationDto.getMethanePrice()>0 ||
+					gasStationDto.getHasSuper() && gasStationDto.getSuperPrice()<=0 || !gasStationDto.getHasSuper() && gasStationDto.getSuperPrice()>0 ||
+					gasStationDto.getHasSuperPlus() && gasStationDto.getSuperPlusPrice()<=0 || !gasStationDto.getHasSuperPlus() && gasStationDto.getSuperPlusPrice()>0) {
 				throw new PriceException("ERROR: Price not valid or setted");
 			}
 			else if (gasStationDto.getLat()<-90 || gasStationDto.getLat()>90 || gasStationDto.getLon()>180 || gasStationDto.getLon()<-180 ) {
-				throw new GPSDataException("ERROR: Invalid latitude or longitude values");
+				throw new GPSDataException("ERROR: Invalid latitude(" + gasStationDto.getLat() + ") or longitude(" + gasStationDto.getLon() + ") values");
 			}
 			else
 				return gasStationDto;
@@ -81,8 +80,9 @@ public class GasStationServiceimpl implements GasStationService {
 	@Override
 	public Boolean deleteGasStation(Integer gasStationId) throws InvalidGasStationException {
 		Optional<GasStation> gs = Optional.ofNullable(gasStationRepository.findOne(gasStationId));
+		// Check if gas station exists
 		if (!gs.isPresent())
-			throw new InvalidGasStationException("ERROR: Gas Station not found!");
+			throw new InvalidGasStationException("ERROR: Gas Station "+ gasStationId +" not found!");
 		gasStationRepository.delete(gs.get());
 		gs = Optional.ofNullable(gasStationRepository.findOne(gasStationId));
 		if (!gs.isPresent())
@@ -94,7 +94,7 @@ public class GasStationServiceimpl implements GasStationService {
 	@Override
 	public List<GasStationDto> getGasStationsByGasolineType(String gasolinetype) throws InvalidGasTypeException {
 		// Check if gas station exists
-		if(!isGasolineTypeValid(gasolinetype)) throw new InvalidGasTypeException(gasolinetype);
+		if(!isGasolineTypeValid(gasolinetype)) throw new InvalidGasTypeException("ERROR: gasoline type " + gasolinetype + " not found!");
 
 		return gasStationRepository.findAll()
 				.parallelStream()
@@ -107,7 +107,7 @@ public class GasStationServiceimpl implements GasStationService {
 	public List<GasStationDto> getGasStationsByProximity(double lat, double lon) throws GPSDataException {
 		// Check coordinates make sense
 		if (lat < -90 || lat > 90 || lon < -180 || lon > 180 ) {
-			throw new GPSDataException("ERROR: Invalid latitude or longitude values");
+			throw new GPSDataException("ERROR: Invalid latitude(" + lat + ") or longitude(" + lon + ") values");
 		}
 
 		return gasStationRepository.findAll()
@@ -122,7 +122,7 @@ public class GasStationServiceimpl implements GasStationService {
 			String carsharing) throws InvalidGasTypeException, GPSDataException {
 		// Check coordinates make sense
 		if (lat < -90 || lat > 90 || lon < -180 || lon > 180 ) {
-			throw new GPSDataException("ERROR: Invalid latitude or longitude values");
+			throw new GPSDataException("ERROR: Invalid latitude(" + lat + ") or longitude(" + lon + ") values");
 		}
 		
 		return getGasStationsWithoutCoordinates(gasolinetype, carsharing)
@@ -135,7 +135,7 @@ public class GasStationServiceimpl implements GasStationService {
 	public List<GasStationDto> getGasStationsWithoutCoordinates(String gasolinetype, String carsharing)
 			throws InvalidGasTypeException {
 		// Check if gas station exists
-		if(!isGasolineTypeValid(gasolinetype)) throw new InvalidGasTypeException(gasolinetype);
+		if(!isGasolineTypeValid(gasolinetype)) throw new InvalidGasTypeException("ERROR: gasoline type " + gasolinetype + " not found!");
 
 		return getGasStationByCarSharing(carsharing)
 				.parallelStream()
@@ -149,11 +149,11 @@ public class GasStationServiceimpl implements GasStationService {
 					throws InvalidGasStationException, PriceException, InvalidUserException {
 		// Check if gas station exists
 		Optional<GasStation> optGS = Optional.ofNullable(gasStationRepository.findOne(gasStationId));
-		if(optGS.isPresent()) throw new InvalidGasStationException("" + gasStationId);
+		if(!optGS.isPresent()) throw new InvalidGasStationException("ERROR: GasStation " + gasStationId + " not found!");
 		GasStation gs = optGS.get();
 		// Check if user exists
 		Optional<User> optU = Optional.ofNullable(userRepository.findOne(userId));
-		if(optU.isPresent()) throw new InvalidUserException("" + userId);
+		if(!optU.isPresent()) throw new InvalidUserException("ERROR: User " + userId + " not found!");
 		User u = optU.get();
 		// Check price report compatibility with gas station
 		if (gs.getHasDiesel() && dieselPrice <= 0 || !gs.getHasDiesel() && dieselPrice > 0 ||
