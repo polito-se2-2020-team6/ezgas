@@ -29,7 +29,7 @@ public class UserServiceimpl implements UserService {
 	public UserDto getUserById(Integer userId) throws InvalidUserException {
 		User user = repository.findOne(userId);
 		if(user==null) {
-			throw new InvalidUserException("Error, userId not found");
+			throw new InvalidUserException("ERROR: user " + userId + " not found");
 		}
 		UserDto u_dto = UserMapper.toUserDto(user);
 		return u_dto;
@@ -56,7 +56,7 @@ public class UserServiceimpl implements UserService {
 		User user = repository.findOne(userId);
 		boolean value = false;
 		if(user==null) {
-			throw new InvalidUserException("Error, userId not found");
+			throw new InvalidUserException("ERROR: user " + userId + " not found");
 		} else {
 			repository.delete(userId);
 			value=true;
@@ -83,7 +83,7 @@ public class UserServiceimpl implements UserService {
 		User user = repository.findOne(userId);
 		int reputation;
 		if(user==null) {
-			throw new InvalidUserException("Error, userId not found");
+			throw new InvalidUserException("ERROR: user " + userId + " not found");
 		}else {
 			reputation = user.getReputation();
 			if(reputation<5){
@@ -101,7 +101,7 @@ public class UserServiceimpl implements UserService {
 		User user = repository.findOne(userId);
 		int reputation;
 		if(user==null) {
-			throw new InvalidUserException("Error, userId not found");
+			throw new InvalidUserException("ERROR: user " + userId + " not found");
 		}else {
 			reputation = user.getReputation();
 			if(reputation>-5){
