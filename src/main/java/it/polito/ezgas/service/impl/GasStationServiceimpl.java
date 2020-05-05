@@ -198,6 +198,8 @@ public class GasStationServiceimpl implements GasStationService {
 
 	@Override
 	public List<GasStationDto> getGasStationByCarSharing(String carSharing) {
+		
+		if(carSharing.equals("null")) return getAllGasStations();
 
 		List<GasStation> gss = gasStationRepository.findByCarSharing(carSharing);
 		return gss
@@ -207,9 +209,8 @@ public class GasStationServiceimpl implements GasStationService {
 	}
 
 	private boolean isGasolineTypeValid(String gasolinetype) {
-		if (gasolinetype==null)
-			return true;
 		switch(gasolinetype) {
+		case "null": 
 		case "Diesel":
 			//		case "LPG":
 		case "Gas":
@@ -221,8 +222,6 @@ public class GasStationServiceimpl implements GasStationService {
 	}
 
 	private Predicate<GasStationDto> mapGasolineTypeToMethod(String gasolinetype) {
-		if (gasolinetype == null) 
-			return (gsdto) -> true;
 		switch(gasolinetype) {
 		case "Diesel": return GasStationDto::getHasDiesel;
 		//		case "LPG": return GasStationDto::getHasLPG;
@@ -230,6 +229,7 @@ public class GasStationServiceimpl implements GasStationService {
 		case "Methane": return GasStationDto::getHasMethane;
 		case "Super": return GasStationDto::getHasSuper;
 		case "SuperPlus": return GasStationDto::getHasSuperPlus;
+		case "null": return (gsdto) -> true;
 		default: return (gsdto) -> false;
 		}
 	}
