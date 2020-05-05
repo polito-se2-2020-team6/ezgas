@@ -1,5 +1,5 @@
 package it.polito.ezgas.service.impl;
-
+import java.util.*;
 import java.util.List;
 
 //import org.apache.catalina.User;
@@ -62,7 +62,7 @@ public class UserServiceimpl implements UserService {
 		if(user==null) {
 			throw new InvalidUserException("Error, userId not found");
 		} else {
-			repository.deleteById(userId);
+			repository.deleteByUserId(userId);
 			value=true;
 		}
 		return value;
@@ -71,12 +71,12 @@ public class UserServiceimpl implements UserService {
 
 	@Override
 	public LoginDto login(IdPw credentials) throws InvalidLoginDataException {
-		User user=repository.findOne(credentials.getUser());
+		User user=repository.findByEmail(credentials.getUser());
 		LoginDto log;
 		if (user==null) {
 			throw new InvalidLoginDataException("Error, user doesn't exist");
 		} else {
-			log = UserMapper.toLoginDto(user, "Success");
+			log = UserMapper.toLoginDto(user, user.getEmail() + new Date().toString());
 		}
 		return log;
 		//return null;

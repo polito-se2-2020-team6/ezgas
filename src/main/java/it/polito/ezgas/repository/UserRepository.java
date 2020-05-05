@@ -16,9 +16,9 @@ public interface UserRepository extends CrudRepository <User, Integer>{
 	
 	<S extends User> S save(User user);
 	
-	User findOne (Integer id);
+	//User findOne (Integer id);
 	
-	User findOne (String username);
+	User findByEmail (String username);
 	
-	void deleteById (Integer id);
+	void deleteByUserId (Integer id);
 }
