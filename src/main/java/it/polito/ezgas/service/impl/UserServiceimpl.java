@@ -1,6 +1,7 @@
 package it.polito.ezgas.service.impl;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 //import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,13 +46,8 @@ public class UserServiceimpl implements UserService {
 
 	@Override
 	public List<UserDto> getAllUsers() {
-		List<UserDto> listUserDto=null; 
-		List <User> listUser;
-		listUser = repository.findAll();
-		for (User user : listUser) {
-			listUserDto.add(UserMapper.toUserDto(user));
-		}
-		return listUserDto;
+		//List<UserDto> listUserDto; 
+		return repository.findAll().parallelStream().map(UserMapper::toUserDto).collect(Collectors.toList());
 		//return null;
 	}
 
@@ -62,7 +58,7 @@ public class UserServiceimpl implements UserService {
 		if(user==null) {
 			throw new InvalidUserException("Error, userId not found");
 		} else {
-			repository.deleteByUserId(userId);
+			repository.delete(userId);
 			value=true;
 		}
 		return value;
