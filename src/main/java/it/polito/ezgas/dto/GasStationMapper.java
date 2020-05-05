@@ -28,4 +28,29 @@ public class GasStationMapper {
 				return gsDto;
 
 	}
+	
+	public static GasStation toGS(GasStationDto gsDto) {
+		GasStation gas = 	new GasStation();
+		gas.setGasStationId(gsDto.getGasStationId());
+		gas.setGasStationName(gsDto.getGasStationName());
+		gas.setGasStationAddress(gsDto.getGasStationAddress());
+		gas.setCarSharing(gsDto.getCarSharing());
+		gas.setHasDiesel(gsDto.getHasDiesel());
+		gas.setHasGas(gsDto.getHasGas());
+		gas.setHasMethane(gsDto.getHasMethane());
+		gas.setHasSuper(gsDto.getHasSuper());
+		gas.setHasSuperPlus(gsDto.getHasSuperPlus());
+		gas.setDieselPrice(gsDto.getDieselPrice());
+		gas.setMethanePrice(gsDto.getMethanePrice());
+		gas.setGasPrice(gsDto.getGasPrice());
+		gas.setSuperPlusPrice(gsDto.getSuperPlusPrice());
+		gas.setSuperPrice(gsDto.getSuperPrice());
+		gas.setLat(gsDto.getLat());
+		gas.setLon(gsDto.getLon());
+		gas.setReportUser(gsDto.getReportUser());
+		//TODO: gsDto.setUserDto(UserMapper.toUserDto(gs.getUser()));
+		gas.setReportTimestamp(gsDto.getReportTimestamp());
+		gas.setReportDependability(gsDto.getReportDependability());
+		return gas;
+	}
 }
