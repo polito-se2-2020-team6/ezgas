@@ -18,6 +18,7 @@ public class UserMapper {
 	    }
 	    public static LoginDto toLoginDto (User user, String token) {
 	    	LoginDto l = new LoginDto(user.getUserId(), user.getUserName(), token, user.getEmail(), user.getReputation());
+	    	l.setAdmin(user.getAdmin());
 	    	return l;
 	    }
 	}
