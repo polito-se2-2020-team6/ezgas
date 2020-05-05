@@ -114,6 +114,7 @@ public class GasStationServiceimpl implements GasStationService {
 				.parallelStream()
 				.filter(gs -> geoPointDistance(lat, lon, gs.getLat(), gs.getLon()) < 5)
 				.map(GasStationMapper::toGSDto)
+				.sorted((a, b) -> (geoPointDistance(lat, lon, b.getLat(), b.getLon()) - geoPointDistance(lat, lon, a.getLat(), a.getLon()) < 0 ? -1 : 1))
 				.collect(Collectors.toList());
 	}
 
@@ -128,6 +129,7 @@ public class GasStationServiceimpl implements GasStationService {
 		return getGasStationsWithoutCoordinates(gasolinetype, carsharing)
 				.parallelStream()
 				.filter(gs -> geoPointDistance(lat, lon, gs.getLat(), gs.getLon()) < 5)
+				.sorted((a, b) -> (geoPointDistance(lat, lon, b.getLat(), b.getLon()) - geoPointDistance(lat, lon, a.getLat(), a.getLon()) < 0 ? -1 : 1))
 				.collect(Collectors.toList());
 	}
 
@@ -216,7 +218,7 @@ public class GasStationServiceimpl implements GasStationService {
 		}
 	}
 
-	// Haversine formula. Takes into account cuvature of Earth, but assumes a sphere.
+	// Haversine formula. Takes into account curvature of Earth, but assumes a sphere.
 	// With long distances, error < 0.1%.
 	// Return value in Km.
 	// https://en.wikipedia.org/wiki/Haversine_formula
