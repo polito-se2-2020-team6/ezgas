@@ -502,7 +502,7 @@ UserServiceImpl --> u :UserDto object
 ### Use Case 3
 ```plantuml
 @startuml
-actor user as u
+actor User as u
 u -> UserServiceImpl : 1 - deleteUser()
 UserServiceImpl -> UserRepository : 2 - findOne()
 UserRepository --> UserServiceImpl : User
@@ -513,7 +513,7 @@ UserServiceImpl --> u : 4 - 200 ok
 ### Use Case 4
 ```plantuml
 @startuml
-actor admin as a
+actor Administrator as a
 a -> GasStationServiceImpl : 1 - saveGasStation()
 GasStationServiceImpl -> GasStationMapper : 2 - toGS()
 GasStationMapper --> GasStationServiceImpl : GasStation object
@@ -527,7 +527,7 @@ GasStationServiceImpl --> a : 5 - 200 ok
 ### Use Case 5
 ```plantuml
 @startuml
-actor admin as a
+actor Administrator as a
 a -> GasStationServiceImpl : 1 - saveGasStation()
 GasStationServiceImpl -> GasStationMapper : 2 - toGS()
 GasStationMapper --> GasStationServiceImpl : GasStation object
@@ -555,7 +555,7 @@ GasStationServiceImpl --> a :true
 ### Use Case 7
 ```plantuml
 @startuml
-actor user as u
+actor User as u
 u -> GasStationServiceImpl : 1 - setReport()
 GasStationServiceImpl -> GasStationRepository : 2 - findOne()
 GasStationRepository --> GasStationServiceImpl : GasStation object
@@ -607,7 +607,7 @@ deactivate UpdateReputationScheduler
 
 ```plantuml
 @startuml
-actor user as u
+actor User as u
 u -> UserServiceImpl : 1 - IncreaseUserReputation()
 UserServiceImpl -> UserRepository : 2 - findOne()
 UserRepository --> UserServiceImpl : User object
@@ -624,7 +624,7 @@ UserServiceImpl --> u : 6 - 200 ok
 
 ```plantuml
 @startuml
-actor user as u
+actor User as u
 u -> UserServiceImpl : 1 - DecreaseUserReputation()
 UserServiceImpl -> UserRepository : 2 - findOne()
 UserRepository --> UserServiceImpl : User object
