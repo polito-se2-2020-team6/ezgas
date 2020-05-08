@@ -19,6 +19,17 @@ Version: 1.0
 - [Low level design](#low-level-design)
 - [Verification traceability matrix](#verification-traceability-matrix)
 - [Verification sequence diagrams](#verification-sequence-diagrams)
+		- [Use Case 1](#use-case-1)
+		- [Use Case 2](#use-case-2)
+		- [Use Case 3](#use-case-3)
+		- [Use Case 4](#use-case-4)
+		- [Use Case 5](#use-case-5)
+		- [Use Case 6](#use-case-6)
+		- [Use Case 7](#use-case-7)
+		- [Use Case 8](#use-case-8)
+		- [Use Case 9](#use-case-9)
+		- [Scenario 10.1](#scenario-101)
+		- [Scenario 10.2](#scenario-102)
 
 # Instructions
 
@@ -459,8 +470,34 @@ package "it.polito.ezgas.repository" as repository {
 # Verification sequence diagrams 
 
 ### Use Case 1
+```plantuml
+@startuml
+Actor User as u
+u -> UserServiceImpl :1 - saveUser()
+UserServiceImpl -> UserMapper :2 - toUser()
+UserMapper --> UserServiceImpl :User object
+UserServiceImpl -> UserRepository :3 - save()
+UserRepository --> UserServiceImpl :User object
+UserServiceImpl -> UserMapper :4 - toUserDto()
+UserMapper --> UserServiceImpl :UserDto object
+UserServiceImpl --> u :UserDto object
+@enduml
+```
 
 ### Use Case 2
+```plantuml
+@startuml
+Actor User as u
+u -> UserServiceImpl :1 - saveUser()
+UserServiceImpl -> UserMapper :2 - toUser()
+UserMapper --> UserServiceImpl :User object
+UserServiceImpl -> UserRepository :3 - save()
+UserRepository --> UserServiceImpl :User object
+UserServiceImpl -> UserMapper :4 - toUserDto()
+UserMapper --> UserServiceImpl :UserDto object
+UserServiceImpl --> u :UserDto object
+@enduml
+```
 
 ### Use Case 3
 
@@ -469,12 +506,56 @@ package "it.polito.ezgas.repository" as repository {
 ### Use Case 5
 
 ### Use Case 6
+```plantuml
+@startuml
+Actor Administrator as a
+a -> GasStationServiceImpl :1 - deleteGasStation()
+GasStationServiceImpl -> GasStationRepository :2 - findOne()
+GasStationRepository --> GasStationServiceImpl :GasStation object
+GasStationServiceImpl -> GasStationRepository :3 - delete()
+GasStationServiceImpl -> GasStationRepository :4 - findOne()
+GasStationRepository --> GasStationServiceImpl :null
+GasStationServiceImpl --> a :true
+@enduml
+```
 
 ### Use Case 7
 
 ### Use Case 8
+```plantuml
+@startuml
+Actor "Anonymous User" as u
+u -> GasStationServiceImpl :1 - getGasStationByProximity()
+GasStationServiceImpl -> GasStationRepository :2 - findAll()
+GasStarionRepository --> GasStationServiceImpl :GasStation List
+GasStationServiceImpl -> GasStationMapper :3 - toGSDto()
+activate GasStationMapper
+note right of GasStationMapper: Repeat for every object returned in the list.
+GasStationMapper --> GasStationServiceImpl :GasStationDto object
+deactivate GasStationMapper
+GasStationServiceImpl --> u :GasStationDto List
+@enduml
+```
 
 ### Use Case 9
+```plantuml
+@startuml
+title Repeated every 12 h
+
+SpringApplication -> UpdateReputationScheduler :1 - run()
+UpdateReputationScheduler -> GasStationRepository :2 - findAll()
+GasStationRepository --> UpdateReputationScheduler :GasStation List
+UpdateReputationScheduler -> UserRepository :3 - findOne()
+activate UpdateReputationScheduler
+UserRepository --> UpdateReputationScheduler :User object
+note left of UpdateReputationScheduler: Repeat for every object returned in the list with prices set.
+UpdateReputationScheduler -> UpdateReputationScheduler :4 - computeReputation()
+UpdateReputationScheduler -> GasStationRepository :5 - save()
+GasStationRepository --> UpdateReputationScheduler :GasStation
+deactivate UpdateReputationScheduler
+
+@enduml
+```
 
 ### Scenario 10.1
 
