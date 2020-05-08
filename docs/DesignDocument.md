@@ -500,7 +500,7 @@ UserServiceImpl --> u :UserDto object
 ```
 
 ### Use Case 3
-```
+```plantuml
 @startuml
 actor user as u
 u -> UserServiceImpl : 1 - deleteUser()
@@ -511,7 +511,7 @@ UserServiceImpl --> u : 4 - 200 ok
 @enduml
 ```
 ### Use Case 4
-```
+```plantuml
 @startuml
 actor admin as a
 a -> GasStationServiceImpl : 1 - saveGasStation()
@@ -525,7 +525,7 @@ GasStationServiceImpl --> a : 5 - 200 ok
 @enduml
 ```
 ### Use Case 5
-```
+```plantuml
 @startuml
 actor admin as a
 a -> GasStationServiceImpl : 1 - saveGasStation()
@@ -553,7 +553,7 @@ GasStationServiceImpl --> a :true
 ```
 
 ### Use Case 7
-```
+```plantuml
 @startuml
 actor user as u
 u -> GasStationServiceImpl : 1 - setReport()
@@ -563,6 +563,7 @@ GasStationServiceImpl -> UserRepository : 3 - findOne()
 UserRepository --> GasStationServiceImpl : User object
 GasStationServiceImpl -> GasStation : 4 - setters()
 GasStationServiceImpl -> GasStationRepository : 5 - save()
+GasStationsRepository --> GasStationServiceImpl :GasStation object
 GasStationServiceImpl --> u : 6 - 200 ok
 @enduml
 ```
@@ -614,6 +615,7 @@ UserServiceImpl -> User: 3 - getReputation()
 User --> UserServiceImpl : reputation
 UserServiceImpl -> User: 4 - setReputation()
 UserServiceImpl -> UserRepository : 5 - save()
+UserRepository --> UserServiceImpl :User object
 UserServiceImpl --> u : 6 - 200 ok
 @enduml
 ```
@@ -630,6 +632,7 @@ UserServiceImpl -> User: 3 - getReputation()
 User --> UserServiceImpl : reputation
 UserServiceImpl -> User: 4 - setReputation()
 UserServiceImpl -> UserRepository : 5 - save()
+UserRepository --> UserServiceImpl :User object
 UserServiceImpl --> u : 6 - 200 ok
 @enduml
 ```
