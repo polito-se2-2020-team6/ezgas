@@ -500,11 +500,44 @@ UserServiceImpl --> u :UserDto object
 ```
 
 ### Use Case 3
-
+```
+@startuml
+actor user as u
+u -> UserServiceImpl : 1 - deleteUser()
+UserServiceImpl -> UserRepository : 2 - findOne()
+UserRepository --> UserServiceImpl : User
+UserServiceImpl -> UserRepository : 3 - delete()
+UserServiceImpl --> u : 4 - 200 ok
+@enduml
+```
 ### Use Case 4
-
+```
+@startuml
+actor admin as a
+a -> GasStationServiceImpl : 1 - saveGasStation()
+GasStationServiceImpl -> GasStationMapper : 2 - toGS()
+GasStationMapper --> GasStationServiceImpl : GasStation object
+GasStationServiceImpl -> GasStationRepository : 3 - save()
+GasStationRepository --> GasStationServiceImpl : GasStation object
+GasStationServiceImpl -> GasStationMapper : 4 - toGSDto()
+GasStationMapper --> GasStationServiceImpl : GasStationDto object
+GasStationServiceImpl --> a : 5 - 200 ok
+@enduml
+```
 ### Use Case 5
-
+```
+@startuml
+actor admin as a
+a -> GasStationServiceImpl : 1 - saveGasStation()
+GasStationServiceImpl -> GasStationMapper : 2 - toGS()
+GasStationMapper --> GasStationServiceImpl : GasStation object
+GasStationServiceImpl -> GasStationRepository : 3 - save()
+GasStationRepository --> GasStationServiceImpl : GasStation object
+GasStationServiceImpl -> GasStationMapper : 4 - toGSDto()
+GasStationMapper --> GasStationServiceImpl : GasStationDto object
+GasStationServiceImpl --> a : 5 - 200 ok
+@enduml
+```
 ### Use Case 6
 ```plantuml
 @startuml
@@ -520,7 +553,19 @@ GasStationServiceImpl --> a :true
 ```
 
 ### Use Case 7
-
+```
+@startuml
+actor user as u
+u -> GasStationServiceImpl : 1 - setReport()
+GasStationServiceImpl -> GasStationRepository : 2 - findOne()
+GasStationRepository --> GasStationServiceImpl : GasStation object
+GasStationServiceImpl -> UserRepository : 3 - findOne()
+UserRepository --> GasStationServiceImpl : User object
+GasStationServiceImpl -> GasStation : 4 - setters()
+GasStationServiceImpl -> GasStationRepository : 5 - save()
+GasStationServiceImpl --> u : 6 - 200 ok
+@enduml
+```
 ### Use Case 8
 ```plantuml
 @startuml
@@ -561,12 +606,15 @@ deactivate UpdateReputationScheduler
 
 ```plantuml
 @startuml
-
-User -> GasStation : 1 - getGasStationById()
-GasStation -> PriceList : 2 - getPriceList()
-PriceList -> User : 3 - getUser()
-User -> User : 4 - increaseUserReputation()
-
+actor user as u
+u -> UserServiceImpl : 1 - IncreaseUserReputation()
+UserServiceImpl -> UserRepository : 2 - findOne()
+UserRepository --> UserServiceImpl : User object
+UserServiceImpl -> User: 3 - getReputation()
+User --> UserServiceImpl : reputation
+UserServiceImpl -> User: 4 - setReputation()
+UserServiceImpl -> UserRepository : 5 - save()
+UserServiceImpl --> u : 6 - 200 ok
 @enduml
 ```
 
@@ -574,12 +622,15 @@ User -> User : 4 - increaseUserReputation()
 
 ```plantuml
 @startuml
-
-User -> GasStation : 1 - getGasStationById()
-GasStation -> PriceList : 2 - getPriceList()
-PriceList -> User : 3 - getUser()
-User -> User : 4 - decreaseUserReputation()
-
+actor user as u
+u -> UserServiceImpl : 1 - DecreaseUserReputation()
+UserServiceImpl -> UserRepository : 2 - findOne()
+UserRepository --> UserServiceImpl : User object
+UserServiceImpl -> User: 3 - getReputation()
+User --> UserServiceImpl : reputation
+UserServiceImpl -> User: 4 - setReputation()
+UserServiceImpl -> UserRepository : 5 - save()
+UserServiceImpl --> u : 6 - 200 ok
 @enduml
 ```
 
