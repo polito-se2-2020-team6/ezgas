@@ -19,6 +19,17 @@ Version: 1.0
 - [Low level design](#low-level-design)
 - [Verification traceability matrix](#verification-traceability-matrix)
 - [Verification sequence diagrams](#verification-sequence-diagrams)
+		- [Use Case 1](#use-case-1)
+		- [Use Case 2](#use-case-2)
+		- [Use Case 3](#use-case-3)
+		- [Use Case 4](#use-case-4)
+		- [Use Case 5](#use-case-5)
+		- [Use Case 6](#use-case-6)
+		- [Use Case 7](#use-case-7)
+		- [Use Case 8](#use-case-8)
+		- [Use Case 9](#use-case-9)
+		- [Scenario 10.1](#scenario-101)
+		- [Scenario 10.2](#scenario-102)
 
 # Instructions
 
@@ -463,15 +474,60 @@ package "it.polito.ezgas.repository" as repository {
 ### Use Case 2
 
 ### Use Case 3
-
+```
+@startuml
+actor user as u
+u -> UserServiceImpl : 1 - deleteUser()
+UserServiceImpl -> UserRepository : 2 - findOne()
+UserRepository --> UserServiceImpl : User
+UserServiceImpl -> UserRepository : 3 - delete()
+UserServiceImpl --> u : 4 - 200 ok
+@enduml
+```
 ### Use Case 4
-
+```
+@startuml
+actor admin as a
+a -> GasStationServiceImpl : 1 - saveGasStation()
+GasStationServiceImpl -> GasStationMapper : 2 - toGS()
+GasStationMapper --> GasStationServiceImpl : GasStation object
+GasStationServiceImpl -> GasStationRepository : 3 - save()
+GasStationRepository --> GasStationServiceImpl : GasStation object
+GasStationServiceImpl -> GasStationMapper : 4 - toGSDto()
+GasStationMapper --> GasStationServiceImpl : GasStationDto object
+GasStationServiceImpl --> a : 5 - 200 ok
+@enduml
+```
 ### Use Case 5
-
+```
+@startuml
+actor admin as a
+a -> GasStationServiceImpl : 1 - saveGasStation()
+GasStationServiceImpl -> GasStationMapper : 2 - toGS()
+GasStationMapper --> GasStationServiceImpl : GasStation object
+GasStationServiceImpl -> GasStationRepository : 3 - save()
+GasStationRepository --> GasStationServiceImpl : GasStation object
+GasStationServiceImpl -> GasStationMapper : 4 - toGSDto()
+GasStationMapper --> GasStationServiceImpl : GasStationDto object
+GasStationServiceImpl --> a : 5 - 200 ok
+@enduml
+```
 ### Use Case 6
 
 ### Use Case 7
-
+```
+@startuml
+actor user as u
+u -> GasStationServiceImpl : 1 - setReport()
+GasStationServiceImpl -> GasStationRepository : 2 - findOne()
+GasStationRepository --> GasStationServiceImpl : GasStation object
+GasStationServiceImpl -> UserRepository : 3 - findOne()
+UserRepository --> GasStationServiceImpl : User object
+GasStationServiceImpl -> GasStation : 4 - setters()
+GasStationServiceImpl -> GasStationRepository : 5 - save()
+GasStationServiceImpl --> u : 6 - 200 ok
+@enduml
+```
 ### Use Case 8
 
 ### Use Case 9
@@ -480,12 +536,15 @@ package "it.polito.ezgas.repository" as repository {
 
 ```plantuml
 @startuml
-
-User -> GasStation : 1 - getGasStationById()
-GasStation -> PriceList : 2 - getPriceList()
-PriceList -> User : 3 - getUser()
-User -> User : 4 - increaseUserReputation()
-
+actor user as u
+u -> UserServiceImpl : 1 - IncreaseUserReputation()
+UserServiceImpl -> UserRepository : 2 - findOne()
+UserRepository --> UserServiceImpl : User object
+UserServiceImpl -> User: 3 - getReputation()
+User --> UserServiceImpl : reputation
+UserServiceImpl -> User: 4 - setReputation()
+UserServiceImpl -> UserRepository : 5 - save()
+UserServiceImpl --> u : 6 - 200 ok
 @enduml
 ```
 
@@ -493,12 +552,15 @@ User -> User : 4 - increaseUserReputation()
 
 ```plantuml
 @startuml
-
-User -> GasStation : 1 - getGasStationById()
-GasStation -> PriceList : 2 - getPriceList()
-PriceList -> User : 3 - getUser()
-User -> User : 4 - decreaseUserReputation()
-
+actor user as u
+u -> UserServiceImpl : 1 - DecreaseUserReputation()
+UserServiceImpl -> UserRepository : 2 - findOne()
+UserRepository --> UserServiceImpl : User object
+UserServiceImpl -> User: 3 - getReputation()
+User --> UserServiceImpl : reputation
+UserServiceImpl -> User: 4 - setReputation()
+UserServiceImpl -> UserRepository : 5 - save()
+UserServiceImpl --> u : 6 - 200 ok
 @enduml
 ```
 
