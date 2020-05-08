@@ -458,6 +458,11 @@ package "it.polito.ezgas.repository" as repository {
 
 # Verification sequence diagrams 
 
+### Use Case 1
+
+### Use Case 1
+
+
 ### Scenario 10.1
 
 ```plantuml
