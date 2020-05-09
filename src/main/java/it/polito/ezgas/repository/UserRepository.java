@@ -1,5 +1,5 @@
 package it.polito.ezgas.repository;
-import it.polito.ezgas.entity.*;
+import it.polito.ezgas.entity.User;
 
 import java.util.List;
 
