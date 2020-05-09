@@ -13,6 +13,7 @@ import it.polito.ezgas.dto.IdPw;
 import it.polito.ezgas.dto.LoginDto;
 import it.polito.ezgas.dto.UserDto;
 import it.polito.ezgas.dto.UserMapper;
+import it.polito.ezgas.dto.LoginMapper;
 import it.polito.ezgas.repository.UserRepository;
 import it.polito.ezgas.service.UserService;
 import it.polito.ezgas.entity.User;
@@ -39,8 +40,8 @@ public class UserServiceimpl implements UserService {
 	@Override
 	public UserDto saveUser(UserDto userDto) {
 		User user = UserMapper.toUser(userDto);
-		repository.save(user);
-		return userDto;
+		user=repository.save(user);
+		return UserMapper.toUserDto(user);
 		//return null;
 	}
 
@@ -72,7 +73,7 @@ public class UserServiceimpl implements UserService {
 		if (user==null) {
 			throw new InvalidLoginDataException("Error, user doesn't exist");
 		} else {
-			log = UserMapper.toLoginDto(user, user.getEmail() + new Date().toString());
+			log = LoginMapper.toLoginDto(user, user.getEmail() + new Date().toString());
 		}
 		return log;
 		//return null;
