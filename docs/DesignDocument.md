@@ -514,41 +514,47 @@ UserServiceImpl --> u : 4 - 200 ok
 ```plantuml
 @startuml
 actor Administrator as a
-a -> GasStationServiceImpl : 1 - saveGasStation()
-GasStationServiceImpl -> GasStationMapper : 2 - toGS()
+a -> GasStationController: 1 - saveGasStation()
+GasStationController ->  GasStationServiceImpl :2 - saveGasStation()
+GasStationServiceImpl -> GasStationMapper : 3 - toGS()
 GasStationMapper --> GasStationServiceImpl : GasStation object
-GasStationServiceImpl -> GasStationRepository : 3 - save()
+GasStationServiceImpl -> GasStationRepository : 4 - save()
 GasStationRepository --> GasStationServiceImpl : GasStation object
-GasStationServiceImpl -> GasStationMapper : 4 - toGSDto()
+GasStationServiceImpl -> GasStationMapper : 5 - toGSDto()
 GasStationMapper --> GasStationServiceImpl : GasStationDto object
-GasStationServiceImpl --> a : 5 - 200 ok
+GasStationServiceImpl --> GasStationController : GasStatinoDto object
+GasStationController --> a :200 OK
 @enduml
 ```
 ### Use Case 5
 ```plantuml
 @startuml
 actor Administrator as a
-a -> GasStationServiceImpl : 1 - saveGasStation()
-GasStationServiceImpl -> GasStationMapper : 2 - toGS()
+a -> GasStationController: 1 - saveGasStation()
+GasStationController ->  GasStationServiceImpl :2 - saveGasStation()
+GasStationServiceImpl -> GasStationMapper : 3 - toGS()
 GasStationMapper --> GasStationServiceImpl : GasStation object
-GasStationServiceImpl -> GasStationRepository : 3 - save()
+GasStationServiceImpl -> GasStationRepository : 4 - save()
 GasStationRepository --> GasStationServiceImpl : GasStation object
-GasStationServiceImpl -> GasStationMapper : 4 - toGSDto()
+GasStationServiceImpl -> GasStationMapper : 5 - toGSDto()
 GasStationMapper --> GasStationServiceImpl : GasStationDto object
-GasStationServiceImpl --> a : 5 - 200 ok
+GasStationServiceImpl --> GasStationController : GasStatinoDto object
+GasStationController --> a :200 OK
 @enduml
 ```
 ### Use Case 6
 ```plantuml
 @startuml
 Actor Administrator as a
-a -> GasStationServiceImpl :1 - deleteGasStation()
-GasStationServiceImpl -> GasStationRepository :2 - findOne()
+a -> GasStationController :1 - deleteUser()
+GasStationController -> GasStationServiceImpl :2 - deleteGasStation()
+GasStationServiceImpl -> GasStationRepository :3 - findOne()
 GasStationRepository --> GasStationServiceImpl :GasStation object
-GasStationServiceImpl -> GasStationRepository :3 - delete()
-GasStationServiceImpl -> GasStationRepository :4 - findOne()
+GasStationServiceImpl -> GasStationRepository :4 - delete()
+GasStationServiceImpl -> GasStationRepository :5 - findOne()
 GasStationRepository --> GasStationServiceImpl :null
-GasStationServiceImpl --> a :true
+GasStationServiceImpl --> GasStationController :true
+GasStationController --> a :200 OK
 @enduml
 ```
 
@@ -556,30 +562,35 @@ GasStationServiceImpl --> a :true
 ```plantuml
 @startuml
 actor User as u
-u -> GasStationServiceImpl : 1 - setReport()
-GasStationServiceImpl -> GasStationRepository : 2 - findOne()
-GasStationRepository --> GasStationServiceImpl : GasStation object
-GasStationServiceImpl -> UserRepository : 3 - findOne()
-UserRepository --> GasStationServiceImpl : User object
-GasStationServiceImpl -> GasStation : 4 - setters()
-GasStationServiceImpl -> GasStationRepository : 5 - save()
-GasStationsRepository --> GasStationServiceImpl :GasStation object
-GasStationServiceImpl --> u : 6 - 200 ok
+u -> GasStationController :1 - setGasStationReport()
+GasStationController -> GasStationServiceImpl :2 - setReport()
+GasStationServiceImpl -> GasStationRepository :3 - findOne()
+GasStationRepository --> GasStationServiceImpl :GasStation object
+GasStationServiceImpl -> UserRepository :4 - findOne()
+UserRepository --> GasStationServiceImpl :User object
+GasStationServiceImpl -> GasStation :5 - setters()
+GasStationServiceImpl -> GasStationRepository : 6 - save()
+GasStationRepository --> GasStationServiceImpl :GasStation object
+GasStationServiceImpl --> GasStationController
+GasStationController --> u :200 ok
 @enduml
 ```
+
 ### Use Case 8
 ```plantuml
 @startuml
 Actor "Anonymous User" as u
-u -> GasStationServiceImpl :1 - getGasStationByProximity()
-GasStationServiceImpl -> GasStationRepository :2 - findAll()
+u -> GasStationController :1 - getGasStationsByProximity()
+GasStationController -> GasStationServiceImpl :2 - getGasStationByProximity()
+GasStationServiceImpl -> GasStationRepository :3 - findAll()
 GasStarionRepository --> GasStationServiceImpl :GasStation List
-GasStationServiceImpl -> GasStationMapper :3 - toGSDto()
+GasStationServiceImpl -> GasStationMapper :4 - toGSDto()
 activate GasStationMapper
 note right of GasStationMapper: Repeat for every object returned in the list.
 GasStationMapper --> GasStationServiceImpl :GasStationDto object
 deactivate GasStationMapper
-GasStationServiceImpl --> u :GasStationDto List
+GasStationServiceImpl --> GasStationController :GasStationDto List
+GasStationController --> u :200 OK
 @enduml
 ```
 
