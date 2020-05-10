@@ -19,6 +19,17 @@ Version: 1.0
 - [Low level design](#low-level-design)
 - [Verification traceability matrix](#verification-traceability-matrix)
 - [Verification sequence diagrams](#verification-sequence-diagrams)
+		- [Use Case 1](#use-case-1)
+		- [Use Case 2](#use-case-2)
+		- [Use Case 3](#use-case-3)
+		- [Use Case 4](#use-case-4)
+		- [Use Case 5](#use-case-5)
+		- [Use Case 6](#use-case-6)
+		- [Use Case 7](#use-case-7)
+		- [Use Case 8](#use-case-8)
+		- [Use Case 9](#use-case-9)
+		- [Scenario 10.1](#scenario-101)
+		- [Scenario 10.2](#scenario-102)
 
 # Instructions
 
@@ -458,16 +469,172 @@ package "it.polito.ezgas.repository" as repository {
 
 # Verification sequence diagrams 
 
+### Use Case 1
+```plantuml
+@startuml
+Actor User as u
+u -> userController : 1 - saveUser()
+userController ->UserServiceImpl :2 - saveUser()
+UserServiceImpl -> UserMapper :3 - toUser()
+UserMapper --> UserServiceImpl :User object
+UserServiceImpl -> UserRepository :4 - save()
+UserRepository --> UserServiceImpl :User object
+UserServiceImpl -> UserMapper :5 - toUserDto()
+UserMapper --> UserServiceImpl :UserDto object
+UserServiceImpl --> UserServiceController :UserDto object
+UserServiceController --> u: 200 ok
+@enduml
+```
+
+### Use Case 2
+```plantuml
+@startuml
+Actor User as u
+u -> userController : 1 - saveUser()
+userController ->UserServiceImpl :2 - saveUser()
+UserServiceImpl -> UserMapper :3 - toUser()
+UserMapper --> UserServiceImpl :User object
+UserServiceImpl -> UserRepository :4 - save()
+UserRepository --> UserServiceImpl :User object
+UserServiceImpl -> UserMapper :5 - toUserDto()
+UserMapper --> UserServiceImpl :UserDto object
+UserServiceImpl --> UserServiceController :UserDto object
+UserServiceController --> u: 200 ok
+@enduml
+```
+
+### Use Case 3
+```plantuml
+@startuml
+actor User as u
+u -> userController : 1 - deleteUser()
+userController ->UserServiceImpl :2 - deleteUser()
+UserServiceImpl -> UserRepository : 3 - findOne()
+UserRepository --> UserServiceImpl : User
+UserServiceImpl -> UserRepository : 4 - delete()
+UserServiceController --> u :  200 ok
+@enduml
+```
+### Use Case 4
+```plantuml
+@startuml
+actor Administrator as a
+a -> GasStationController: 1 - saveGasStation()
+GasStationController ->  GasStationServiceImpl :2 - saveGasStation()
+GasStationServiceImpl -> GasStationMapper : 3 - toGS()
+GasStationMapper --> GasStationServiceImpl : GasStation object
+GasStationServiceImpl -> GasStationRepository : 4 - save()
+GasStationRepository --> GasStationServiceImpl : GasStation object
+GasStationServiceImpl -> GasStationMapper : 5 - toGSDto()
+GasStationMapper --> GasStationServiceImpl : GasStationDto object
+GasStationServiceImpl --> GasStationController : GasStatinoDto object
+GasStationController --> a :200 OK
+@enduml
+```
+### Use Case 5
+```plantuml
+@startuml
+actor Administrator as a
+a -> GasStationController: 1 - saveGasStation()
+GasStationController ->  GasStationServiceImpl :2 - saveGasStation()
+GasStationServiceImpl -> GasStationMapper : 3 - toGS()
+GasStationMapper --> GasStationServiceImpl : GasStation object
+GasStationServiceImpl -> GasStationRepository : 4 - save()
+GasStationRepository --> GasStationServiceImpl : GasStation object
+GasStationServiceImpl -> GasStationMapper : 5 - toGSDto()
+GasStationMapper --> GasStationServiceImpl : GasStationDto object
+GasStationServiceImpl --> GasStationController : GasStatinoDto object
+GasStationController --> a :200 OK
+@enduml
+```
+### Use Case 6
+```plantuml
+@startuml
+Actor Administrator as a
+a -> GasStationController :1 - deleteUser()
+GasStationController -> GasStationServiceImpl :2 - deleteGasStation()
+GasStationServiceImpl -> GasStationRepository :3 - findOne()
+GasStationRepository --> GasStationServiceImpl :GasStation object
+GasStationServiceImpl -> GasStationRepository :4 - delete()
+GasStationServiceImpl -> GasStationRepository :5 - findOne()
+GasStationRepository --> GasStationServiceImpl :null
+GasStationServiceImpl --> GasStationController :true
+GasStationController --> a :200 OK
+@enduml
+```
+
+### Use Case 7
+```plantuml
+@startuml
+actor User as u
+u -> GasStationController :1 - setGasStationReport()
+GasStationController -> GasStationServiceImpl :2 - setReport()
+GasStationServiceImpl -> GasStationRepository :3 - findOne()
+GasStationRepository --> GasStationServiceImpl :GasStation object
+GasStationServiceImpl -> UserRepository :4 - findOne()
+UserRepository --> GasStationServiceImpl :User object
+GasStationServiceImpl -> GasStation :5 - setters()
+GasStationServiceImpl -> GasStationRepository : 6 - save()
+GasStationRepository --> GasStationServiceImpl :GasStation object
+GasStationServiceImpl --> GasStationController
+GasStationController --> u :200 ok
+@enduml
+```
+
+### Use Case 8
+```plantuml
+@startuml
+Actor "Anonymous User" as u
+u -> GasStationController :1 - getGasStationsByProximity()
+GasStationController -> GasStationServiceImpl :2 - getGasStationByProximity()
+GasStationServiceImpl -> GasStationRepository :3 - findAll()
+GasStarionRepository --> GasStationServiceImpl :GasStation List
+GasStationServiceImpl -> GasStationMapper :4 - toGSDto()
+activate GasStationMapper
+note right of GasStationMapper: Repeat for every object returned in the list.
+GasStationMapper --> GasStationServiceImpl :GasStationDto object
+deactivate GasStationMapper
+GasStationServiceImpl --> GasStationController :GasStationDto List
+GasStationController --> u :200 OK
+@enduml
+```
+
+### Use Case 9
+```plantuml
+@startuml
+title Repeated every 12 h
+
+SpringApplication -> UpdateReputationScheduler :1 - run()
+UpdateReputationScheduler -> GasStationRepository :2 - findAll()
+GasStationRepository --> UpdateReputationScheduler :GasStation List
+UpdateReputationScheduler -> UserRepository :3 - findOne()
+activate UpdateReputationScheduler
+UserRepository --> UpdateReputationScheduler :User object
+note left of UpdateReputationScheduler: Repeat for every object returned in the list with prices set.
+UpdateReputationScheduler -> UpdateReputationScheduler :4 - computeReputation()
+UpdateReputationScheduler -> GasStationRepository :5 - save()
+GasStationRepository --> UpdateReputationScheduler :GasStation
+deactivate UpdateReputationScheduler
+
+@enduml
+```
+
 ### Scenario 10.1
 
 ```plantuml
 @startuml
-
-User -> GasStation : 1 - getGasStationById()
-GasStation -> PriceList : 2 - getPriceList()
-PriceList -> User : 3 - getUser()
-User -> User : 4 - increaseUserReputation()
-
+actor User as u
+u -> userController : 1 - increaseUserReputation()
+userController ->UserServiceImpl : 2 - increaseUserReputation()
+UserServiceImpl -> UserRepository : 3 - findOne()
+UserRepository --> UserServiceImpl : User object
+UserServiceImpl -> User: 4 - getReputation()
+User --> UserServiceImpl : reputation
+UserServiceImpl -> User: 5 - setReputation()
+UserServiceImpl -> UserRepository : 6 - save()
+UserRepository --> UserServiceImpl : User object
+UserServiceImpl --> UserServiceController : reputation
+UserServiceController --> u : 200 ok
 @enduml
 ```
 
@@ -475,12 +642,18 @@ User -> User : 4 - increaseUserReputation()
 
 ```plantuml
 @startuml
-
-User -> GasStation : 1 - getGasStationById()
-GasStation -> PriceList : 2 - getPriceList()
-PriceList -> User : 3 - getUser()
-User -> User : 4 - decreaseUserReputation()
-
+actor User as u
+u -> userController : 1 - decreaseUserReputation()
+userController ->UserServiceImpl :2 - decreaseUserReputation()
+UserServiceImpl -> UserRepository : 3 - findOne()
+UserRepository --> UserServiceImpl : User object
+UserServiceImpl -> User: 4 - getReputation()
+User --> UserServiceImpl : reputation
+UserServiceImpl -> User: 5 - setReputation()
+UserServiceImpl -> UserRepository : 6 - save()
+UserRepository --> UserServiceImpl :User object
+UserServiceImpl --> UserServiceController : reputation
+UserServiceController --> u :  200 ok
 @enduml
 ```
 
