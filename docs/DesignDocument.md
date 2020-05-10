@@ -473,14 +473,16 @@ package "it.polito.ezgas.repository" as repository {
 ```plantuml
 @startuml
 Actor User as u
-u -> UserServiceImpl :1 - saveUser()
-UserServiceImpl -> UserMapper :2 - toUser()
+u -> userController : 1 - saveUser()
+userController ->UserServiceImpl :2 - saveUser()
+UserServiceImpl -> UserMapper :3 - toUser()
 UserMapper --> UserServiceImpl :User object
-UserServiceImpl -> UserRepository :3 - save()
+UserServiceImpl -> UserRepository :4 - save()
 UserRepository --> UserServiceImpl :User object
-UserServiceImpl -> UserMapper :4 - toUserDto()
+UserServiceImpl -> UserMapper :5 - toUserDto()
 UserMapper --> UserServiceImpl :UserDto object
-UserServiceImpl --> u :UserDto object
+UserServiceImpl --> UserServiceController :UserDto object
+UserServiceController --> u: 200 ok
 @enduml
 ```
 
@@ -488,14 +490,16 @@ UserServiceImpl --> u :UserDto object
 ```plantuml
 @startuml
 Actor User as u
-u -> UserServiceImpl :1 - saveUser()
-UserServiceImpl -> UserMapper :2 - toUser()
+u -> userController : 1 - saveUser()
+userController ->UserServiceImpl :2 - saveUser()
+UserServiceImpl -> UserMapper :3 - toUser()
 UserMapper --> UserServiceImpl :User object
-UserServiceImpl -> UserRepository :3 - save()
+UserServiceImpl -> UserRepository :4 - save()
 UserRepository --> UserServiceImpl :User object
-UserServiceImpl -> UserMapper :4 - toUserDto()
+UserServiceImpl -> UserMapper :5 - toUserDto()
 UserMapper --> UserServiceImpl :UserDto object
-UserServiceImpl --> u :UserDto object
+UserServiceImpl --> UserServiceController :UserDto object
+UserServiceController --> u: 200 ok
 @enduml
 ```
 
@@ -503,11 +507,12 @@ UserServiceImpl --> u :UserDto object
 ```plantuml
 @startuml
 actor User as u
-u -> UserServiceImpl : 1 - deleteUser()
-UserServiceImpl -> UserRepository : 2 - findOne()
+u -> userController : 1 - deleteUser()
+userController ->UserServiceImpl :2 - deleteUser()
+UserServiceImpl -> UserRepository : 3 - findOne()
 UserRepository --> UserServiceImpl : User
-UserServiceImpl -> UserRepository : 3 - delete()
-UserServiceImpl --> u : 4 - 200 ok
+UserServiceImpl -> UserRepository : 4 - delete()
+UserServiceController --> u :  200 ok
 @enduml
 ```
 ### Use Case 4
@@ -608,15 +613,17 @@ deactivate UpdateReputationScheduler
 ```plantuml
 @startuml
 actor User as u
-u -> UserServiceImpl : 1 - IncreaseUserReputation()
-UserServiceImpl -> UserRepository : 2 - findOne()
+u -> userController : 1 - increaseUserReputation()
+userController ->UserServiceImpl : 2 - increaseUserReputation()
+UserServiceImpl -> UserRepository : 3 - findOne()
 UserRepository --> UserServiceImpl : User object
-UserServiceImpl -> User: 3 - getReputation()
+UserServiceImpl -> User: 4 - getReputation()
 User --> UserServiceImpl : reputation
-UserServiceImpl -> User: 4 - setReputation()
-UserServiceImpl -> UserRepository : 5 - save()
-UserRepository --> UserServiceImpl :User object
-UserServiceImpl --> u : 6 - 200 ok
+UserServiceImpl -> User: 5 - setReputation()
+UserServiceImpl -> UserRepository : 6 - save()
+UserRepository --> UserServiceImpl : User object
+UserServiceImpl --> UserServiceController : reputation
+UserServiceController --> u : 200 ok
 @enduml
 ```
 
@@ -625,15 +632,17 @@ UserServiceImpl --> u : 6 - 200 ok
 ```plantuml
 @startuml
 actor User as u
-u -> UserServiceImpl : 1 - DecreaseUserReputation()
-UserServiceImpl -> UserRepository : 2 - findOne()
+u -> userController : 1 - decreaseUserReputation()
+userController ->UserServiceImpl :2 - decreaseUserReputation()
+UserServiceImpl -> UserRepository : 3 - findOne()
 UserRepository --> UserServiceImpl : User object
-UserServiceImpl -> User: 3 - getReputation()
+UserServiceImpl -> User: 4 - getReputation()
 User --> UserServiceImpl : reputation
-UserServiceImpl -> User: 4 - setReputation()
-UserServiceImpl -> UserRepository : 5 - save()
+UserServiceImpl -> User: 5 - setReputation()
+UserServiceImpl -> UserRepository : 6 - save()
 UserRepository --> UserServiceImpl :User object
-UserServiceImpl --> u : 6 - 200 ok
+UserServiceImpl --> UserServiceController : reputation
+UserServiceController --> u :  200 ok
 @enduml
 ```
 
