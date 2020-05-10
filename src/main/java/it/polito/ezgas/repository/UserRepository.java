@@ -12,9 +12,7 @@ public interface UserRepository extends CrudRepository <User, Integer>{
 	
 	List <User> findAll();
 	
-	int countByAdmin(boolean admin);
-	
-	<S extends User> S save(User user);
+	int countByAdmin(boolean admin);	
 	
 	User findByEmail (String username);
 	
