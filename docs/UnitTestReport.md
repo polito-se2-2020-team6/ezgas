@@ -159,6 +159,7 @@ Version: 0.1
   
 ![](Images/Tests/isGasolineTypeValidEclemma.png)
 
+![](Images/Tests/latLonCorrectEclemma.png)
 
 ### Loop coverage analysis
 
