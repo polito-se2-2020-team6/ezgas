@@ -59,6 +59,15 @@ Version: 0.1
 |      > 0      |    Gasoline Type    |      Valid      |  Input string is "Methane"   | testIsGasolineTypeValid3() |
 |       -       |        null         |     Invalid     |     Input string is null     | testIsGasolineTypeValid9() |
 
+ ### Class GasStationServiceimpl - method geoPointDistance
+
+**Criteria for method geoPointDistance:**	
+
+
+
+
+
+ ### Class GasStationServiceimpl - method latLonCorrect
 
 # White Box Unit Tests
 
