@@ -71,12 +71,8 @@ public class GasStationServiceimpl implements GasStationService {
 		gasStationDto.setSuperPlusPrice(gasStationDto.getHasSuperPlus() ? 0 : -1);
 
 		//check not valid prices
-		if (!gasStationDto.getHasDiesel() && gasStationDto.getDieselPrice() != -1||
-				//			!gasStationDto.getHasLpg() && gasStationDto.getLpgPrice() != -1 ||
-				!gasStationDto.getHasGas() && gasStationDto.getGasPrice() != -1||
-				!gasStationDto.getHasMethane() && gasStationDto.getMethanePrice() !=-1 ||
-				!gasStationDto.getHasSuper() && gasStationDto.getSuperPrice() !=-1 ||
-				!gasStationDto.getHasSuperPlus() && gasStationDto.getSuperPlusPrice() !=-1) {
+		if (!priceCorrect(gasStationDto))
+		 {
 			throw new PriceException("ERROR: Price not valid or setted");
 		}
 		else if (!latLonCorrect(gasStationDto.getLat(), gasStationDto.getLon())) {
@@ -179,12 +175,7 @@ public class GasStationServiceimpl implements GasStationService {
 		if(!optU.isPresent()) throw new InvalidUserException("ERROR: User " + userId + " not found!");
 		User u = optU.get();
 		// Check price report compatibility with gas station
-		if (gs.getHasDiesel() && dieselPrice <= 0 || !gs.getHasDiesel() && dieselPrice > 0 ||
-				//				gs.getHasLpg() && lpgPrice <= 0 || !gs.getHasLpg() && lpgPrice > 0 ||
-				gs.getHasGas() && gasPrice <= 0 || !gs.getHasGas() && gasPrice > 0 ||
-				gs.getHasMethane() && methanePrice <= 0 || !gs.getHasMethane() && methanePrice > 0 ||
-				gs.getHasSuper() && superPrice <= 0 || !gs.getHasSuper() && superPrice > 0 ||
-				gs.getHasSuperPlus() && superPlusPrice <= 0 || !gs.getHasSuperPlus() && superPlusPrice > 0) {
+		if(!priceCorrect(GasStationMapper.toGSDto(gs))){
 			throw new PriceException("ERROR: Price not valid or setted");
 		}
 
@@ -244,6 +235,19 @@ public class GasStationServiceimpl implements GasStationService {
 		default: return (gsdto) -> false;
 		}
 	}
+	
+	private boolean priceCorrect(GasStationDto gs) {
+		if (gs.getHasDiesel() && gs.getDieselPrice() < 0 || !gs.getHasDiesel() && gs.getDieselPrice() >= 0 ||
+				//				gs.getHasLpg() && gs.getLpgPrice() <= 0 || !gs.getHasLpg() && gs.getLpgPrice() > 0 ||
+				gs.getHasGas() && gs.getGasPrice() < 0 || !gs.getHasGas() && gs.getGasPrice() >= 0 ||
+				gs.getHasMethane() && gs.getMethanePrice() <= 0 || !gs.getHasMethane() && gs.getMethanePrice() > 0 ||
+				gs.getHasSuper() && gs.getSuperPrice() <= 0 || !gs.getHasSuper() && gs.getSuperPrice() > 0 ||
+				gs.getHasSuperPlus() && gs.getSuperPlusPrice() <= 0 || !gs.getHasSuperPlus() && gs.getSuperPlusPrice() > 0) {
+			return false;
+		}
+		else 
+			return true;
+	}
 
 	// Haversine formula. Takes into account curvature of Earth, but assumes a sphere.
 	// With long distances, error < 0.1%.
@@ -272,3 +276,4 @@ public class GasStationServiceimpl implements GasStationService {
 		return lat >= -90 || lat <= 90 || lon >= -180 || lon <= 180;
 	}
 }
+	
