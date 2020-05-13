@@ -68,7 +68,7 @@ public class GasStationServiceimpl implements GasStationService {
 				!gasStationDto.getHasSuperPlus() && gasStationDto.getSuperPlusPrice() !=-1) {
 			throw new PriceException("ERROR: Price not valid or setted");
 		}
-		else if (gasStationDto.getLat()<-90 || gasStationDto.getLat()>90 || gasStationDto.getLon()>180 || gasStationDto.getLon()<-180 ) {
+		else if (!latLonCorrect(gasStationDto.getLat(), gasStationDto.getLon())) {
 			throw new GPSDataException("ERROR: Invalid latitude(" + gasStationDto.getLat() + ") or longitude(" + gasStationDto.getLon() + ") values");
 		}
 		else {
