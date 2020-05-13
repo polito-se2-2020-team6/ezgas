@@ -272,7 +272,7 @@ public class GasStationServiceimpl implements GasStationService {
 	}
 	
 	private boolean latLonCorrect(double lat, double lon) {
-		return lat >= -90 || lat <= 90 || lon >= -180 || lon <= 180;
+		return lat > -90.0 && lat <= 90.0 && lon > -180.0 && lon <= 180.0;
 	}
 }
 	

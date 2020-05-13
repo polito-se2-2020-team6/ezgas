@@ -110,6 +110,56 @@ Version: 0.1
 |       -90<`lat1`<=90       |      -180<`lon1`<=180       |       -90<`lat2`<=90       |             180             | Valid(8846.99)  |              (55.76;-59.76;30.88;180)              | testGeoPointDistance13() |
 
  ### Class GasStationServiceimpl - method latLonCorrect
+ **Criteria for method latLonCorrect:**	
+ - Latitude value
+ - Longitude value
+
+
+**Predicates for method latLonCorrect:**
+
+|    Criteria     |     Predicate      |
+| :-------------: | :----------------: |
+| Latitude value  |       <= -90       |
+|                 |  -90< `lat` <= 90  |
+|                 |        >90         |
+| Longitude value |      <= -180       |
+|                 | > -180 `lon` <=180 |
+|                 |        >180        |
+
+
+**Boundaries**:
+
+|    Criteria     |       Boundary values       |
+| :-------------: | :-------------------------: |
+| Latitude value  |            -90.0            |
+|                 | -90 + Double.MIN_INCREMENT  |
+|                 | -90 - Double.MIN_INCREMENT  |
+|                 |            90.0             |
+|                 |  90 - Double.MIN_INCREMENT  |
+|                 |  90 + Double.MIN_INCREMENT  |
+| Longitude value |           -180.0            |
+|                 | -180 + Double.MIN_INCREMENT |
+|                 | -180 - Double.MIN_INCREMENT |
+|                 |            180.0            |
+|                 | 180 + Double.MIN_INCREMENT  |
+|                 | 180 - Double.MIN_INCREMENT  |
+
+**Combination of predicates**:
+
+|  Latitude value  |  Longitude Value  | Valid / Invalid |                Description of the test case                |    JUnit test case    |
+| :--------------: | :---------------: | :-------------: | :--------------------------------------------------------: | :-------------------: |
+|      = -90       |         -         |     Invalid     |                       (-90, -180.0)                        | testlatLonCorrect1()  |
+|      < -90       |         -         |     Invalid     |            (-90 - Double.MIN_INCREMENT, 150.0)             | testlatLonCorrect2()  |
+| -90< `lat` <= 90 |      < -180       |     Invalid     | (-90 + Double.MIN_INCREMENT, -180 - Double.MIN_INCREMENT)  | testlatLonCorrect3()  |
+| -90< `lat` <= 90 |      = -180       |     Invalid     |                       (0.0, -180.0 )                       | testlatLonCorrect4()  |
+| -90< `lat` <= 90 | -180<`lon` <=180  |      Valid      |                       (90.0, 180.0 )                       | testlatLonCorrect5()  |
+| -90< `lat` <= 90 | -180< `lon` <=180 |      Valid      |  (90 - Double.MIN_INCREMENT, 180 - Double.MIN_INCREMENT )  | testlatLonCorrect6()  |
+| -90< `lat` <= 90 | -180< `lon` <=180 |      Valid      | (-90 + Double.MIN_INCREMENT, -180 + Double.MIN_INCREMENT ) | testlatLonCorrect7()  |
+| -90< `lat` <= 90 | -180< `lon` <=180 |      Valid      |                          (0, 0 )                           | testlatLonCorrect8()  |
+| -90< `lat` <= 90 |       >180        |     Invalid     |              (0, 180 + Double.MIN_INCREMENT)               | testlatLonCorrect9()  |
+|       >90        |         -         |     Invalid     |             (90 + Double.MIN_INCREMENT, 50.0)              | testlatLonCorrect10() |
+
+
 
 # White Box Unit Tests
 
@@ -120,6 +170,7 @@ Version: 0.1
     <For traceability write the class and method name that contains the test case>
 
 
+<<<<<<< HEAD
 |      Unit name      |      JUnit test case       |
 | :-----------------: | :------------------------: |
 | isGasolineTypeValid | testIsGasolineTypeValid1() |
@@ -131,6 +182,32 @@ Version: 0.1
 |                     | testIsGasolineTypeValid7() |
 |                     | testIsGasolineTypeValid8() |
 |                     | testIsGasolineTypeValid9() |
+=======
+|      Unit name      |       JUnit test case       |
+| :-----------------: | :-------------------------: |
+| isGasolineTypeValid | testIsGasolineTypeValid1()  |
+|                     | testIsGasolineTypeValid2()  |
+|                     | testIsGasolineTypeValid3()  |
+|                     | testIsGasolineTypeValid4()  |
+|                     | testIsGasolineTypeValid5()  |
+|                     | testIsGasolineTypeValid6()  |
+|                     | testIsGasolineTypeValid7()  |
+|                     | testIsGasolineTypeValid8()  |
+|                     | testIsGasolineTypeValid9()  |
+|                     | testIsGasolineTypeValid10() |
+|    latLonCorrect    |    testlatLonCorrect1()     |
+|                     |    testlatLonCorrect2()     |
+|                     |    testlatLonCorrect3()     |
+|                     |    testlatLonCorrect4()     |
+|                     |    testlatLonCorrect5()     |
+|                     |    testlatLonCorrect6()     |
+|                     |    testlatLonCorrect7()     |
+|                     |    testlatLonCorrect8()     |
+|                     |    testlatLonCorrect9()     |
+|                     |    testlatLonCorrect10()    |
+
+
+>>>>>>> dac091b6dc6dcae6839e688a74c6036d24e7f663
 
 
 ### Code coverage report
@@ -138,6 +215,7 @@ Version: 0.1
   
 ![](Images/Tests/isGasolineTypeValidEclemma.png)
 
+![](Images/Tests/latLonCorrectEclemma.png)
 
 ### Loop coverage analysis
 
