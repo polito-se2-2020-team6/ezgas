@@ -50,32 +50,32 @@ public class GasStationServiceimpl implements GasStationService {
 	@Override
 	public GasStationDto saveGasStation(GasStationDto gasStationDto) throws PriceException, GPSDataException {
 		//set default prices (0)	
-		
-				gasStationDto.setDieselPrice(gasStationDto.getHasDiesel() ? 0 : -1);
+
+		gasStationDto.setDieselPrice(gasStationDto.getHasDiesel() ? 0 : -1);
 		// 				gasStationDto.setLpgPrice(gasStationDto.getHasLpg() ? 0 : -1);
 
-				gasStationDto.setGasPrice(gasStationDto.getHasGas() ? 0 : -1);
+		gasStationDto.setGasPrice(gasStationDto.getHasGas() ? 0 : -1);
 		gasStationDto.setMethanePrice(gasStationDto.getHasMethane() ? 0 : -1);
 		gasStationDto.setSuperPrice(gasStationDto.getHasSuper() ? 0 : -1);
 		gasStationDto.setSuperPlusPrice(gasStationDto.getHasSuperPlus() ? 0 : -1);
 
 		//check not valid prices
-			if (!gasStationDto.getHasDiesel() && gasStationDto.getDieselPrice() != -1||
-					//			!gasStationDto.getHasLpg() && gasStationDto.getLpgPrice() != -1 ||
-				 !gasStationDto.getHasGas() && gasStationDto.getGasPrice() != -1||
+		if (!gasStationDto.getHasDiesel() && gasStationDto.getDieselPrice() != -1||
+				//			!gasStationDto.getHasLpg() && gasStationDto.getLpgPrice() != -1 ||
+				!gasStationDto.getHasGas() && gasStationDto.getGasPrice() != -1||
 				!gasStationDto.getHasMethane() && gasStationDto.getMethanePrice() !=-1 ||
 				!gasStationDto.getHasSuper() && gasStationDto.getSuperPrice() !=-1 ||
 				!gasStationDto.getHasSuperPlus() && gasStationDto.getSuperPlusPrice() !=-1) {
-				throw new PriceException("ERROR: Price not valid or setted");
-			}
-			else if (gasStationDto.getLat()<-90 || gasStationDto.getLat()>90 || gasStationDto.getLon()>180 || gasStationDto.getLon()<-180 ) {
-				throw new GPSDataException("ERROR: Invalid latitude(" + gasStationDto.getLat() + ") or longitude(" + gasStationDto.getLon() + ") values");
-			}
-			else {
-				GasStation gs = gasStationRepository.save(GasStationMapper.toGS(gasStationDto));
-			
-				return GasStationMapper.toGSDto(gs);
-			}
+			throw new PriceException("ERROR: Price not valid or setted");
+		}
+		else if (gasStationDto.getLat()<-90 || gasStationDto.getLat()>90 || gasStationDto.getLon()>180 || gasStationDto.getLon()<-180 ) {
+			throw new GPSDataException("ERROR: Invalid latitude(" + gasStationDto.getLat() + ") or longitude(" + gasStationDto.getLon() + ") values");
+		}
+		else {
+			GasStation gs = gasStationRepository.save(GasStationMapper.toGS(gasStationDto));
+
+			return GasStationMapper.toGSDto(gs);
+		}
 	}
 
 	@Override
@@ -135,7 +135,7 @@ public class GasStationServiceimpl implements GasStationService {
 		if (lat < -90 || lat > 90 || lon < -180 || lon > 180 ) {
 			throw new GPSDataException("ERROR: Invalid latitude(" + lat + ") or longitude(" + lon + ") values");
 		}
-		
+
 		return getGasStationsWithoutCoordinates(gasolinetype, carsharing)
 				.parallelStream()
 				.filter(gs -> geoPointDistance(lat, lon, gs.getLat(), gs.getLon()) < 5)
@@ -192,13 +192,13 @@ public class GasStationServiceimpl implements GasStationService {
 		gs.setReportTimestamp(new Date().toString()); // TODO: Maybe change
 		// pr.trust_level = 50 * (U.trust_level +5)/10 + 50 * obsolescence
 		gs.setReportDependability(50 * (u.getReputation() + 5) / 10 + 50 * 1);
-		
+
 		gasStationRepository.save(gs);
 	}
 
 	@Override
 	public List<GasStationDto> getGasStationByCarSharing(String carSharing) {
-		
+
 		if(carSharing.equals("null")) return getAllGasStations();
 
 		List<GasStation> gss = gasStationRepository.findByCarSharing(carSharing);
