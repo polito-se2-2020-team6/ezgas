@@ -112,7 +112,7 @@ public class GasStationServiceimpl implements GasStationService {
 	@Override
 	public List<GasStationDto> getGasStationsByProximity(double lat, double lon) throws GPSDataException {
 		// Check coordinates make sense
-		if (lat < -90 || lat > 90 || lon < -180 || lon > 180 ) {
+		if (!latLonCorrect(lat, lon)) {
 			throw new GPSDataException("ERROR: Invalid latitude(" + lat + ") or longitude(" + lon + ") values");
 		}
 
@@ -128,7 +128,7 @@ public class GasStationServiceimpl implements GasStationService {
 	public List<GasStationDto> getGasStationsWithCoordinates(double lat, double lon, String gasolinetype,
 			String carsharing) throws InvalidGasTypeException, GPSDataException {
 		// Check coordinates make sense
-		if (lat < -90 || lat > 90 || lon < -180 || lon > 180 ) {
+		if (!latLonCorrect(lat, lon)) {
 			throw new GPSDataException("ERROR: Invalid latitude(" + lat + ") or longitude(" + lon + ") values");
 		}
 
@@ -259,6 +259,10 @@ public class GasStationServiceimpl implements GasStationService {
 		double c = 2 * Math.asin(Math.sqrt(a));
 
 		return rad * c;
+	}
+	
+	private boolean latLonCorrect(double lat, double lon) {
+		return lat < -90 || lat > 90 || lon < -180 || lon > 180;
 	}
 }
 	
