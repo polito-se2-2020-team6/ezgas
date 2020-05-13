@@ -37,15 +37,13 @@ public class GasStationServiceimpl implements GasStationService {
 	//@Autowired PriceReportRepository priceReportRepository;
 	
 	private GasStationRepository gasStationRepository;
-	public GasStationServiceimpl(GasStationRepository gasStationRepository) {
+	private UserRepository userRepository;
+	public GasStationServiceimpl(GasStationRepository gasStationRepository, UserRepository userRepository) {
 		this.gasStationRepository = gasStationRepository;
+		this.userRepository = userRepository;
 	}
 	
-	private UserRepository userRepository;
-	public void UserServiceimpl(UserRepository userRepository) {
-		 this.userRepository = userRepository;
-	}
-
+	
 	@Override
 	public GasStationDto getGasStationById(Integer gasStationId) throws InvalidGasStationException {
 		Optional<GasStation> gs = Optional.ofNullable(gasStationRepository.findOne(gasStationId));
