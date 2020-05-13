@@ -8,15 +8,15 @@ Version: 1.0
 
 # Contents
 
-* [Design Document](#design-document)
-* [Contents](#contents)
-* [Instructions](#instructions)
-* [High level design](#high-level-design)
-  + [Front End](#front-end)
-  + [Back End](#back-end)
-* [Low level design](#low-level-design)
-* [Verification traceability matrix](#verification-traceability-matrix)
-* [Verification sequence diagrams](#verification-sequence-diagrams)
+- [Design Document](#design-document)
+- [Contents](#contents)
+- [Instructions](#instructions)
+- [High level design](#high-level-design)
+  - [Front End](#front-end)
+  - [Back End](#back-end)
+- [Low level design](#low-level-design)
+- [Verification traceability matrix](#verification-traceability-matrix)
+- [Verification sequence diagrams](#verification-sequence-diagrams)
     - [Use Case 1](#use-case-1)
     - [Use Case 2](#use-case-2)
     - [Use Case 3](#use-case-3)
@@ -328,8 +328,21 @@ package "it.polito.ezgas.repository" as repository {
 
 }
 
-package "import org.springframework.data.repository" {
+package "org.springframework.data.repository" {
 	interface "CrudRepository <T, ID>" as crud 
+}
+
+package "it.polito.ezgas.scheduling" {
+    class "ScheduledTasks" as st {
+        - userRepository : UserRepository
+        - gasStationRepository : GasStationRepository
+        - df : DateFormat
+        - now : Date
+        - seenUsers : Map<INteger, User>
+        + scheduleUpdateGasStationReportDependability()
+        - updateGasStationsReportDependability() : int
+        - computeNewDependability(GasStation) : double
+    }
 }
 
 urep -up-|> crud : "<User, Integer>"
@@ -369,6 +382,10 @@ gsrep --* gs
 prrep --* pr
 urep --* u
 
+st --* urep
+st --* gsrep
+st --* gs
+st --* u
 }
 
 @enduml
@@ -376,28 +393,28 @@ urep --* u
 
 # Verification traceability matrix
 
-|                                                     | User | PriceList | GasStation | UserService | UserServiceImpl | UserMapper | UserRepository | GasStationService | GasStationServiceImpl | GasStationMapper | GasStationRepository | LoginMapper | Spring Application | UpdateReputationScheduler | HomeController | UserServiceController | GasStationController |
-|-----------------------------------------------------|:----:|:---------:|:----------:|:-----------:|:---------------:|:----------:|:--------------:|:-----------------:|:---------------------:|:----------------:|:--------------------:|:-----------:|:------------------:|:-------------------------:|:--------------:|:---------------------:|:--------------------:|
-| **FR1 Manage Users**                                |      |           |            |             |                 |            |                |                   |                       |                  |                      |             |                    |                           |                |                       |                      |
-| FR1.1 New/Edit User                                 |  X   |           |            |      X      |        X        |     X      |                |                   |                       |                  |                      |             |                    |             X             |                |           X           |                      |
-| FR1.2 Delete User                                   |  X   |           |            |      X      |        X        |            |       X        |                   |                       |                  |                      |             |                    |                           |                |           X           |                      |
-| FR1.3 List all Users                                |  X   |           |            |      X      |        X        |     X      |       X        |                   |                       |                  |                      |             |                    |                           |                |           X           |                      |
-| FR1.4 Search User                                   |  X   |           |            |      X      |        X        |     X      |       X        |                   |                       |                  |                      |             |                    |                           |                |           X           |                      |
-| **FR2 Manage Rights**                               |  X   |           |            |             |        X        |     X      |       X        |                   |                       |                  |                      |             |                    |                           |                |           X           |                      |
-| **FR3 Manage Gas Station**                          |      |           |            |             |                 |            |                |                   |                       |                  |                      |             |                    |                           |                |                       |                      |
-| FR3.1 New/Edit Gas Station                          |      |           |     X      |             |                 |            |                |         X         |           X           |        X         |          X           |             |                    |                           |                |                       |          X           |
-| FR3.2 Delete Gas Station                            |      |           |     X      |             |        X        |            |                |         X         |                       |                  |          X           |             |                    |                           |                |           X           |          X           |
-| FR3.3 List all Gas Stations                         |      |           |     X      |             |        X        |            |                |         X         |           X           |        X         |          X           |             |                    |                           |                |                       |          X           |
-| **FR4 Search Gas Station**                          |      |           |            |             |                 |            |                |                   |                       |                  |                      |             |                    |                           |                |                       |                      |
-| FR4.1 Radius r Geo Point                            |  X   |           |            |             |                 |            |                |         X         |           X           |        X         |          X           |             |                    |                           |                |           X           |          X           |
-| FR4.2 Radius r Address                              |  X   |           |            |             |                 |            |                |         X         |           X           |        X         |          X           |             |                    |                           |                |                       |          X           |
-| FR4.3 Show on Map                                   |      |           |     X      |             |                 |            |                |         X         |           X           |        X         |          X           |             |                    |                           |       X        |                       |          X           |
-| FR4.4 Sort according to Fuel Price                  |      |     X     |     X      |             |                 |            |                |         X         |           X           |        X         |          X           |             |                    |                           |       X        |                       |          X           |
-| FR4.5 Filter according to Fuel Type and Car Sharing |      |           |     X      |             |                 |            |                |         X         |           X           |        X         |          X           |             |                    |                           |       X        |                       |          X           |
-| **FR5 Manage Price List and Trust**                 |      |           |            |             |                 |            |                |                   |                       |                  |                      |             |                    |                           |                |                       |                      |
-| FR5.1 New Price List                                |  X   |     X     |     X      |             |                 |            |                |         X         |           X           |        X         |          X           |             |                    |                           |       X        |                       |          X           |
-| FR5.2 Update Trust Level of Price List              |  X   |     X     |     X      |             |                 |            |                |                   |                       |                  |                      |             |         X          |             X             |       X        |                       |          X           |
-| FR5.3 Evaluate Price List                           |  X   |     X     |            |      X      |        X        |     X      |       X        |                   |                       |                  |                      |             |                    |                           |                |                       |                      |
+|                                                     | User  | PriceList | GasStation | UserService | UserServiceImpl | UserMapper | UserRepository | GasStationService | GasStationServiceImpl | GasStationMapper | GasStationRepository | LoginMapper | Spring Application | UpdateReputationScheduler | HomeController | UserServiceController | GasStationController |
+| --------------------------------------------------- | :---: | :-------: | :--------: | :---------: | :-------------: | :--------: | :------------: | :---------------: | :-------------------: | :--------------: | :------------------: | :---------: | :----------------: | :-----------------------: | :------------: | :-------------------: | :------------------: |
+| **FR1 Manage Users**                                |       |           |            |             |                 |            |                |                   |                       |                  |                      |             |                    |                           |                |                       |                      |
+| FR1.1 New/Edit User                                 |   X   |           |            |      X      |        X        |     X      |                |                   |                       |                  |                      |             |                    |             X             |                |           X           |                      |
+| FR1.2 Delete User                                   |   X   |           |            |      X      |        X        |            |       X        |                   |                       |                  |                      |             |                    |                           |                |           X           |                      |
+| FR1.3 List all Users                                |   X   |           |            |      X      |        X        |     X      |       X        |                   |                       |                  |                      |             |                    |                           |                |           X           |                      |
+| FR1.4 Search User                                   |   X   |           |            |      X      |        X        |     X      |       X        |                   |                       |                  |                      |             |                    |                           |                |           X           |                      |
+| **FR2 Manage Rights**                               |   X   |           |            |             |        X        |     X      |       X        |                   |                       |                  |                      |             |                    |                           |                |           X           |                      |
+| **FR3 Manage Gas Station**                          |       |           |            |             |                 |            |                |                   |                       |                  |                      |             |                    |                           |                |                       |                      |
+| FR3.1 New/Edit Gas Station                          |       |           |     X      |             |                 |            |                |         X         |           X           |        X         |          X           |             |                    |                           |                |                       |          X           |
+| FR3.2 Delete Gas Station                            |       |           |     X      |             |        X        |            |                |         X         |                       |                  |          X           |             |                    |                           |                |           X           |          X           |
+| FR3.3 List all Gas Stations                         |       |           |     X      |             |        X        |            |                |         X         |           X           |        X         |          X           |             |                    |                           |                |                       |          X           |
+| **FR4 Search Gas Station**                          |       |           |            |             |                 |            |                |                   |                       |                  |                      |             |                    |                           |                |                       |                      |
+| FR4.1 Radius r Geo Point                            |   X   |           |            |             |                 |            |                |         X         |           X           |        X         |          X           |             |                    |                           |                |           X           |          X           |
+| FR4.2 Radius r Address                              |   X   |           |            |             |                 |            |                |         X         |           X           |        X         |          X           |             |                    |                           |                |                       |          X           |
+| FR4.3 Show on Map                                   |       |           |     X      |             |                 |            |                |         X         |           X           |        X         |          X           |             |                    |                           |       X        |                       |          X           |
+| FR4.4 Sort according to Fuel Price                  |       |     X     |     X      |             |                 |            |                |         X         |           X           |        X         |          X           |             |                    |                           |       X        |                       |          X           |
+| FR4.5 Filter according to Fuel Type and Car Sharing |       |           |     X      |             |                 |            |                |         X         |           X           |        X         |          X           |             |                    |                           |       X        |                       |          X           |
+| **FR5 Manage Price List and Trust**                 |       |           |            |             |                 |            |                |                   |                       |                  |                      |             |                    |                           |                |                       |                      |
+| FR5.1 New Price List                                |   X   |     X     |     X      |             |                 |            |                |         X         |           X           |        X         |          X           |             |                    |                           |       X        |                       |          X           |
+| FR5.2 Update Trust Level of Price List              |   X   |     X     |     X      |             |                 |            |                |                   |                       |                  |                      |             |         X          |             X             |       X        |                       |          X           |
+| FR5.3 Evaluate Price List                           |   X   |     X     |            |      X      |        X        |     X      |       X        |                   |                       |                  |                      |             |                    |                           |                |                       |                      |
 
 # Verification sequence diagrams 
 
