@@ -23,6 +23,7 @@ import it.polito.ezgas.repository.GasStationRepository;
 import it.polito.ezgas.repository.PriceReportRepository;
 import it.polito.ezgas.repository.UserRepository;
 import it.polito.ezgas.service.GasStationService;
+import it.polito.ezgas.service.UserService;
 
 
 /**
@@ -31,9 +32,19 @@ import it.polito.ezgas.service.GasStationService;
 @Service
 public class GasStationServiceimpl implements GasStationService {
 
-	@Autowired GasStationRepository gasStationRepository;
-	@Autowired UserRepository userRepository;
-	//	@Autowired PriceReportRepository priceReportRepository;
+	//@Autowired GasStationRepository gasStationRepository;
+	//@Autowired UserRepository userRepository;
+	//@Autowired PriceReportRepository priceReportRepository;
+	
+	private GasStationRepository gasStationRepository;
+	public GasStationServiceimpl(GasStationRepository gasStationRepository) {
+		this.gasStationRepository = gasStationRepository;
+	}
+	
+	private UserRepository userRepository;
+	public void UserServiceimpl(UserRepository userRepository) {
+		 this.userRepository = userRepository;
+	}
 
 	@Override
 	public GasStationDto getGasStationById(Integer gasStationId) throws InvalidGasStationException {

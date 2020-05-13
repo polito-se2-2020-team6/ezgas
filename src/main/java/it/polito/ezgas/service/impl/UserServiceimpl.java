@@ -25,7 +25,13 @@ import it.polito.ezgas.entity.User;
 @Service
 public class UserServiceimpl implements UserService {
 
-	@Autowired 	UserRepository repository;
+	//@Autowired 	UserRepository repository;
+	
+	 private UserRepository repository;
+	 public UserServiceimpl(UserRepository userRepository) {
+		 this.repository = userRepository;
+	 }
+	
 	@Override 
 	public UserDto getUserById(Integer userId) throws InvalidUserException {
 		User user = repository.findOne(userId);
