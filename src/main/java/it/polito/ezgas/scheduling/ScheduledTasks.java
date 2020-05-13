@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class ScheduledTasks {
 
 	@Scheduled(fixedRate = 1000)
-	public void reportCurrentTime() {
+	public void reportUpdateGasStationReportValues() {
 		System.out.println("Hello, world!");
 	}
 }
