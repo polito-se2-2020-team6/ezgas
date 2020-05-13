@@ -164,25 +164,6 @@ Version: 0.1
 # White Box Unit Tests
 
 ### Test cases definition
-    
-    <JUnit test classes must be in src/test/java/it/polito/ezgas>
-    <Report here all the created JUnit test cases, and the units/classes under test >
-    <For traceability write the class and method name that contains the test case>
-
-
-<<<<<<< HEAD
-|      Unit name      |      JUnit test case       |
-| :-----------------: | :------------------------: |
-| isGasolineTypeValid | testIsGasolineTypeValid1() |
-|                     | testIsGasolineTypeValid2() |
-|                     | testIsGasolineTypeValid3() |
-|                     | testIsGasolineTypeValid4() |
-|                     | testIsGasolineTypeValid5() |
-|                     | testIsGasolineTypeValid6() |
-|                     | testIsGasolineTypeValid7() |
-|                     | testIsGasolineTypeValid8() |
-|                     | testIsGasolineTypeValid9() |
-=======
 |      Unit name      |       JUnit test case       |
 | :-----------------: | :-------------------------: |
 | isGasolineTypeValid | testIsGasolineTypeValid1()  |
@@ -195,6 +176,19 @@ Version: 0.1
 |                     | testIsGasolineTypeValid8()  |
 |                     | testIsGasolineTypeValid9()  |
 |                     | testIsGasolineTypeValid10() |
+|  geoPointDistance   |   testGeoPointDistance1()   |
+|                     |   testGeoPointDistance2()   |
+|                     |   testGeoPointDistance3()   |
+|                     |   testGeoPointDistance4()   |
+|                     |   testGeoPointDistance5()   |
+|                     |   testGeoPointDistance6()   |
+|                     |   testGeoPointDistance7()   |
+|                     |   testGeoPointDistance8()   |
+|                     |   testGeoPointDistance9()   |
+|                     |   tstGeoPointDistance10()   |
+|                     |  testGeoPointDistance11()   |
+|                     |  testGeoPointDistance12()   |
+|                     |  testGeoPointDistance13()   |
 |    latLonCorrect    |    testlatLonCorrect1()     |
 |                     |    testlatLonCorrect2()     |
 |                     |    testlatLonCorrect3()     |
@@ -207,20 +201,17 @@ Version: 0.1
 |                     |    testlatLonCorrect10()    |
 
 
->>>>>>> dac091b6dc6dcae6839e688a74c6036d24e7f663
-
-
 ### Code coverage report
 
   
 ![](Images/Tests/isGasolineTypeValidEclemma.png)
 
+![](Images/Tests/geoPointDistanceEclemma.png)
+
 ![](Images/Tests/latLonCorrectEclemma.png)
 
-### Loop coverage analysis
 
-    <Identify significant loops in the units and reports the test cases
-    developed to cover zero, one or multiple iterations >
+### Loop coverage analysis
 
 | Unit name | Loop rows | Number of iterations | JUnit test case |
 | --------- | --------- | -------------------- | --------------- |
