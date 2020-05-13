@@ -209,13 +209,14 @@ public class GasStationServiceimpl implements GasStationService {
 	}
 
 	private boolean isGasolineTypeValid(String gasolinetype) {
+		if(gasolinetype == null)
+			return false;
 		switch(gasolinetype) {
-		case "null": 
-		case "Diesel":
-			//		case "LPG":
-		case "Gas":
-		case "Methane":
-		case "Super":
+		case "null": return true;
+		case "Diesel": return true;
+		case "Gas": return true;
+		case "Methane": return true;
+		case "Super": return true;
 		case "SuperPlus": return true;
 		default: return false;
 		}
