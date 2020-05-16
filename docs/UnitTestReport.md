@@ -196,7 +196,7 @@ Version: 0.1
 ### Code coverage report
 
   
-![](Images/Tests/isGasolineTypeValidEclemma.png)
+![](Images/Tests/isGasolineTypeValidEclemma.PNG)
 
 ![](Images/Tests/geoPointDistanceEclemma.png)
 
