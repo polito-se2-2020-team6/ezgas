@@ -331,8 +331,21 @@ package "it.polito.ezgas.repository" as repository {
 
 }
 
-package "import org.springframework.data.repository" {
+package "org.springframework.data.repository" {
 	interface "CrudRepository <T, ID>" as crud 
+}
+
+package "it.polito.ezgas.scheduling" {
+    class "ScheduledTasks" as st {
+        - userRepository : UserRepository
+        - gasStationRepository : GasStationRepository
+        - df : DateFormat
+        - now : Date
+        - seenUsers : Map<INteger, User>
+        + scheduleUpdateGasStationReportDependability()
+        - updateGasStationsReportDependability() : int
+        - computeNewDependability(GasStation) : double
+    }
 }
 
 urep -up-|> crud : "<User, Integer>"
@@ -372,6 +385,10 @@ gsrep --* gs
 prrep --* pr
 urep --* u
 
+st --* urep
+st --* gsrep
+st --* gs
+st --* u
 }
 
 @enduml

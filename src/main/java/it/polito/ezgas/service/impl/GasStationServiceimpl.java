@@ -189,6 +189,7 @@ public class GasStationServiceimpl implements GasStationService {
 		gs.setSuperPlusPrice(pr.getSuperPlusPrice());
 
 		gs.setReportUser(u.getUserId());
+		gs.setUser(userRepository.findOne(userId));
 		gs.setReportTimestamp(new Date().toString()); // TODO: Maybe change
 		// pr.trust_level = 50 * (U.trust_level +5)/10 + 50 * obsolescence
 		gs.setReportDependability(50 * (u.getReputation() + 5) / 10 + 50 * 1);
