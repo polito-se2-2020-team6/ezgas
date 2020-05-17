@@ -169,5 +169,90 @@ public class testUserMapper {
 		assertEquals(reputation, ret.getReputation());
 		assertEquals(admin, ret.getAdmin());
 	}
+	@Test
+	public void testToUserDto1(){
+		String userName = "Kratos";
+		String password = "Atreus";
+		String email = "godofwar@libero.it";
+		Integer reputation = 0;
+		Boolean admin = false;
+		Integer userId = 10;
 
+		User user = new User( userName, password, email, reputation );
+		user.setAdmin(admin);
+		user.setUserId(userId);
+		
+		UserDto res = UserMapper.toUserDto(user);
+		assertEquals(userId, res.getUserId());
+		assertEquals(userName, res.getUserName());
+		assertEquals(password, res.getPassword());
+		assertEquals(email, res.getEmail());
+		assertEquals(admin, res.getAdmin());
+		assertEquals(reputation, res.getReputation());		
+	}
+	
+	@Test
+	public void testToUserDto2(){
+		String userName = "Kratos";
+		String password = "Atreus";
+		String email = "godofwar@libero.it";
+		Integer reputation = 3;
+		Boolean admin = true;
+		Integer userId = -52;
+
+		User user = new User( userName, password, email, reputation );
+		user.setAdmin(admin);
+		user.setUserId(userId);
+		
+		UserDto res = UserMapper.toUserDto(user);
+		assertEquals(userId, res.getUserId());
+		assertEquals(userName, res.getUserName());
+		assertEquals(password, res.getPassword());
+		assertEquals(email, res.getEmail());
+		assertEquals(admin, res.getAdmin());
+		assertEquals(reputation, res.getReputation());		
+	}
+	
+	@Test
+	public void testToUserDto3(){
+		String userName = "Kratos";
+		String password = null;
+		String email = "godofwar@libero.it";
+		Integer reputation = 10;
+		Boolean admin = true;
+		Integer userId = 24;
+
+		User user = new User( userName, password, email, reputation );
+		user.setAdmin(admin);
+		user.setUserId(userId);
+		
+		UserDto res = UserMapper.toUserDto(user);
+		assertEquals(userId, res.getUserId());
+		assertEquals(userName, res.getUserName());
+		assertEquals(password, res.getPassword());
+		assertEquals(email, res.getEmail());
+		assertEquals(admin, res.getAdmin());
+		assertEquals(reputation, res.getReputation());		
+	}
+	@Test
+	public void testToUserDto4(){
+		String userName = null;
+		String password = null;
+		String email = null;
+		Integer reputation = null;
+		Boolean admin = null;
+		Integer userId = null;
+
+		User user = new User( userName, password, email, reputation );
+		user.setAdmin(admin);
+		user.setUserId(userId);
+		
+		UserDto res = UserMapper.toUserDto(user);
+		assertEquals(userId, res.getUserId());
+		assertEquals(userName, res.getUserName());
+		assertEquals(password, res.getPassword());
+		assertEquals(email, res.getEmail());
+		assertEquals(admin, res.getAdmin());
+		assertEquals(reputation, res.getReputation());		
+	}
 }
