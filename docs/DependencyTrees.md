@@ -7,6 +7,16 @@
 ```plantuml
 @startuml
 
+agent UserServiceimp.getUserById as m1
+agent UserRepository.findOne as m2
+agent UserMapper.toUserDto as m3
+agent "new UserDto" as m4
+
+m1 -- m2
+m1 -- m3
+
+m3 -- m4
+
 @enduml
 ```
 
@@ -14,6 +24,21 @@
 
 ```plantuml
 @startuml
+
+agent UserServiceimp.saveUser as m1
+agent UserMapper.toUser as m2
+agent "new User" as m5
+agent UserRepository.save as m3
+agent UserMapper.toUserDto as m4
+agent "new UserDto" as m6
+
+m1 -- m2
+m1 -- m3
+m1 -- m4
+
+m2 -- m5
+
+m4 -- m6
 
 @enduml
 ```
