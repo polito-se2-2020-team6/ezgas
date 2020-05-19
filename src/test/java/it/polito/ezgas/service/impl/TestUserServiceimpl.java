@@ -17,6 +17,7 @@ import it.polito.ezgas.repository.UserRepository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -116,24 +117,50 @@ public class TestUserServiceimpl {
 	public void testSaveUser1() {
 		UserServiceimpl userService = new UserServiceimpl(mockUR);
 		
-		userService.saveUser(new UserDto());
+		UserDto res = userService.saveUser(new UserDto(42, "Cloud Strife", "Shinra_sucks", "SOLDIERguy@avalanche.com", 5));
+		
+		assertEquals(new Integer(42), res.getUserId());
+		assertEquals("Cloud Strife", res.getUserName());
+		assertEquals("Shinra_sucks", res.getPassword());
+		assertEquals("SOLDIERguy@avalanche.com", res.getEmail());
+		assertEquals(new Integer(5), res.getReputation());
+		assertEquals(true, res.getAdmin());
+	}
+	
+	@Test
+	public void testSaveUser2() {
+		UserServiceimpl userService = new UserServiceimpl(mockUR);
+		
+		assertNull(userService.saveUser(new UserDto(-3, "Cloud Strife", "Shinra_sucks", "SOLDIERguy@avalanche.com", 5)));
 	}
 
+	@Test
+	public void testSaveUser3() {
+		UserServiceimpl userService = new UserServiceimpl(mockUR);
+		
+		assertNull(userService.saveUser(new UserDto(42, "Cloud Strife", "Shinra_sucks", "badEmailemail.com", 5)));
+	}
+	
+	@Test
+	public void testSaveUser4() {
+		UserServiceimpl userService = new UserServiceimpl(mockUR);
+		
+		UserDto res = userService.saveUser(new UserDto(null, "Cloud Strife", "Shinra_sucks", "badEmailemail.com", 5));
+		
+		assertEquals(new Integer(42), res.getUserId());
+		assertEquals("Cloud Strife", res.getUserName());
+		assertEquals("Shinra_sucks", res.getPassword());
+		assertEquals("SOLDIERguy@avalanche.com", res.getEmail());
+		assertEquals(new Integer(5), res.getReputation());
+		assertEquals(true, res.getAdmin());
+	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	@Test
+	public void testSaveUser5() {
+		UserServiceimpl userService = new UserServiceimpl(mockUR);
+		
+		assertNull(userService.saveUser(new UserDto(null, "Cloud Strife", "Shinra_sucks", "SOLDIERguy@avalanche.com", 5)));
+	}
 
 	@Test
 	public void testDeleteUser1() {
