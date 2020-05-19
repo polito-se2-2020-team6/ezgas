@@ -3,7 +3,8 @@ package it.polito.ezgas.service.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import exception.InvalidLoginDataException;
 import exception.InvalidUserException;
@@ -14,10 +15,9 @@ import it.polito.ezgas.entity.User;
 import it.polito.ezgas.repository.UserRepository;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
@@ -26,12 +26,13 @@ import java.util.List;
 
 public class TestUserServiceimpl {
 
-
 	//	@Mock
 	//	UserMapper mockUM;
 	//	
 	//	@Mock
 	//	LoginMapper mockLM;
+
+	List<User> al;
 
 	@Mock
 	UserRepository mockUR;
@@ -39,14 +40,14 @@ public class TestUserServiceimpl {
 	@BeforeEach
 	public void setUp() {
 
-		List<User> al = new ArrayList<>();
 		User dummyU = new User("Cloud Strife", "Shinra_sucks", "SOLDIERguy@avalanche.com", 5);
 		dummyU.setUserId(42);
 		dummyU.setAdmin(true);
 
-		LoginDto dummyL = new LoginDto(42, "Cloud Strife", "Mysterious Token", "SOLDIERguy@avalanche.com", 5);
-		dummyL.setAdmin(true);
-
+//		LoginDto dummyL = new LoginDto(42, "Cloud Strife", "Mysterious Token", "SOLDIERguy@avalanche.com", 5);
+//		dummyL.setAdmin(true);
+		
+		al = new ArrayList<>();
 		al.add(dummyU);
 
 		//		mockUM = mock(UserMapper.class);
@@ -65,8 +66,15 @@ public class TestUserServiceimpl {
 		mockUR = mock(UserRepository.class);
 
 		when(mockUR.findAll())
-		.thenReturn(al);
+			.thenAnswer(new Answer<List<User>>() {
 
+				@Override
+				public List<User> answer(InvocationOnMock invocation) throws Throwable {
+					// TODO Auto-generated method stub
+					return al;
+				}
+			});
+		
 		when(mockUR.findOne(eq(42)))
 		.thenReturn(dummyU);
 
@@ -174,5 +182,26 @@ public class TestUserServiceimpl {
 		assertThrows(InvalidLoginDataException.class, () -> userService.login(credentials), "Wrong email, test expected to fail");
 	}
 
+	public void testGetAllUsers1() {
+		UserServiceimpl userService = new UserServiceimpl(mockUR);
 
+		List<UserDto> res = userService.getAllUsers();
+		assertEquals(new Integer(42), res.get(0).getUserId());
+		assertEquals(new Boolean("True"), res.get(0).getAdmin());
+		assertEquals(new String("SOLDIERguy@avalanche.com"), res.get(0).getEmail());
+		assertEquals(new String("Shinra_sucks"), res.get(0).getPassword());
+		assertEquals(new String("Cloud Strife"), res.get(0).getUserName());
+		assertEquals(new Integer(5), res.get(0).getReputation());
+		
+	}
+	
+	@Test
+	public void testGetAllUsers2() {
+		UserServiceimpl userService = new UserServiceimpl(mockUR);
+		al = new ArrayList<>();
+		List<UserDto> res2 = userService.getAllUsers();
+		assertTrue( res2.isEmpty());
+	}
+	
+	
 }
