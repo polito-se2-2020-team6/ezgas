@@ -74,10 +74,10 @@ public class UserServiceimpl implements UserService {
 
 	@Override
 	public LoginDto login(IdPw credentials) throws InvalidLoginDataException {
-		User user=repository.findByEmail(credentials.getUser());
+		User user = repository.findByEmail(credentials.getUser());
 		LoginDto log;
-		if (user==null) {
-			throw new InvalidLoginDataException("Error, user doesn't exist");
+		if (user == null || !user.getPassword().equals(credentials.getPw())) {
+			throw new InvalidLoginDataException("Email or password wrong.");
 		} else {
 			log = LoginMapper.toLoginDto(user, user.getEmail() + new Date().toString());
 		}
