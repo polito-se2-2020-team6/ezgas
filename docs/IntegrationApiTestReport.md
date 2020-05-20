@@ -18,7 +18,14 @@ Version: 0.1
 	- [Step 2](#step-2)
 	- [Step n API Tests](#step-n-api-tests)
 - [Scenarios](#scenarios)
-	- [Scenario UCx.y](#scenario-ucxy)
+	- [Scenario UC1.2](#scenario-uc12)
+	- [Scenario UC2.2](#scenario-uc22)
+	- [Scenario UC2.3](#scenario-uc23)
+	- [Scenario UC3.2](#scenario-uc32)
+	- [Scenario UC10.3](#scenario-uc103)
+	- [Scenario UC10.4](#scenario-uc104)
+	- [Scenario UC10.5](#scenario-uc105)
+	- [Scenario UC10.5](#scenario-uc105-1)
 - [Coverage of Scenarios and FR](#coverage-of-scenarios-and-fr)
 - [Coverage of Non Functional Requirements](#coverage-of-non-functional-requirements)
 		- [](#)
@@ -176,16 +183,93 @@ Mockito used in tests for database simulation (fixed results with repository cal
 <If needed, define here additional scenarios for the application. Scenarios should be named
  referring the UC they detail>
 
-## Scenario UCx.y
+## Scenario UC1.2
 
-| Scenario       |    name     |
-| -------------- | :---------: |
-| Precondition   |             |
-| Post condition |             |
-| Step#          | Description |
-| 1              |     ...     |
-| 2              |     ...     |
+| Scenario       |  Create new account with already registered email   |
+| -------------- | :-------------------------------------------------: |
+| Precondition   |              Account U does not exist               |
+|                |       Account with same email already exists        |
+| Post condition |                 Error message shown                 |
+| Step#          |                     Description                     |
+| 1              | U populates fields for account creation and submits |
+| 2              |     System checks if email already exists in db     |
+| 3              |                 System returns null                 |
 
+## Scenario UC2.2
+
+| Scenario       |   Update account with wrong id   |
+| -------------- | :------------------------------: |
+| Precondition   | Account U with ID does not exist |
+| Post condition |                                  |
+| Notes          |         Fail-safe check          |
+
+## Scenario UC2.3
+
+| Scenario       |                Update account setting already registered email                |
+| -------------- | :---------------------------------------------------------------------------: |
+| Precondition   |                               Account U exists                                |
+|                |                   Account with edited email already exists                    |
+| Post condition |                              Error message shown                              |
+| Step#          |                                  Description                                  |
+| 1              | U populates fields for account update and submits, setting email to a new one |
+| 2              |  System checks if email already exists in db, and id associated is different  |
+| 3              |                              System returns null                              |
+
+## Scenario UC3.2
+
+| Scenario       | Delete non existing account |
+| -------------- | :-------------------------: |
+| Precondition   |  Account U does not exist   |
+| Post condition |       Raise exception       |
+| Notes          |       Fail-safe check       |
+
+## Scenario UC10.3
+
+| Scenario       |       Increase reputation of user with MAX reputation       |
+| -------------- | :---------------------------------------------------------: |
+| Precondition   |                      Account U exists                       |
+|                |                      Account U2 exists                      |
+|                |                     GasStation G exists                     |
+|                |            U2 reported prices for gas Station G             |
+|                |                      U2.reputation = 5                      |
+| Post condition |                         No changes                          |
+| Step#          |                         Description                         |
+| 1              |                   U selects gas station G                   |
+| 2              |              U signals price for G is correct               |
+| 3              | System searches the user U2 who did signal the prices for G |
+| 4              |             System checks if reputation is MAX              |
+
+## Scenario UC10.4
+
+| Scenario       |       Decrease reputation of user with MIN reputation       |
+| -------------- | :---------------------------------------------------------: |
+| Precondition   |                      Account U exists                       |
+|                |                      Account U2 exists                      |
+|                |                     GasStation G exists                     |
+|                |            U2 reported prices for gas Station G             |
+|                |                     U2.reputation = -5                      |
+| Post condition |                         No changes                          |
+| Step#          |                         Description                         |
+| 1              |                   U selects gas station G                   |
+| 2              |               U signals price for G is wrong                |
+| 3              | System searches the user U2 who did signal the prices for G |
+| 4              |             System checks if reputation is MIN              |
+
+## Scenario UC10.5
+
+| Scenario       | Increase reputation of non exixting user |
+| -------------- | :--------------------------------------: |
+| Precondition   |                                          |
+| Post condition |                                          |
+| Notes          |             Fail-safe check              |
+
+## Scenario UC10.5
+
+| Scenario       | Decrease reputation of non exixting user |
+| -------------- | :--------------------------------------: |
+| Precondition   |                                          |
+| Post condition |                                          |
+| Notes          |             Fail-safe check              |
 
 
 # Coverage of Scenarios and FR
@@ -197,27 +281,27 @@ Report also for each of the scenarios the (one or more) API JUnit tests that cov
 Scenarios UCx.1 are **always** nominal scenarios.
 
 
-| Scenario ID |       Functional Requirements covered       |                    JUnit Test(s)                     |
-| :---------: | :-----------------------------------------: | :--------------------------------------------------: |
-|    UC1.1    |                FR1.1, FR1.4                 |                   testSaveUser4()                    |
-|    UC1.2    | erroneus new user -> email already existing |                   testSaveUser5()                    |
-|    UC2.1    |                FR1.1, FR1.4                 |                   testSaveUser1()                    |
-|    UC2.2    |    id not found -> account not existing     |                   testSaveUser2()                    |
-|    UC2.3    |     email duplicate to another account      |                   testSaveUser3()                    |
-|    UC3.1    |                FR1.2, FR1.4                 |                  testDeleteUser1()                   |
-|    UC3.2    |                id not found                 |                  testDeleteUser2()                   |
-|    UC4.1    |                                             |                                                      |
-|    UC5.1    |                                             |                                                      |
-|    UC6.1    |                                             |                                                      |
-|    UC7.1    |
-|    UC8.1    |                                             |
-|    UC9.1    |                                             |                                                      |
-|   UC10.1    |             FR1.4, FR5.3, FR1.1             | testIncreaseReputation2(), testIncreaseReputation3() |
-|   UC10.2    |             FR1.4, FR5.3, FR1.1             | testDecreaseReputation1(), testDecreaseReputation2() |
-|   UC10.3    |             FR1.4, FR5.3, FR1.1             |              testIncreaseReputation1()               |
-|   UC10.4    |             FR1.4, FR5.3, FR1.1             |              testDecreaseReputation3()               |
-|   UC10.5    |             FR1.4, FR5.3, FR1.1             |              testIncreaseReputation4()               |
-|   UC10.6    |             FR1.4, FR5.3, FR1.1             |              testDecreaseReputation4()               |
+| Scenario ID | Functional Requirements covered |                    JUnit Test(s)                     |
+| :---------: | :-----------------------------: | :--------------------------------------------------: |
+|    UC1.1    |          FR1.1, FR1.4           |                   testSaveUser4()                    |
+|    UC1.2    |              FR1.4              |                   testSaveUser5()                    |
+|    UC2.1    |          FR1.1, FR1.4           |                   testSaveUser1()                    |
+|    UC2.2    |              FR1.4              |                   testSaveUser2()                    |
+|    UC2.3    |              FR1.4              |                   testSaveUser3()                    |
+|    UC3.1    |          FR1.2, FR1.4           |                  testDeleteUser1()                   |
+|    UC3.2    |              FR1.4              |                  testDeleteUser2()                   |
+|    UC4.1    |                                 |                                                      |
+|    UC5.1    |                                 |                                                      |
+|    UC6.1    |                                 |                                                      |
+|    UC7.1    |                                 |                                                      |
+|    UC8.1    |                                 |                                                      |
+|    UC9.1    |                                 |                                                      |
+|   UC10.1    |       FR1.4, FR5.3, FR1.1       | testIncreaseReputation2(), testIncreaseReputation3() |
+|   UC10.2    |       FR1.4, FR5.3, FR1.1       | testDecreaseReputation1(), testDecreaseReputation2() |
+|   UC10.3    |          FR1.4, FR5.3           |              testIncreaseReputation1()               |
+|   UC10.4    |          FR1.4, FR5.3           |              testDecreaseReputation3()               |
+|   UC10.5    |              FR1.4              |              testIncreaseReputation4()               |
+|   UC10.6    |              FR1.4              |              testDecreaseReputation4()               |
 
 
 
