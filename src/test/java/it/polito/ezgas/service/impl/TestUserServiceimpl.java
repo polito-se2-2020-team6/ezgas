@@ -293,6 +293,7 @@ public class TestUserServiceimpl {
 		
 	}
 	
+	@Test
 	public void testDecreaseUserReputation1() {
 		UserServiceimpl userService = new UserServiceimpl(mockUR);
 		
