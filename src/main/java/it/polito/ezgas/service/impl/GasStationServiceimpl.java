@@ -240,9 +240,9 @@ public class GasStationServiceimpl implements GasStationService {
 		if (gs.getHasDiesel() && gs.getDieselPrice() < 0 || !gs.getHasDiesel() && gs.getDieselPrice() >= 0 ||
 				//				gs.getHasLpg() && gs.getLpgPrice() <= 0 || !gs.getHasLpg() && gs.getLpgPrice() > 0 ||
 				gs.getHasGas() && gs.getGasPrice() < 0 || !gs.getHasGas() && gs.getGasPrice() >= 0 ||
-				gs.getHasMethane() && gs.getMethanePrice() <= 0 || !gs.getHasMethane() && gs.getMethanePrice() > 0 ||
-				gs.getHasSuper() && gs.getSuperPrice() <= 0 || !gs.getHasSuper() && gs.getSuperPrice() > 0 ||
-				gs.getHasSuperPlus() && gs.getSuperPlusPrice() <= 0 || !gs.getHasSuperPlus() && gs.getSuperPlusPrice() > 0) {
+				gs.getHasMethane() && gs.getMethanePrice() < 0 || !gs.getHasMethane() && gs.getMethanePrice() >= 0 ||
+				gs.getHasSuper() && gs.getSuperPrice() < 0 || !gs.getHasSuper() && gs.getSuperPrice() >= 0 ||
+				gs.getHasSuperPlus() && gs.getSuperPlusPrice() < 0 || !gs.getHasSuperPlus() && gs.getSuperPlusPrice() >= 0) {
 			return false;
 		}
 		else 
