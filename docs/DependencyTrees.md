@@ -7,15 +7,15 @@
 ```plantuml
 @startuml
 
-agent UserServiceimp.getUserById as m1
-agent UserRepository.findOne as m2
-agent UserMapper.toUserDto as m3
-agent "new UserDto" as m4
+agent UserServiceimpl.getUserById as getUserById
+agent UserRepository.findOne as findOne
+agent UserMapper.toUserDto as toUSerDto
+agent "new UserDto" as newUserDto
 
-m1 -- m2
-m1 -- m3
+getUserById -- findOne
+getUserById -- toUSerDto
 
-m3 -- m4
+toUSerDto -- newUserDto
 
 @enduml
 ```
@@ -25,20 +25,20 @@ m3 -- m4
 ```plantuml
 @startuml
 
-agent UserServiceimp.saveUser as m1
-agent UserMapper.toUser as m2
-agent "new User" as m5
-agent UserRepository.save as m3
-agent UserMapper.toUserDto as m4
-agent "new UserDto" as m6
+agent UserServiceimpl.saveUser as saveUSer
+agent UserMapper.toUser as toUser
+agent "new User" as newUser
+agent UserRepository.save as save
+agent UserMapper.toUserDto as toUserDto
+agent "new UserDto" as newUserDto
 
-m1 -- m2
-m1 -- m3
-m1 -- m4
+saveUSer -- toUser
+saveUSer -- save
+saveUSer -- toUserDto
 
-m2 -- m5
+toUser -- newUser
 
-m4 -- m6
+toUserDto -- newUserDto
 
 @enduml
 ```
@@ -64,6 +64,24 @@ m4 -- m6
 ```plantuml
 @startuml
 
+agent UserServiceimpl.login as login
+agent IdPw.getUser as getUser
+agent UserRepository.findByEmail as findByEmail
+agent User.getPassword as getPassword
+agent IdPw.getPw as getPw
+agent User.getEmail as getEmail
+agent LoginMapper.toLoginDto as toLoginDto
+agent "new LoginDto" as newLoginDto
+
+login -- getUser
+login -- findByEmail
+login -- getPassword
+login -- getPw
+login -- getEmail
+login -- toLoginDto
+toLoginDto -- newLoginDto
+
+
 @enduml
 ```
 
@@ -72,6 +90,15 @@ m4 -- m6
 ```plantuml
 @startuml
 
+agent UserServiceimpl.increaseUserReputation as increaseUserReputation
+agent UserRepository.findOne as findOne
+agent User.setReputation as setReputation
+agent UserRepository.save as save
+
+increaseUserReputation -- findOne
+increaseUserReputation -- setReputation
+increaseUserReputation -- save
+
 @enduml
 ```
 
@@ -79,6 +106,15 @@ m4 -- m6
 
 ```plantuml
 @startuml
+
+agent UserServiceimpl.decreaseUserReputation as decreaseUserReputation
+agent UserRepository.findOne as findOne
+agent User.setReputation as setReputation
+agent UserRepository.save as save
+
+decreaseUserReputation -- findOne
+decreaseUserReputation -- setReputation
+decreaseUserReputation -- save
 
 @enduml
 ```
