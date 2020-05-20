@@ -7,16 +7,32 @@ import static org.junit.Assert.fail;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.*;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+import org.mockito.stubbing.Answer;
+
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import exception.InvalidGasStationException;
+import exception.InvalidUserException;
+import it.polito.ezgas.dto.GasStationDto;
+import it.polito.ezgas.entity.GasStation;
+import it.polito.ezgas.repository.GasStationRepository;
+import it.polito.ezgas.repository.UserRepository;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TestGasStationServiceimpl {
-	
+
 	@Test
 	public void testIsGasolineTypeValid1() {
 		try {
@@ -411,5 +427,59 @@ public class TestGasStationServiceimpl {
 			fail("Method not found " );
 		}
 	}
+	List <GasStation>  al;
+	
+	@Mock 
+	GasStationRepository mockGSR;
+	UserRepository mockUR;
+	@Rule public MockitoRule mockitoRule = MockitoJUnit.rule();		
+	
+	@BeforeEach
+	public void setUp() {
+		GasStation dummyGS1 = new GasStation("DB Carburanti", "Viale Trieste 135", true, true, false, false, true, "Enjoy", -25.789, 45.785, 1.229, 1.456, -1, -1, 1.0345, 23, "19/05/2020, 11:24", 25.6);
+		dummyGS1.setGasStationId(120);
+		GasStation dummyGS2 = new GasStation("Agip", "Viale Della Rinascita 12", false, true, false, false, true, "Enjoy", 25.789, -45.785, -1, 1.756, -1, -1, 1.3345, 2, "18/05/2020, 14:24", 29.6);
+		dummyGS1.setGasStationId(121);
+		GasStation dummyGS3 = new GasStation("Q8", "Viale Luigi Monaco 62", true, true, false, true, true, "Enjoy", -56.789, 86.785, 1.529, 1.856, -1, 1.567, 1.0345, 3, "18/05/2020, 09:24", 43.6);
+		dummyGS1.setGasStationId(122);
+		
+		al = new ArrayList<>();
+		al.add(dummyGS1);
+		al.add(dummyGS2);
+		al.add(dummyGS3);
+		
+		mockUR = Mockito.mock(UserRepository.class);
+		mockGSR = Mockito.mock(GasStationRepository.class);
+		Mockito.when(mockGSR.findAll()).thenAnswer(new Answer <List<GasStation>>(){
+			@Override
+			public List <GasStation> answer (InvocationOnMock invocation)throws Throwable {
+				return al;
+			}		
+		});
+		
+		Mockito.when(mockGSR.findOne(Mockito.eq(120))).thenReturn(dummyGS1);
+		//Mockito.when(mockGSR.findOne(Mockito.eq(121))).thenReturn(dummyGS2);
+		//Mockito.when(mockGSR.findOne(Mockito.eq(122))).thenReturn(dummyGS3);
+		//Mockito.when(mockGSR.findOne(Mockito.eq(-5))).thenReturn(null);
+	}	
+	
+	
+	@Test
+	public void testGetGasStationById1() {
+		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
+		Integer prov = 1;
+		try {
+			GasStationDto res = GsService.getGasStationById(120);
+			System.out.println("EEEEEEEE" + res.getGasStationId());
+			prov=res.getGasStationId();
+			assertEquals(new Integer(120), res.getGasStationId());
+		}
+		catch(InvalidGasStationException e) {
+			fail("exception not expected " + prov);
+		}
+	}
+	
+	
+	
 	
 }
