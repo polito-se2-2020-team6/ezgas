@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import exception.InvalidLoginDataException;
 import exception.InvalidUserException;
@@ -24,7 +25,7 @@ import static org.mockito.Mockito.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@SpringBootTest
 public class TestUserServiceimpl {
 
 	//	@Mock
@@ -46,12 +47,12 @@ public class TestUserServiceimpl {
 		dummyU.setAdmin(true);
 		
 		User dummyU2 = new User("Lara Croft", "Tomb Raider", "lara.Croft@polito.it", 0);
-		dummyU.setUserId(35);
-		dummyU.setAdmin(true);
+		dummyU2.setUserId(35);
+		dummyU2.setAdmin(true);
 		
 		User dummyU3 = new User("Sephiroth", "FF7", "BestSong@battle.net", -5);
-		dummyU.setUserId(7);
-		dummyU.setAdmin(true);
+		dummyU3.setUserId(7);
+		dummyU3.setAdmin(true);
 
 //		LoginDto dummyL = new LoginDto(42, "Cloud Strife", "Mysterious Token", "SOLDIERguy@avalanche.com", 5);
 //		dummyL.setAdmin(true);
@@ -223,6 +224,7 @@ public class TestUserServiceimpl {
 		assertThrows(InvalidLoginDataException.class, () -> userService.login(credentials), "Wrong email, test expected to fail");
 	}
 
+	@Test
 	public void testGetAllUsers1() {
 		UserServiceimpl userService = new UserServiceimpl(mockUR);
 
@@ -242,6 +244,51 @@ public class TestUserServiceimpl {
 		al = new ArrayList<>();
 		List<UserDto> res2 = userService.getAllUsers();
 		assertTrue( res2.isEmpty());
+	}
+	
+	@Test
+	public void testIncreaseReputation1() {
+		UserServiceimpl userService = new UserServiceimpl(mockUR);
+		try {
+			Integer res = userService.increaseUserReputation(42);
+			assertEquals(new Integer(5), res);
+		} catch (InvalidUserException e) {
+			fail("exception not expected");		
+		}
+		
+	}
+	
+	@Test
+	public void testIncreaseReputation2() {
+		UserServiceimpl userService = new UserServiceimpl(mockUR);
+		try {
+			Integer res = userService.increaseUserReputation(35);
+			assertEquals(new Integer(1), res);
+		} catch (InvalidUserException e) {
+			fail("exception not expected");		
+		}
+		
+	}
+	
+	@Test
+	public void testIncreaseReputation3() {
+		UserServiceimpl userService = new UserServiceimpl(mockUR);
+		try {
+			Integer res = userService.increaseUserReputation(7);
+			assertEquals(new Integer(-4), res);
+		} catch (InvalidUserException e) {
+			fail("exception not expected");		
+		}
+		
+	}
+	
+	@Test
+	public void testIncreaseReputation4() {
+		UserServiceimpl userService = new UserServiceimpl(mockUR);
+		
+			 assertThrows(InvalidUserException.class, () -> userService.increaseUserReputation(-3), "Expected fail");
+			
+		
 	}
 	
 	
