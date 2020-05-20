@@ -44,6 +44,14 @@ public class TestUserServiceimpl {
 		User dummyU = new User("Cloud Strife", "Shinra_sucks", "SOLDIERguy@avalanche.com", 5);
 		dummyU.setUserId(42);
 		dummyU.setAdmin(true);
+		
+		User dummyU2 = new User("Lara Croft", "Tomb Raider", "lara.Croft@polito.it", 0);
+		dummyU.setUserId(35);
+		dummyU.setAdmin(true);
+		
+		User dummyU3 = new User("Sephiroth", "FF7", "BestSong@battle.net", -5);
+		dummyU.setUserId(7);
+		dummyU.setAdmin(true);
 
 //		LoginDto dummyL = new LoginDto(42, "Cloud Strife", "Mysterious Token", "SOLDIERguy@avalanche.com", 5);
 //		dummyL.setAdmin(true);
@@ -78,6 +86,12 @@ public class TestUserServiceimpl {
 		
 		when(mockUR.findOne(eq(42)))
 		.thenReturn(dummyU);
+		
+		when(mockUR.findOne(eq(35)))
+		.thenReturn(dummyU2);
+		
+		when(mockUR.findOne(eq(7)))
+		.thenReturn(dummyU3);
 
 		when(mockUR.findOne(eq(-3)))
 		.thenReturn(null);
