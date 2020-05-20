@@ -18,7 +18,7 @@ import it.polito.ezgas.repository.UserRepository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -59,6 +59,8 @@ public class TestUserServiceimpl {
 		
 		al = new ArrayList<>();
 		al.add(dummyU);
+		al.add(dummyU2);
+		al.add(dummyU3);
 
 		//		mockUM = mock(UserMapper.class);
 		//			
@@ -291,5 +293,45 @@ public class TestUserServiceimpl {
 		
 	}
 	
+	public void testDecreaseUserReputation1() {
+		UserServiceimpl userService = new UserServiceimpl(mockUR);
+		
+		try {
+			Integer res = userService.decreaseUserReputation(42);
+			assertEquals(new Integer(4), res);
+		} catch (InvalidUserException e) {
+			fail("User expected to exist");
+		}
+	}
+
+	@Test
+	public void testDecreaseUserReputation2() {
+		UserServiceimpl userService = new UserServiceimpl(mockUR);
+		
+		try {
+			Integer res = userService.decreaseUserReputation(35);
+			assertEquals(new Integer(-1), res);
+		} catch (InvalidUserException e) {
+			fail("User expected to exist");
+		}
+	}
 	
+	@Test
+	public void testDecreaseUserReputation3() {
+		UserServiceimpl userService = new UserServiceimpl(mockUR);
+		
+		try {
+			Integer res = userService.decreaseUserReputation(7);
+			assertEquals(new Integer(-5), res);
+		} catch (InvalidUserException e) {
+			fail("User expected to exist");
+		}
+	}
+	
+	@Test
+	public void testDecreaseUserReputation4() {
+		UserServiceimpl userService = new UserServiceimpl(mockUR);
+
+		assertThrows(InvalidUserException.class, () -> userService.decreaseUserReputation(-3), "Expected exception");
+	}
 }
