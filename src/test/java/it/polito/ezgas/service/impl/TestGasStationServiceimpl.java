@@ -1,35 +1,32 @@
 package it.polito.ezgas.service.impl;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import exception.GPSDataException;
+import exception.InvalidGasStationException;
+import exception.InvalidGasTypeException;
+import exception.PriceException;
+import it.polito.ezgas.dto.GasStationDto;
+import it.polito.ezgas.entity.GasStation;
+import it.polito.ezgas.repository.GasStationRepository;
+import it.polito.ezgas.repository.UserRepository;
+
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.junit.runner.RunWith;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.*;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-import org.mockito.stubbing.Answer;
-
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import exception.InvalidGasStationException;
-import exception.InvalidUserException;
-import it.polito.ezgas.dto.GasStationDto;
-import it.polito.ezgas.entity.GasStation;
-import it.polito.ezgas.repository.GasStationRepository;
-import it.polito.ezgas.repository.UserRepository;
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class TestGasStationServiceimpl {
 
@@ -432,54 +429,188 @@ public class TestGasStationServiceimpl {
 	@Mock 
 	GasStationRepository mockGSR;
 	UserRepository mockUR;
-	@Rule public MockitoRule mockitoRule = MockitoJUnit.rule();		
+	
 	
 	@BeforeEach
 	public void setUp() {
-		GasStation dummyGS1 = new GasStation("DB Carburanti", "Viale Trieste 135", true, true, false, false, true, "Enjoy", -25.789, 45.785, 1.229, 1.456, -1, -1, 1.0345, 23, "19/05/2020, 11:24", 25.6);
+		GasStation dummyGS1 = new GasStation("DB Carburanti", "Viale Trieste 135", true, true, false, false, true, "Enjoy", -25.789, 45.785, 0, 0, -1, -1, 0, 23, "19/05/2020, 11:24", 25.6);
 		dummyGS1.setGasStationId(120);
-		GasStation dummyGS2 = new GasStation("Agip", "Viale Della Rinascita 12", false, true, false, false, true, "Enjoy", 25.789, -45.785, -1, 1.756, -1, -1, 1.3345, 2, "18/05/2020, 14:24", 29.6);
-		dummyGS1.setGasStationId(121);
-		GasStation dummyGS3 = new GasStation("Q8", "Viale Luigi Monaco 62", true, true, false, true, true, "Enjoy", -56.789, 86.785, 1.529, 1.856, -1, 1.567, 1.0345, 3, "18/05/2020, 09:24", 43.6);
-		dummyGS1.setGasStationId(122);
+		GasStation dummyGS2 = new GasStation("Agip", "Viale Della Rinascita 12", false, true, false, false, true, "Enjoy", 25.789, -45.785, -1, 0, -1, -1, 0, 2, "18/05/2020, 14:24", 29.6);
+		dummyGS2.setGasStationId(121);
+		GasStation dummyGS3 = new GasStation("Q8", "Viale Luigi Monaco 62", true, true, false, true, true, "Enjoy", -56.789, 86.785, 0, 0, -1, 0, 0, 3, "18/05/2020, 09:24", 43.6);
+		dummyGS3.setGasStationId(122);
 		
 		al = new ArrayList<>();
 		al.add(dummyGS1);
 		al.add(dummyGS2);
 		al.add(dummyGS3);
 		
-		mockUR = Mockito.mock(UserRepository.class);
-		mockGSR = Mockito.mock(GasStationRepository.class);
-		Mockito.when(mockGSR.findAll()).thenAnswer(new Answer <List<GasStation>>(){
-			@Override
-			public List <GasStation> answer (InvocationOnMock invocation)throws Throwable {
-				return al;
-			}		
-		});
+		mockUR = mock(UserRepository.class);
+		mockGSR = mock(GasStationRepository.class);
 		
-		Mockito.when(mockGSR.findOne(Mockito.eq(120))).thenReturn(dummyGS1);
-		//Mockito.when(mockGSR.findOne(Mockito.eq(121))).thenReturn(dummyGS2);
-		//Mockito.when(mockGSR.findOne(Mockito.eq(122))).thenReturn(dummyGS3);
-		//Mockito.when(mockGSR.findOne(Mockito.eq(-5))).thenReturn(null);
+		when(mockGSR.findOne(eq(120))).thenReturn(dummyGS1);
+		when(mockGSR.findOne(eq(121))).thenReturn(dummyGS2);
+		when(mockGSR.findOne(eq(122))).thenReturn(dummyGS3);
+		when(mockGSR.findOne(eq(-5))).thenReturn(null);
+		when(mockGSR.save(any(GasStation.class))).thenReturn(dummyGS1);
+		when(mockGSR.findAll())
+		.thenAnswer(new Answer<List<GasStation>>() {
+
+			@Override
+			public List<GasStation> answer(InvocationOnMock invocation) throws Throwable {
+
+				return al;
+			}
+		});
+
+		
+		
 	}	
 	
 	
 	@Test
 	public void testGetGasStationById1() {
 		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
-		Integer prov = 1;
 		try {
 			GasStationDto res = GsService.getGasStationById(120);
-			System.out.println("EEEEEEEE" + res.getGasStationId());
-			prov=res.getGasStationId();
 			assertEquals(new Integer(120), res.getGasStationId());
 		}
 		catch(InvalidGasStationException e) {
-			fail("exception not expected " + prov);
+			fail("exception not expected ");
 		}
 	}
-	
-	
-	
-	
+	@Test
+	public void testGetGasStationById2() {
+		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
+		assertThrows(InvalidGasStationException.class, ()->GsService.getGasStationById(-5));
+	}
+	@Test
+	public void testSaveGasStation1() {
+		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
+		try {
+			GasStationDto res = GsService.saveGasStation(new GasStationDto(120,"DB Carburanti", "Viale Trieste 135", true, true, false, false, true, "Enjoy", -25.789, 45.785, 0, 0, -1, -1, 0, 23, "19/05/2020, 11:24", 25.6));
+			assertEquals(new Integer(120), res.getGasStationId());
+			assertEquals("DB Carburanti", res.getGasStationName());
+			assertEquals("Viale Trieste 135", res.getGasStationAddress());
+			assertTrue(res.getHasDiesel());
+			assertTrue(res.getHasSuper());
+			assertFalse(res.getHasSuperPlus());
+			assertFalse(res.getHasGas());
+			assertTrue(res.getHasMethane());
+			assertEquals("Enjoy",res.getCarSharing());
+			assertEquals(-25.789, res.getLat(),0.1);
+			assertEquals(45.785, res.getLon(),0.1);
+			assertEquals(0,res.getDieselPrice(),0.1);
+			assertEquals(0,res.getSuperPrice(),0.1);
+			assertEquals(-1,res.getSuperPlusPrice(),0.1);
+			assertEquals(-1,res.getGasPrice(),0.1);
+			assertEquals(0,res.getMethanePrice(),0.1);
+			assertEquals(new Integer(23),res.getReportUser());
+			assertEquals("19/05/2020, 11:24", res.getReportTimestamp());
+			assertEquals(25.6,res.getReportDependability(),0.1);
+		} catch (PriceException e) {
+			fail("Price Exception");
+		} catch (GPSDataException e) {
+			fail("GPS Data Exception");
+		}
+		
+	}
+	@Test
+	public void testSaveGasStation2() {
+		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
+		assertThrows(GPSDataException.class, ()->GsService.saveGasStation(new GasStationDto(120,"DB Carburanti", "Viale Trieste 135", true, true, false, false, true, "Enjoy", 280, 45.785, 0, 0, -1, -1, 0, 23, "19/05/2020, 11:24", 25.6)));	
+	}
+	@Test
+	public void testSaveGasStation3() {
+		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
+		assertThrows(GPSDataException.class, ()->GsService.saveGasStation(new GasStationDto(120,"DB Carburanti", "Viale Trieste 135", true, true, false, false, true, "Enjoy", 45.785, 1024, 0, 0, -1, -1, 0, 23, "19/05/2020, 11:24", 25.6)));	
+	}
+	@Test
+	public void getAllGasStations1() {
+		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
+		List<GasStationDto> res = GsService.getAllGasStations();
+		assertEquals(new Integer(120), res.get(0).getGasStationId());
+		assertEquals("DB Carburanti", res.get(0).getGasStationName());
+		assertEquals("Viale Trieste 135", res.get(0).getGasStationAddress());
+		assertTrue(res.get(0).getHasDiesel());
+		assertTrue(res.get(0).getHasSuper());
+		assertFalse(res.get(0).getHasSuperPlus());
+		assertFalse(res.get(0).getHasGas());
+		assertTrue(res.get(0).getHasMethane());
+		assertEquals("Enjoy",res.get(0).getCarSharing());
+		assertEquals(-25.789, res.get(0).getLat(),0.1);
+		assertEquals(45.785, res.get(0).getLon(),0.1);
+		assertEquals(0,res.get(0).getDieselPrice(),0.1);
+		assertEquals(0,res.get(0).getSuperPrice(),0.1);
+		assertEquals(-1,res.get(0).getSuperPlusPrice(),0.1);
+		assertEquals(-1,res.get(0).getGasPrice(),0.1);
+		assertEquals(0,res.get(0).getMethanePrice(),0.1);
+		assertEquals(new Integer(23),res.get(0).getReportUser());
+		assertEquals("19/05/2020, 11:24", res.get(0).getReportTimestamp());
+		assertEquals(25.6,res.get(0).getReportDependability(),0.1);
+	}
+	@Test
+	public void getAllGasStations2() {
+		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
+		List<GasStationDto> res = GsService.getAllGasStations();
+		assertEquals(new Integer(3), res.size(),0.1);
+	}
+	/*@Test
+	public void deleteGasStation1() {
+		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
+		try {
+			assertTrue(GsService.deleteGasStation(122)); //Riguardare
+		} catch (InvalidGasStationException e) {
+			fail();
+		}
+	}*/
+	@Test
+	public void deleteGasStation2() {
+		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
+		assertThrows(InvalidGasStationException.class, ()->GsService.deleteGasStation(-5));
+	}
+	@Test
+	public void getGasStationsByGasolineType1() {
+		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
+		try {
+			List<GasStationDto> res = GsService.getGasStationsByGasolineType("Diesel");
+			assertEquals(new Integer(120), res.get(0).getGasStationId());
+			assertEquals("DB Carburanti", res.get(0).getGasStationName());
+			assertEquals("Viale Trieste 135", res.get(0).getGasStationAddress());
+			assertTrue(res.get(0).getHasDiesel());
+			assertTrue(res.get(0).getHasSuper());
+			assertFalse(res.get(0).getHasSuperPlus());
+			assertFalse(res.get(0).getHasGas());
+			assertTrue(res.get(0).getHasMethane());
+			assertEquals("Enjoy",res.get(0).getCarSharing());
+			assertEquals(-25.789, res.get(0).getLat(),0.1);
+			assertEquals(45.785, res.get(0).getLon(),0.1);
+			assertEquals(0,res.get(0).getDieselPrice(),0.1);
+			assertEquals(0,res.get(0).getSuperPrice(),0.1);
+			assertEquals(-1,res.get(0).getSuperPlusPrice(),0.1);
+			assertEquals(-1,res.get(0).getGasPrice(),0.1);
+			assertEquals(0,res.get(0).getMethanePrice(),0.1);
+			assertEquals(new Integer(23),res.get(0).getReportUser());
+			assertEquals("19/05/2020, 11:24", res.get(0).getReportTimestamp());
+			assertEquals(25.6,res.get(0).getReportDependability(),0.1);
+		} catch (InvalidGasTypeException e) {
+			fail();
+		}
+	}
+	@Test
+	public void getGasStationsByGasolineType2() {
+		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
+		assertThrows(InvalidGasTypeException.class, ()->GsService.getGasStationsByGasolineType("ciao"));
+	}
+	@Test
+	public void getGasStationsByGasolineType3() {
+		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
+		List<GasStationDto> res;
+		try {
+			res = GsService.getGasStationsByGasolineType("Diesel");
+			assertEquals(new Integer(2), res.size(),0.1);
+		} catch (InvalidGasTypeException e) {
+			fail();
+		}
+	}
 }
