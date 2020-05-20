@@ -1,43 +1,101 @@
 # Integration and API Test Documentation
 
-Authors:
+Authors: Alessandro Borione, Giacomo Garaccione, Corrado Vecchio, Marco Vinai
 
-Date:
+Date: 20/05/2020
 
-Version:
+Version: 0.1
 
 # Contents
 
+- [Integration and API Test Documentation](#integration-and-api-test-documentation)
+- [Contents](#contents)
 - [Dependency graph](#dependency-graph)
-
-- [Integration approach](#integration)
-
+	- [Class it.polito.ezgas.service.impl.UserServiceimpl](#class-itpolitoezgasserviceimpluserserviceimpl)
+- [Integration approach](#integration-approach)
 - [Tests](#tests)
-
+	- [Step 1](#step-1)
+	- [Step 2](#step-2)
+	- [Step n API Tests](#step-n-api-tests)
 - [Scenarios](#scenarios)
-
-- [Coverage of scenarios and FR](#scenario-coverage)
-- [Coverage of non-functional requirements](#nfr-coverage)
-
-
+	- [Scenario UCx.y](#scenario-ucxy)
+- [Coverage of Scenarios and FR](#coverage-of-scenarios-and-fr)
+- [Coverage of Non Functional Requirements](#coverage-of-non-functional-requirements)
+		- [](#)
 
 # Dependency graph 
 
-     <report the here the dependency graph of the classes in it/polito/Ezgas, using plantuml>
-     
+## Class it.polito.ezgas.service.impl.UserServiceimpl
+
+```plantuml
+@startuml
+
+agent UserServiceimpl.getUserById as getUserById
+agent UserRepository.findOne as findOne
+agent UserMapper.toUserDto as toUserDto
+agent "new UserDto" as newUserDto
+agent UserServiceimpl.saveUser as saveUser
+agent UserMapper.toUser as toUser
+agent "new User" as newUser
+agent UserRepository.save as save
+agent UserServiceimp.getAllUsers as getAllUsers
+agent UserRepository.findAll as findAll
+agent UserServiceimp.deleteUser as deleteUser
+agent UserRepository.delete as delete
+agent UserServiceimpl.login as login
+agent IdPw.getUser as getUser
+agent UserRepository.findByEmail as findByEmail
+agent User.getPassword as getPassword
+agent IdPw.getPw as getPw
+agent User.getEmail as getEmail
+agent LoginMapper.toLoginDto as toLoginDto
+agent "new LoginDto" as newLoginDto
+agent UserServiceimpl.increaseUserReputation as increaseUserReputation
+agent User.setReputation as setReputation
+agent UserServiceimpl.decreaseUserReputation as decreaseUserReputation
+
+getUserById -- findOne
+getUserById -- toUserDto
+toUserDto -- newUserDto
+saveUser -- toUser
+saveUser -- save
+saveUser -- toUserDto
+toUser -- newUser
+getAllUsers -- findAll
+getAllUsers -- toUserDto
+deleteUser -- findOne
+deleteUser -- delete
+login -- getUser
+login -- findByEmail
+login -- getPassword
+login -- getPw
+login -- getEmail
+login -- toLoginDto
+toLoginDto -- newLoginDto
+increaseUserReputation -- findOne
+increaseUserReputation -- setReputation
+increaseUserReputation -- save
+decreaseUserReputation -- findOne
+decreaseUserReputation -- setReputation
+decreaseUserReputation -- save
+
+@enduml
+```
+
+	  
 # Integration approach
 
-    <Write here the integration sequence you adopted, in general terms (top down, bottom up, mixed) and as sequence
-    (ex: step1: class A, step 2: class A+B, step 3: class A+B+C, etc)> 
-    <The last integration step corresponds to API testing at level of Service package>
-    <Tests at level of Controller package will be done later>
+	 <Write here the integration sequence you adopted, in general terms (top down, bottom up, mixed) and as sequence
+	 (ex: step1: class A, step 2: class A+B, step 3: class A+B+C, etc)> 
+	 <The last integration step corresponds to API testing at level of Service package>
+	 <Tests at level of Controller package will be done later>
 
 
 
 #  Tests
 
-   <define below a table for each integration step. For each integration step report the group of classes under test, and the names of
-     JUnit test cases applied to them>
+	<define below a table for each integration step. For each integration step report the group of classes under test, and the names of
+	  JUnit test cases applied to them>
 
 ## Step 1
 | Classes  | JUnit test cases |
@@ -53,7 +111,7 @@ Version:
 
 ## Step n API Tests
 
-   <The last integration step  should correspond to API testing, or tests applied to all classes implementing the APIs defined in the Service package>
+	<The last integration step  should correspond to API testing, or tests applied to all classes implementing the APIs defined in the Service package>
 
 | Classes  | JUnit test cases |
 |--|--|
@@ -89,7 +147,7 @@ Report also for each of the scenarios the (one or more) API JUnit tests that cov
 
 
 
-| Scenario ID | Functional Requirements covered | JUnit  Test(s) | 
+| Scenario ID | Functional Requirements covered | JUnit Test(s) | 
 | ----------- | ------------------------------- | ----------- | 
 |  ..         | FRx                             |             |             
 |  ..         | FRy                             |             |             
