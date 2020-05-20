@@ -47,7 +47,16 @@ toUserDto -- newUserDto
 
 ```plantuml
 @startuml
+agent UserServiceimp.getAllUsers as getAllUsers
+agent UserRepository.findAll as findAll
+agent UserMapper.toUserDto as toUserDto
+agent "new UserDto" as newUserDto
 
+
+getAllUsers -- findAll
+getAllUsers -- toUserDto
+
+toUserDto -- newUserDto
 @enduml
 ```
 
@@ -55,7 +64,12 @@ toUserDto -- newUserDto
 
 ```plantuml
 @startuml
+agent UserServiceimp.deleteUser as deleteUser
+agent UserRepository.findOne as findOne
+agent UserRepository.delete as delete
 
+deleteUser -- findOne
+deleteUser -- delete
 @enduml
 ```
 
