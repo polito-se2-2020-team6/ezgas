@@ -911,7 +911,7 @@ public class TestGasStationServiceimpl {
 		try {
 			GsService.setReport(123, 1.225, 2.553, -1, 2.098, 1.003, 42);
 			GasStationDto res = GsService.getGasStationById(123);
-			UserDto u_res = UserServ.getUserById(42);
+			UserDto uRes = UserServ.getUserById(42);
 			assertTrue(res.getHasDiesel());
 			assertTrue(res.getHasSuper());
 			assertFalse(res.getHasSuperPlus());
@@ -922,12 +922,12 @@ public class TestGasStationServiceimpl {
 			assertEquals(-1,res.getSuperPlusPrice(),0.1);
 			assertEquals(2.098,res.getGasPrice(),0.1);
 			assertEquals(1.003,res.getMethanePrice(),0.1);
-			assertEquals(new Integer(42),u_res.getUserId());
-			assertEquals("Cloud Strife", u_res.getUserName());
-			assertEquals("Shinra_sucks",u_res.getPassword());
-			assertEquals("SOLDIERguy@avalanche.com", u_res.getEmail());
-			assertEquals(new Integer(5),u_res.getReputation());
-			assertTrue(u_res.getAdmin());
+			assertEquals(new Integer(42),uRes.getUserId());
+			assertEquals("Cloud Strife", uRes.getUserName());
+			assertEquals("Shinra_sucks",uRes.getPassword());
+			assertEquals("SOLDIERguy@avalanche.com", uRes.getEmail());
+			assertEquals(new Integer(5),uRes.getReputation());
+			assertTrue(uRes.getAdmin());
 			//assertEquals(new Date().toString(), res.getReportTimestamp()); A volte c'è differenza tra i due timeStamp di un secondo
 			assertEquals(100,res.getReportDependability(),0.1);
 			assertEquals(new Integer(42), res.getReportUser());
@@ -940,11 +940,13 @@ public class TestGasStationServiceimpl {
 			fail();
 		}
 	}
+	
 	@Test
 	public void testSetReport2() {
 		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
 		assertThrows(InvalidGasStationException.class, ()->GsService.setReport(12, 1.225, 2.553, -1, 2.098, 1.003, 42));
 	}
+	
 	@Test
 	public void testSetReport3() {
 		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
