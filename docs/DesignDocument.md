@@ -326,6 +326,7 @@ package "it.polito.ezgas.repository" as repository {
     - findAll() : List<GasStation>
     - findByCarSharing(String) : List<GasStation>
     - delete(GasStation) : void 
+    - findByAddress(String) : GasStation
 
 	}
 
