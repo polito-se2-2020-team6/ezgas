@@ -13,6 +13,7 @@ import exception.InvalidGasTypeException;
 import exception.InvalidUserException;
 import exception.PriceException;
 import it.polito.ezgas.dto.GasStationDto;
+import it.polito.ezgas.dto.UserDto;
 import it.polito.ezgas.entity.GasStation;
 import it.polito.ezgas.entity.User;
 import it.polito.ezgas.repository.GasStationRepository;
@@ -28,7 +29,9 @@ import static org.mockito.Mockito.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
 @SpringBootTest
 public class TestGasStationServiceimpl {
 
@@ -462,7 +465,7 @@ public class TestGasStationServiceimpl {
 	public void setUp() {
 		GasStation dummyGS1 = new GasStation("DB Carburanti", "Viale Trieste 135", true, true, false, false, true, "Enjoy", -25.789, 45.785, 0, 0, -1, -1, 0, 23, "19/05/2020, 11:24", 25.6);
 		dummyGS1.setGasStationId(120);
-		GasStation dummyGS2 = new GasStation("Agip", "Viale Della Rinascita 12", false, true, false, false, true, "Car2Go", 25.789, -45.785, -1, 0, -1, -1, 0, 2, "18/05/2020, 14:24", 29.6);
+		GasStation dummyGS2 = new GasStation("Agip", "Viale Della Rinascita 12", false, true, false, false, true, "Car2Go", 25.789, -45.785, -1, -1, -1, -1, 0, 2, "18/05/2020, 14:24", 29.6);
 		dummyGS2.setGasStationId(121);
 		GasStation dummyGS3 = new GasStation("Q8", "Viale Luigi Monaco 62", true, true, false, true, true, "Enjoy", -56.789, 86.785, 0, 0, -1, 0, 0, 3, "18/05/2020, 09:24", 43.6);
 		dummyGS3.setGasStationId(122);
@@ -888,9 +891,11 @@ public class TestGasStationServiceimpl {
 	@Test
 	public void testSetReport1() {
 		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
+		UserServiceimpl UserServ = new UserServiceimpl(mockUR);
 		try {
 			GsService.setReport(123, 1.225, 2.553, -1, 2.098, 1.003, 42);
-			GasStationDto res = GsService.getGasStationById(120);
+			GasStationDto res = GsService.getGasStationById(123);
+			UserDto u_res = UserServ.getUserById(42);
 			assertTrue(res.getHasDiesel());
 			assertTrue(res.getHasSuper());
 			assertFalse(res.getHasSuperPlus());
@@ -901,6 +906,16 @@ public class TestGasStationServiceimpl {
 			assertEquals(-1,res.getSuperPlusPrice(),0.1);
 			assertEquals(2.098,res.getGasPrice(),0.1);
 			assertEquals(1.003,res.getMethanePrice(),0.1);
+			assertEquals(new Integer(42),u_res.getUserId());
+			assertEquals("Cloud Strife", u_res.getUserName());
+			assertEquals("Shinra_sucks",u_res.getPassword());
+			assertEquals("SOLDIERguy@avalanche.com", u_res.getEmail());
+			assertEquals(new Integer(5),u_res.getReputation());
+			assertTrue(u_res.getAdmin());
+			//assertEquals(new Date().toString(), res.getReportTimestamp()); A volte c'è differenza tra i due timeStamp di un secondo
+			assertEquals(100,res.getReportDependability(),0.1);
+			assertEquals(new Integer(42), res.getReportUser());
+			
 		} catch (InvalidGasStationException e) {
 			fail();
 		} catch (PriceException e) {
@@ -909,4 +924,32 @@ public class TestGasStationServiceimpl {
 			fail();
 		}
 	}
+	@Test
+	public void testSetReport2() {
+		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
+		assertThrows(InvalidGasStationException.class, ()->GsService.setReport(12, 1.225, 2.553, -1, 2.098, 1.003, 42));
+	}
+	@Test
+	public void testSetReport3() {
+		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
+		assertThrows(PriceException.class, ()->GsService.setReport(121, -1, -1, -1, -1, 0, 42));
+	}
+	@Test
+	public void testSetReport4() {
+		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
+		assertThrows(InvalidUserException.class, ()->GsService.setReport(123, 1.225, 2.553, -1, 2.098, 1.003, 13));
+	}
+	/*@Test
+	public void mapGasolineTypeToMethod1() {
+		try {
+			Method example = GasStationServiceimpl.class.getDeclaredMethod("mapGasolineTypeToMethod", String.class);
+			example.setAccessible(true);
+
+			Predicate<GasStationDto> res = (Predicate<GasStationDto>) example.invoke(new GasStationServiceimpl(mockGSR, mockUR), "Diesel");
+			assertEquals("getHasDiesel",res);
+		}catch(NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			fail("Method not found");
+		}	
+	}*/
+	
 }

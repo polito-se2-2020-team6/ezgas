@@ -247,6 +247,7 @@ public class GasStationServiceimpl implements GasStationService {
 		}
 		else 
 			return true;
+		
 	}
 
 	// Haversine formula. Takes into account curvature of Earth, but assumes a sphere.
