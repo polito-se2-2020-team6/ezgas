@@ -17,7 +17,7 @@ Version:
 - [Tests](#tests)
   - [Step 1](#step-1)
   - [Step 2](#step-2)
-  - [Step n API Tests](#step-n-api-tests)
+  - [Step 3 - API Tests](#step-3---api-tests)
 - [Scenarios](#scenarios)
   - [Scenario UCx.y](#scenario-ucxy)
 - [Coverage of Scenarios and FR](#coverage-of-scenarios-and-fr)
@@ -57,6 +57,7 @@ agent GasStationServiceimpl.latLonCorrect as latLonCorrect
 agent GasStationRepository.findOne as findOneGs
 agent GasStationRepository.findAll as findAllGs
 agent GasStationRepository.findByCarSharing as findByCarSharing
+agent GasStationRepository.findByAddress as findByAddress
 agent GasStationRepository.save as saveGs
 agent GasStationRepository.delete as deleteGs
 agent GasStationMapper.toGSDto as toGSDto
@@ -231,6 +232,7 @@ saveGasStation -- priceCorrect
 saveGasStation -- latLonCorrect
 saveGasStation -- saveGs
 saveGasStation -- toGSDto
+saveGasStation -- findByAddress
 getAllGasStations -- findAllGs
 getAllGasStations -- toGSDto
 deleteGasStation -- findOneGs
@@ -298,29 +300,66 @@ priceCorrect -- getSuperPlusPriceDto
 
 #  Tests
 
-   <define below a table for each integration step. For each integration step report the group of classes under test, and the names of
-     JUnit test cases applied to them>
 
 ## Step 1
-| Classes  | JUnit test cases |
-|--|--|
-|||
+|     Classes      | JUnit test cases |
+| :--------------: | :--------------: |
+| GasStationMapper |    testToGS1     |
+|                  |    testToGS2     |
+|                  |    testToGS3     |
+|                  |    testToGS4     |
+|                  |    testToGS5     |
+|                  |    testToGS6     |
+|                  |   testToGSDto1   |
+|                  |   testToGSDto2   |
+|                  |   testToGSDto3   |
+|                  |   testToGSDto4   |
 
 
 ## Step 2
-| Classes  | JUnit test cases |
-|--|--|
-|||
+|                 Classes                  |           JUnit test cases            |
+| :--------------------------------------: | :-----------------------------------: |
+| GasStationServiceimpl + GasStationMapper |        testGetGasStationById1         |
+|                                          |        testGetGasStationById2         |
+|                                          |          testSaveGasStation1          |
+|                                          |          testSaveGasStation2          |
+|                                          |          testSaveGasStation3          |
+|                                          |          testSaveGasStation4          |
+|                                          |        testGetAllGasStations1         |
+|                                          |        testGetAllGasStations2         |
+|                                          |         testDeleteGasStation1         |
+|                                          |         testDeleteGasStation2         |
+|                                          |   testGetGasStationsByGasolineType1   |
+|                                          |   testGetGasStationsByGasolineType2   |
+|                                          |   testGetGasStationsByGasolineType3   |
+|                                          |      testGasStationsByProximity1      |
+|                                          |      testGasStationsByProximity2      |
+|                                          |      testGasStationsByProximity3      |
+|                                          |      testGasStationsByProximity4      |
+|                                          |    testGetGasStationsByCarSharing1    |
+|                                          |    testGetGasStationsByCarSharing2    |
+|                                          |    testGetGasStationsByCarSharing3    |
+|                                          |  testGetGasStationsWithCoordinates1   |
+|                                          |  testGetGasStationsWithCoordinates2   |
+|                                          |  testGetGasStationsWithCoordinates3   |
+|                                          |  testGetGasStationsWithCoordinates4   |
+|                                          |  testGetGasStationsWithCoordinates5   |
+|                                          |  testGetGasStationsWithCoordinates6   |
+|                                          | testGetGasStationsWithoutCoordinates1 |
+|                                          | testGetGasStationsWithoutCoordinates2 |
+|                                          | testGetGasStationsWithoutCoordinates3 |
+|                                          |           testPriceCorrect1           |
+|                                          |           testPriceCorrect2           |
 
 
-## Step n API Tests
+## Step 3 - API Tests
 
-   <The last integration step  should correspond to API testing, or tests applied to all classes implementing the APIs defined in the Service package>
-
-| Classes  | JUnit test cases |
-|--|--|
-|||
-
+|                 Classes                 | JUnit test cases |
+| :-------------------------------------: | :--------------: |
+| UserServiceimpl + GasStationServiceimpl |  testSetReport1  |
+|                                         |  testSetReport2  |
+|                                         |  testSetReport3  |
+|                                         |  testSetReport4  |
 
 
 
@@ -330,15 +369,17 @@ priceCorrect -- getSuperPlusPriceDto
 <If needed, define here additional scenarios for the application. Scenarios should be named
  referring the UC they detail>
 
+
+
 ## Scenario UCx.y
 
-| Scenario |  name |
-| ------------- |:-------------:| 
-|  Precondition     |  |
-|  Post condition     |   |
-| Step#        | Description  |
-|  1     |  ... |  
-|  2     |  ... |
+| Scenario       |    name     |
+| -------------- | :---------: |
+| Precondition   |             |
+| Post condition |             |
+| Step#          | Description |
+| 1              |     ...     |
+| 2              |     ...     |
 
 
 
@@ -351,14 +392,14 @@ Report also for each of the scenarios the (one or more) API JUnit tests that cov
 
 
 
-| Scenario ID | Functional Requirements covered | JUnit  Test(s) | 
-| ----------- | ------------------------------- | ----------- | 
-|  ..         | FRx                             |             |             
-|  ..         | FRy                             |             |             
-| ...         |                                 |             |             
-| ...         |                                 |             |             
-| ...         |                                 |             |             
-| ...         |                                 |             |             
+| Scenario ID | Functional Requirements covered | JUnit  Test(s) |
+| ----------- | ------------------------------- | -------------- |
+| ..          | FRx                             |                |
+| ..          | FRy                             |                |
+| ...         |                                 |                |
+| ...         |                                 |                |
+| ...         |                                 |                |
+| ...         |                                 |                |
 
 
 
