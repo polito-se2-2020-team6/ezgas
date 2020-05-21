@@ -21,6 +21,7 @@ import it.polito.ezgas.repository.GasStationRepository;
 import it.polito.ezgas.repository.UserRepository;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -503,6 +504,7 @@ public class TestGasStationServiceimpl {
 		when(mockGSR.findByCarSharing("Enjoy")).thenReturn(alE);
 		when(mockGSR.findByCarSharing("Car2Go")).thenReturn(alC);
 		when(mockGSR.findByCarSharing("null")).thenReturn(al);
+		when(mockGSR.findByAddress("Viale Della Rinascita 12")).thenReturn(dummyGS2);
 		when(mockUR.findOne(eq(42))).thenReturn(dummyU);
 		when(mockGSR.findAll())
 		.thenAnswer(new Answer<List<GasStation>>() {
@@ -579,6 +581,19 @@ public class TestGasStationServiceimpl {
 		assertThrows(GPSDataException.class, ()->GsService.saveGasStation(new GasStationDto(120,"DB Carburanti", "Viale Trieste 135", true, true, false, false, true, "Enjoy", 45.785, 1024, 0, 0, -1, -1, 0, 23, "19/05/2020, 11:24", 25.6)));	
 	}
 
+	@Test
+	public void testSaveGasStation4() {
+		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
+		try {
+			GasStationDto res = GsService.saveGasStation(new GasStationDto(121, "Agip", "Viale Della Rinascita 12", false, true, false, false, true, "Car2Go", 25.789, -45.785, -1, -1, -1, -1, 0, 2, "18/05/2020, 14:24", 29.6));
+			assertNull(res);
+		} catch (PriceException e) {
+			fail();
+		} catch (GPSDataException e) {
+			fail();
+		}
+	}
+	
 	@Test
 	public void testGetAllGasStations1() {
 		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);

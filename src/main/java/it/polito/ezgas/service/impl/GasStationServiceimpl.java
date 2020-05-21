@@ -35,15 +35,15 @@ public class GasStationServiceimpl implements GasStationService {
 	//@Autowired GasStationRepository gasStationRepository;
 	//@Autowired UserRepository userRepository;
 	//@Autowired PriceReportRepository priceReportRepository;
-	
+
 	private GasStationRepository gasStationRepository;
 	private UserRepository userRepository;
 	public GasStationServiceimpl(GasStationRepository gasStationRepository, UserRepository userRepository) {
 		this.gasStationRepository = gasStationRepository;
 		this.userRepository = userRepository;
 	}
-	
-	
+
+
 	@Override
 	public GasStationDto getGasStationById(Integer gasStationId) throws InvalidGasStationException {
 		Optional<GasStation> gs = Optional.ofNullable(gasStationRepository.findOne(gasStationId));
@@ -70,16 +70,21 @@ public class GasStationServiceimpl implements GasStationService {
 
 		//check not valid prices
 		if (!priceCorrect(gasStationDto))
-		 {
+		{
 			throw new PriceException("ERROR: Price not valid or setted");
 		}
 		else if (!latLonCorrect(gasStationDto.getLat(), gasStationDto.getLon())) {
 			throw new GPSDataException("ERROR: Invalid latitude(" + gasStationDto.getLat() + ") or longitude(" + gasStationDto.getLon() + ") values");
 		}
 		else {
-			GasStation gs = gasStationRepository.save(GasStationMapper.toGS(gasStationDto));
-
-			return GasStationMapper.toGSDto(gs);
+			GasStation gs;
+			GasStation gsOld = gasStationRepository.findByAddress(gasStationDto.getGasStationAddress()); //controls if there's already a gas station with the same address; it it exists, the insertion isn't done
+			if(gsOld != null) {
+				return null;
+			}else {
+				gs = gasStationRepository.save(GasStationMapper.toGS(gasStationDto));
+				return GasStationMapper.toGSDto(gs);
+			}
 		}
 	}
 
@@ -235,7 +240,7 @@ public class GasStationServiceimpl implements GasStationService {
 		default: return (gsdto) -> false;
 		}
 	}
-	
+
 	private boolean priceCorrect(GasStationDto gs) {
 		if (gs.getHasDiesel() && gs.getDieselPrice() < 0 || !gs.getHasDiesel() && gs.getDieselPrice() >= 0 ||
 				//				gs.getHasLpg() && gs.getLpgPrice() <= 0 || !gs.getHasLpg() && gs.getLpgPrice() > 0 ||
@@ -247,7 +252,7 @@ public class GasStationServiceimpl implements GasStationService {
 		}
 		else 
 			return true;
-		
+
 	}
 
 	// Haversine formula. Takes into account curvature of Earth, but assumes a sphere.
@@ -272,9 +277,9 @@ public class GasStationServiceimpl implements GasStationService {
 
 		return rad * c;
 	}
-	
+
 	private boolean latLonCorrect(double lat, double lon) {
 		return lat > -90.0 && lat <= 90.0 && lon > -180.0 && lon <= 180.0;
 	}
 }
-	
+
