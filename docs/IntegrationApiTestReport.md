@@ -1,10 +1,10 @@
 # Integration and API Test Documentation
 
-Authors:
+Authors: Alessandro Borione, Giacomo Garaccione, Corrado Vecchio, Marco Vinai
 
-Date:
+Date: 21/05/2020
 
-Version:
+Version: 0.1
 
 # Contents
 
@@ -19,7 +19,14 @@ Version:
   - [Step 2](#step-2)
   - [Step 3 - API Tests](#step-3---api-tests)
 - [Scenarios](#scenarios)
-  - [Scenario UCx.y](#scenario-ucxy)
+  - [Scenario UC4.2](#scenario-uc42)
+  - [Scenario UC4.3](#scenario-uc43)
+  - [Scenario UC6.2](#scenario-uc62)
+  - [Scenario UC7.2](#scenario-uc72)
+  - [Scenario UC7.3](#scenario-uc73)
+  - [Scenario UC7.4](#scenario-uc74)
+  - [Scenario UC8.2](#scenario-uc82)
+  - [Scenario UC8.3](#scenario-uc83)
 - [Coverage of Scenarios and FR](#coverage-of-scenarios-and-fr)
 - [Coverage of Non Functional Requirements](#coverage-of-non-functional-requirements)
     - [](#)
@@ -366,48 +373,107 @@ priceCorrect -- getSuperPlusPriceDto
 # Scenarios
 
 
-<If needed, define here additional scenarios for the application. Scenarios should be named
- referring the UC they detail>
+## Scenario UC4.2
+
+| Scenario       | Create new Gas Station with already registered address |
+| -------------- | :----------------------------------------------------: |
+| Precondition   |              Gas Station G does not exist              |
+|                | Gas Station with the same address as G already exists  |
+| Post condition |                  Error message shown                   |
+| Step#          |                      Description                       |
+| 1              |    Admin inserts all of G's information and submits    |
+| 2              |  System checks if address is already in the database   |
+| 3              |                  System returns null                   |
+
+## Scenario UC4.3
+
+| Scenario       |     Create new Gas Station with impossible coordinates     |
+| -------------- | :--------------------------------------------------------: |
+| Precondition   |                Gas Station G does not exist                |
+|                | Gas Station's latitude and/or longitude are not acceptable |
+| Post condition |                      Exception shown                       |
+| Step#          |                        Description                         |
+| 1              |      Admin inserts all of G's information and submits      |
+| 2              |  System checks if latitude and longitude are both correct  |
+| 3              |                 System throws an exception                 |
 
 
 
-## Scenario UCx.y
+## Scenario UC6.2
 
-| Scenario       |    name     |
-| -------------- | :---------: |
-| Precondition   |             |
-| Post condition |             |
-| Step#          | Description |
-| 1              |     ...     |
-| 2              |     ...     |
+| Scenario       | Delete a Gas Station that does not exist |
+| -------------- | :--------------------------------------: |
+| Precondition   |       Gas Station G does not exist       |
+| Post condition |             Raise exception              |
+| Notes          |             Fail-safe check              |
+
+## Scenario UC7.2
+
+| Scenario       | Report on a Gas Station that does not exist |
+| -------------- | :-----------------------------------------: |
+| Precondition   |        Gas Station G does not exist         |
+| Post condition |               Raise exception               |
+| Notes          |               Fail-safe check               |
+
+## Scenario UC7.3
+
+| Scenario       | Report on a Gas Station done by a User that does not exist |
+| -------------- | :--------------------------------------------------------: |
+| Precondition   |                   User U does not exist                    |
+| Post condition |                      Raise exception                       |
+| Notes          |                      Fail-safe check                       |
+
+## Scenario UC7.4
+
+| Scenario       | Report on a Gas Station with non existing fuel types reported |
+| -------------- | :-----------------------------------------------------------: |
+| Precondition   |      One/some of the reported fuel types does not exist       |
+| Post condition |                        Raise exception                        |
+| Notes          |                        Fail-safe check                        |
+
+
+## Scenario UC8.2
+
+| Scenario       |  User U inserts incorrect coordinates   |
+| -------------- | :-------------------------------------: |
+| Precondition   | Latitude and/or longitude are incorrect |
+| Post condition |             Raise exception             |
+| Notes          |             Fail-safe check             |
+
+## Scenario UC8.3
+
+| Scenario       | User U inserts an invalid fuel type for a given gas station |
+| -------------- | :---------------------------------------------------------: |
+| Precondition   |        Fuel type does not exist for the gas station         |
+| Post condition |                       Raise exception                       |
+| Notes          |                       Fail-safe check                       |
+
+
 
 
 
 # Coverage of Scenarios and FR
 
 
-<Report in the following table the coverage of  scenarios (from official requirements and from above) vs FR. 
-Report also for each of the scenarios the (one or more) API JUnit tests that cover it. >
-
-
-
-
-| Scenario ID | Functional Requirements covered | JUnit  Test(s) |
-| ----------- | ------------------------------- | -------------- |
-| ..          | FRx                             |                |
-| ..          | FRy                             |                |
-| ...         |                                 |                |
-| ...         |                                 |                |
-| ...         |                                 |                |
-| ...         |                                 |                |
+| Scenario ID | Functional Requirements covered |             JUnit  Test(s)              |
+| :---------: | :-----------------------------: | :-------------------------------------: |
+|    UC4.2    |              FR3.1              |          testSaveGasStation4()          |
+|    UC4.3    |              FR3.1              |          testSaveGasStation2()          |
+|             |                                 |          testSaveGasStation3()          |
+|    UC6.2    |              FR3.2              |         testDeleteGasStation2()         |
+|    UC7.2    |              FR5.3              |            testSetReport2()             |
+|    UC7.3    |              FR5.3              |            testSetReport4()             |
+|    UC7.4    |              FR5.3              |            testSetReport3()             |
+|    UC8.2    |              FR4.1              |      testGasStationByProximity2()       |
+|             |                                 |      testGasStationByProximity3()       |
+|             |                                 |  testGetGasStationsWithCoordinates2()   |
+|             |                                 |  testGetGasStationsWithCoordinates3()   |
+|    UC8.3    |              FR4.1              |   testGetGasStationWithCoordinates4()   |
+|             |                                 | testGetGasStationsWithoutCoordinates2() |
 
 
 
 # Coverage of Non Functional Requirements
-
-
-<Report in the following table the coverage of the Non Functional Requirements of the application - only those that can be tested with automated testing frameworks.>
-
 
 ### 
 
