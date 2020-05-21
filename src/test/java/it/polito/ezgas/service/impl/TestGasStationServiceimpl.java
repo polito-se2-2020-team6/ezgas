@@ -13,6 +13,7 @@ import exception.InvalidGasTypeException;
 import exception.InvalidUserException;
 import exception.PriceException;
 import it.polito.ezgas.dto.GasStationDto;
+import it.polito.ezgas.dto.GasStationMapper;
 import it.polito.ezgas.dto.UserDto;
 import it.polito.ezgas.entity.GasStation;
 import it.polito.ezgas.entity.User;
@@ -934,11 +935,13 @@ public class TestGasStationServiceimpl {
 		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
 		assertThrows(PriceException.class, ()->GsService.setReport(121, -1, -1, -1, -1, 0, 42));
 	}
+	
 	@Test
 	public void testSetReport4() {
 		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
 		assertThrows(InvalidUserException.class, ()->GsService.setReport(123, 1.225, 2.553, -1, 2.098, 1.003, 13));
 	}
+	
 	/*@Test
 	public void mapGasolineTypeToMethod1() {
 		try {
@@ -952,4 +955,43 @@ public class TestGasStationServiceimpl {
 		}	
 	}*/
 	
+	@Test
+	public void testPriceCorrect1() {
+		GasStationDto gsDto = new GasStationDto(123,"Eni", "Via Garibaldi 33", true, true, false, true, true, "Car2Go", 11.233, 47.304, 1.225, 2.553, -1, 2.098, 1.003, 42, "18/05/2020, 19:00", 23.6);
+		try {
+			Method example = GasStationServiceimpl.class.getDeclaredMethod("priceCorrect", GasStationDto.class);
+			example.setAccessible(true);
+
+			boolean res = (boolean) example.invoke(new GasStationServiceimpl(mockGSR, mockUR), gsDto);
+			assertTrue(res);
+		}catch(NoSuchMethodException e) {
+			fail("Method not found");
+		}catch(IllegalAccessException e ) {
+			fail("Illegal Access");
+		}catch(IllegalArgumentException e) {
+			fail("Illegal Argument");
+		}catch(InvocationTargetException e) {
+			fail("Invocation Target");
+		}
+	}
+	
+	@Test
+	public void testPriceCorrect2() {
+		GasStationDto gsDto = new GasStationDto(123,"Eni", "Via Garibaldi 33", true, true, false, true, true, "Car2Go", 11.233, 47.304, -1, 2.553, -1, 2.098, 1.003, 42, "18/05/2020, 19:00", 23.6);
+		try {
+			Method example = GasStationServiceimpl.class.getDeclaredMethod("priceCorrect", GasStationDto.class);
+			example.setAccessible(true);
+
+			boolean res = (boolean) example.invoke(new GasStationServiceimpl(mockGSR, mockUR), gsDto);
+			assertFalse(res);
+		}catch(NoSuchMethodException e) {
+			fail("Method not found");
+		}catch(IllegalAccessException e ) {
+			fail("Illegal Access");
+		}catch(IllegalArgumentException e) {
+			fail("Illegal Argument");
+		}catch(InvocationTargetException e) {
+			fail("Invocation Target");
+		}
+	}
 }
