@@ -155,7 +155,13 @@ public class TestUserServiceimpl {
 	public void testSaveUser3() {
 		UserServiceimpl userService = new UserServiceimpl(mockUR);
 		
-		assertNull(userService.saveUser(new UserDto(42, "Cloud Strife", "Shinra_sucks", "badEmailemail.com", 5)));
+		UserDto res = userService.saveUser(new UserDto(42, "Cloud Strife", "Shinra_sucks", "badEmailemail.com", 5));
+		assertEquals(new Integer(42), res.getUserId());
+		assertEquals("Cloud Strife", res.getUserName());
+		assertEquals("Shinra_sucks", res.getPassword());
+		assertEquals("SOLDIERguy@avalanche.com", res.getEmail());
+		assertEquals(new Integer(5), res.getReputation());
+		assertEquals(true, res.getAdmin());
 	}
 	
 	@Test

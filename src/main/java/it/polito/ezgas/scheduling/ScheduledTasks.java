@@ -88,7 +88,7 @@ public class ScheduledTasks {
 		int reputation = reportUser.getReputation();
 
 		// pr.trust_level = 50 * (U.trust_level +5)/10 + 50 * obsolescence
-		double newDependability = (reputation + 5) / 10 + 50 * obsolescence;
+		double newDependability = 50*(reputation + 5) / 10 + 50 * obsolescence;
 		return newDependability;
 	}
 }

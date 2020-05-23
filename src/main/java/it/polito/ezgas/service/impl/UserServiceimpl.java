@@ -47,10 +47,7 @@ public class UserServiceimpl implements UserService {
 	public UserDto saveUser(UserDto userDto) {
 		User user2 = repository.findByEmail(userDto.getEmail());
 		
-		// User not registered, but ID set, IMPOSSIBLE
-		if(user2 == null && userDto.getUserId() != null) {
-			return null;
-		} else if (userDto.getUserId()==null) {	// CASE SAVE: 
+		if (userDto.getUserId()==null) {	// CASE SAVE: 
 			if (user2 != null) // account with same mail already existing -> reject
 				return null;
 		} else {	// CASE UPDATE:
