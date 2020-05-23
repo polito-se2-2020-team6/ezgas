@@ -65,7 +65,7 @@ agent GasStationServiceimpl.latLonCorrect as latLonCorrect
 agent GasStationRepository.findOne as findOneGs
 agent GasStationRepository.findAll as findAllGs
 agent GasStationRepository.findByCarSharing as findByCarSharing
-agent GasStationRepository.findByAddress as findByAddress
+agent GasStationRepository.findByGasStationAddress as findByGasStationAddress
 agent GasStationRepository.save as saveGs
 agent GasStationMapper.toGSDto as toGSDto
 agent GasStationMapper.toGS as toGS
@@ -239,7 +239,7 @@ saveGasStation -- priceCorrect
 saveGasStation -- latLonCorrect
 saveGasStation -- saveGs
 saveGasStation -- toGSDto
-saveGasStation -- findByAddress
+saveGasStation -- findByGasStationAddress
 getAllGasStations -- findAllGs
 getAllGasStations -- toGSDto
 deleteGasStation -- findOneGs

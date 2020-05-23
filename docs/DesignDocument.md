@@ -314,7 +314,7 @@ package "it.polito.ezgas.repository" as repository {
 	interface "GasStationRepository" as gsrep{
         - findAll() : List<GasStation>
         - findByCarSharing(String) : List<GasStation>
-        - findByAddress(String) : GasStation
+        - findByGasStationAddress(String) : GasStation
 	}
 
 }
