@@ -497,14 +497,15 @@ public class TestGasStationServiceimpl {
 
 		when(mockGSR.findOne(eq(120))).thenReturn(dummyGS1);
 		when(mockGSR.findOne(eq(121))).thenReturn(dummyGS2);
-		when(mockGSR.findOne(eq(122))).thenReturn(dummyGS3);
-		when(mockGSR.findOne(eq(123))).thenReturn(dummyGS3);
+		when(mockGSR.findOne(eq(122))).thenReturn(dummyGS3).thenReturn(null);
+		when(mockGSR.findOne(eq(123))).thenReturn(dummyGS4);
 		when(mockGSR.findOne(eq(-5))).thenReturn(null);
 		when(mockGSR.save(any(GasStation.class))).thenReturn(dummyGS4);
 		when(mockGSR.findByCarSharing("Enjoy")).thenReturn(alE);
 		when(mockGSR.findByCarSharing("Car2Go")).thenReturn(alC);
 		when(mockGSR.findByCarSharing("null")).thenReturn(al);
 		when(mockGSR.findByAddress("Viale Della Rinascita 12")).thenReturn(dummyGS2);
+		when(mockGSR.findByAddress("Indirizzo Fake")).thenReturn(null);
 		when(mockUR.findOne(eq(42))).thenReturn(dummyU);
 		when(mockGSR.findAll())
 		.thenAnswer(new Answer<List<GasStation>>() {
@@ -585,8 +586,68 @@ public class TestGasStationServiceimpl {
 	public void testSaveGasStation4() {
 		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
 		try {
-			GasStationDto res = GsService.saveGasStation(new GasStationDto(121, "Agip", "Viale Della Rinascita 12", false, true, false, false, true, "Car2Go", 25.789, -45.785, -1, -1, -1, -1, 0, 2, "18/05/2020, 14:24", 29.6));
+			GasStationDto res = GsService.saveGasStation(new GasStationDto(null, "Agip", "Viale Della Rinascita 12", false, true, false, false, true, "Car2Go", 25.789, -45.785, -1, -1, -1, -1, 0, 2, "18/05/2020, 14:24", 29.6));
 			assertNull(res);
+		} catch (PriceException e) {
+			fail();
+		} catch (GPSDataException e) {
+			fail();
+		}
+	}
+	@Test
+	public void testSaveGasStation5() {
+		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
+		try {
+			GasStationDto res = GsService.saveGasStation(new GasStationDto(121, "Agip", "Indirizzo Fake", false, true, false, false, true, "Car2Go", 25.789, -45.785, -1, -1, -1, -1, 0, 2, "18/05/2020, 14:24", 29.6));
+			assertEquals(new Integer(123), res.getGasStationId());
+			assertEquals("Eni", res.getGasStationName());
+			assertEquals("Via Garibaldi 33", res.getGasStationAddress());
+			assertTrue(res.getHasDiesel());
+			assertTrue(res.getHasSuper());
+			assertFalse(res.getHasSuperPlus());
+			assertTrue(res.getHasGas());
+			assertTrue(res.getHasMethane());
+			assertEquals("Car2Go",res.getCarSharing());
+			assertEquals(11.233, res.getLat(),0.1);
+			assertEquals(47.304, res.getLon(),0.1);
+			assertEquals(1.225,res.getDieselPrice(),0.1);
+			assertEquals(2.553,res.getSuperPrice(),0.1);
+			assertEquals(-1,res.getSuperPlusPrice(),0.1);
+			assertEquals(2.098,res.getGasPrice(),0.1);
+			assertEquals(1.003,res.getMethanePrice(),0.1);
+			assertEquals(new Integer(42),res.getReportUser());
+			assertEquals("18/05/2020, 19:00", res.getReportTimestamp());
+			assertEquals(23.6,res.getReportDependability(),0.1);
+		} catch (PriceException e) {
+			fail();
+		} catch (GPSDataException e) {
+			fail();
+		}
+	}
+	@Test
+	public void testSaveGasStation6() {
+		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
+		try {
+			GasStationDto res = GsService.saveGasStation(new GasStationDto(null, "Agip", "Indirizzo Fake", false, true, false, false, true, "Car2Go", 25.789, -45.785, -1, -1, -1, -1, 0, 2, "18/05/2020, 14:24", 29.6));
+			assertEquals(new Integer(123), res.getGasStationId());
+			assertEquals("Eni", res.getGasStationName());
+			assertEquals("Via Garibaldi 33", res.getGasStationAddress());
+			assertTrue(res.getHasDiesel());
+			assertTrue(res.getHasSuper());
+			assertFalse(res.getHasSuperPlus());
+			assertTrue(res.getHasGas());
+			assertTrue(res.getHasMethane());
+			assertEquals("Car2Go",res.getCarSharing());
+			assertEquals(11.233, res.getLat(),0.1);
+			assertEquals(47.304, res.getLon(),0.1);
+			assertEquals(1.225,res.getDieselPrice(),0.1);
+			assertEquals(2.553,res.getSuperPrice(),0.1);
+			assertEquals(-1,res.getSuperPlusPrice(),0.1);
+			assertEquals(2.098,res.getGasPrice(),0.1);
+			assertEquals(1.003,res.getMethanePrice(),0.1);
+			assertEquals(new Integer(42),res.getReportUser());
+			assertEquals("18/05/2020, 19:00", res.getReportTimestamp());
+			assertEquals(23.6,res.getReportDependability(),0.1);
 		} catch (PriceException e) {
 			fail();
 		} catch (GPSDataException e) {
@@ -626,15 +687,15 @@ public class TestGasStationServiceimpl {
 		assertEquals(new Integer(4), res.size(),0.1);
 	}
 
-	/*@Test
+	@Test
 	public void deleteGasStation1() {
 		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
 		try {
-			assertTrue(GsService.deleteGasStation(122)); //Riguardare
+			assertTrue(GsService.deleteGasStation(122)); 
 		} catch (InvalidGasStationException e) {
 			fail();
 		}
-	}*/
+	}
 
 	@Test
 	public void testDeleteGasStation2() {
@@ -683,7 +744,7 @@ public class TestGasStationServiceimpl {
 		List<GasStationDto> res;
 		try {
 			res = GsService.getGasStationsByGasolineType("Diesel");
-			assertEquals(new Integer(3), res.size(),0.1);
+			assertEquals(3,res.size());
 		} catch (InvalidGasTypeException e) {
 			fail();
 		}
@@ -736,7 +797,7 @@ public class TestGasStationServiceimpl {
 
 		try {
 			List<GasStationDto> res = GsService.getGasStationsByProximity(-25.789, 45.785);
-			assertEquals(new Integer(1), res.size(),0.1);
+			assertEquals(1, res.size());
 		} catch (GPSDataException e) {
 			fail();
 		}
@@ -771,14 +832,14 @@ public class TestGasStationServiceimpl {
 	public void testGetGasStationsByCarSharing2() {
 		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
 		List<GasStationDto> res = GsService.getGasStationByCarSharing("null");
-		assertEquals(new Integer(4), res.size(), 0.1);
+		assertEquals(4, res.size());
 	}
 	
 	@Test
 	public void testGetGasStationsByCarSharing3() {
 		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
 		List<GasStationDto> res = GsService.getGasStationByCarSharing("Car2Go");
-		assertEquals(new Integer(2), res.size(), 0.1);
+		assertEquals(2, res.size());
 	}
 	
 	
@@ -822,7 +883,7 @@ public class TestGasStationServiceimpl {
 		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
 		try {
 			List<GasStationDto> res = GsService.getGasStationsWithoutCoordinates("Gas", "Enjoy");
-			assertEquals(new Integer(1), res.size(),0.1);
+			assertEquals(1, res.size());
 		} catch (InvalidGasTypeException e) {
 			fail();
 		}
@@ -883,7 +944,7 @@ public class TestGasStationServiceimpl {
 		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
 		try {
 			List<GasStationDto> res = GsService.getGasStationsWithCoordinates(-25.789, 45.785, "Gas", "Enjoy");
-			assertEquals(new Integer(0), res.size(),0.1);
+			assertEquals(0, res.size());
 		} catch (InvalidGasTypeException e) {
 			fail();
 		}catch (GPSDataException e) {
@@ -896,7 +957,7 @@ public class TestGasStationServiceimpl {
 		GasStationServiceimpl GsService = new GasStationServiceimpl(mockGSR, mockUR);
 		try {
 			List<GasStationDto> res = GsService.getGasStationsWithCoordinates(-25.789, 45.785, "Diesel", "Enjoy");
-			assertEquals(new Integer(1), res.size(),0.1);
+			assertEquals(1, res.size());
 		} catch (InvalidGasTypeException e) {
 			fail();
 		}catch (GPSDataException e) {
@@ -959,18 +1020,19 @@ public class TestGasStationServiceimpl {
 		assertThrows(InvalidUserException.class, ()->GsService.setReport(123, 1.225, 2.553, -1, 2.098, 1.003, 13));
 	}
 	
-	/*@Test
+	@Test
 	public void mapGasolineTypeToMethod1() {
 		try {
 			Method example = GasStationServiceimpl.class.getDeclaredMethod("mapGasolineTypeToMethod", String.class);
 			example.setAccessible(true);
 
 			Predicate<GasStationDto> res = (Predicate<GasStationDto>) example.invoke(new GasStationServiceimpl(mockGSR, mockUR), "Diesel");
-			assertEquals("getHasDiesel",res);
+			assertTrue(res.test(GasStationMapper.toGSDto(new GasStation("DB Carburanti", "Viale Trieste 135", true, true, false, false, true, "Enjoy", -25.789, 45.785, 0, 0, -1, -1, 0, 23, "19/05/2020, 11:24", 25.6))));
+			assertFalse(res.test(GasStationMapper.toGSDto(new GasStation("DB Carburanti", "Viale Trieste 135", false, true, false, false, true, "Enjoy", -25.789, 45.785, 0, 0, -1, -1, 0, 23, "19/05/2020, 11:24", 25.6))));
 		}catch(NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			fail("Method not found");
 		}	
-	}*/
+	}
 	
 	@Test
 	public void testPriceCorrect1() {
