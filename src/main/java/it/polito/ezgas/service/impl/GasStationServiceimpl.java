@@ -59,14 +59,14 @@ public class GasStationServiceimpl implements GasStationService {
 	@Override
 	public GasStationDto saveGasStation(GasStationDto gasStationDto) throws PriceException, GPSDataException {
 		GasStation gs;
-		GasStation gsOld = gasStationRepository.findByAddress(gasStationDto.getGasStationAddress()); //controls if there's already a gas station with the same address; it it exists, the insertion isn't done			
+		GasStation gsOld = gasStationRepository.findByGasStationAddress(gasStationDto.getGasStationAddress()); //controls if there's already a gas station with the same address; it it exists, the insertion isn't done			
 		if(gasStationDto.getGasStationId()==null) {
 			if(gsOld!=null) {
 				return null;
-			}else {
-				if(gsOld != null && gsOld.getGasStationId()!=gasStationDto.getGasStationId()) {
-					return null;
-				}
+			}
+		}else {
+			if(gsOld != null && gsOld.getGasStationId()!=gasStationDto.getGasStationId()) {
+				return null;
 			}
 		}	
 		//set default prices (0)	
@@ -88,9 +88,9 @@ public class GasStationServiceimpl implements GasStationService {
 			throw new GPSDataException("ERROR: Invalid latitude(" + gasStationDto.getLat() + ") or longitude(" + gasStationDto.getLon() + ") values");
 		}
 		else {
-				gs = gasStationRepository.save(GasStationMapper.toGS(gasStationDto));
-				return GasStationMapper.toGSDto(gs);
-			
+			gs = gasStationRepository.save(GasStationMapper.toGS(gasStationDto));
+			return GasStationMapper.toGSDto(gs);
+
 		}
 	}
 

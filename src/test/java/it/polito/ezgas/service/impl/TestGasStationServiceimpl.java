@@ -504,8 +504,8 @@ public class TestGasStationServiceimpl {
 		when(mockGSR.findByCarSharing("Enjoy")).thenReturn(alE);
 		when(mockGSR.findByCarSharing("Car2Go")).thenReturn(alC);
 		when(mockGSR.findByCarSharing("null")).thenReturn(al);
-		when(mockGSR.findByAddress("Viale Della Rinascita 12")).thenReturn(dummyGS2);
-		when(mockGSR.findByAddress("Indirizzo Fake")).thenReturn(null);
+		when(mockGSR.findByGasStationAddress("Viale Della Rinascita 12")).thenReturn(dummyGS2);
+		when(mockGSR.findByGasStationAddress("Indirizzo Fake")).thenReturn(null);
 		when(mockUR.findOne(eq(42))).thenReturn(dummyU);
 		when(mockGSR.findAll())
 		.thenAnswer(new Answer<List<GasStation>>() {

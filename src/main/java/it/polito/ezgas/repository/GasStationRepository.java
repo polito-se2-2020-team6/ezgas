@@ -13,6 +13,6 @@ public interface GasStationRepository extends CrudRepository<GasStation, Integer
 
 	List<GasStation> findByCarSharing(String carSharing);
 
-	GasStation findByAddress(String gasStationAddress);
+	GasStation findByGasStationAddress(String gasStationAddress);
 
 }
