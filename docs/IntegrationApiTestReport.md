@@ -46,7 +46,8 @@ Version: 0.1
 ```plantuml
 @startuml
 
-
+agent GasStation as GS
+agent GasStationDto as GSDto
 agent GasStationServiceimpl.getGasStationById as getGasStationById
 agent GasStationServiceimpl.saveGasStation as saveGasStation
 agent GasStationServiceimpl.getAllGasStations as getAllGasStations
@@ -69,72 +70,20 @@ agent GasStationRepository.findByGasStationAddress as findByGasStationAddress
 agent GasStationRepository.save as saveGs
 agent GasStationMapper.toGSDto as toGSDto
 agent GasStationMapper.toGS as toGS
-agent GasStation.getGasStationId as getGasStationId
-agent GasStation.setGasStationId as setGasStationId
-agent GasStation.getGasStationName as getGasStationName
-agent GasStation.setGasStationName as setGasStationName
-agent GasStation.getGasStationAddress as getGasStationAddress
-agent GasStation.setGasStationAddress as setGasStationAddress
-agent GasStation.getReportDependability as getReportDependability
 agent GasStation.setReportDependability as setReportDependability
-agent GasStation.getReportUser as getReportUser
 agent GasStation.setReportUser as setReportUser
-agent GasStation.getReportTimestamp as getReportTimestamp
-agent GasStation.setReportTimestamp as setReportTimestamp
-agent GasStation.getHasDiesel as getHasDiesel
-agent GasStation.setHasDiesel as setHasDiesel
-agent GasStation.getHasSuper as getHasSuper
-agent GasStation.setHasSuper as setHasSuper
-agent GasStation.getHasSuperPlus as getHasSuperPlus
-agent GasStation.setHasSuperPlus as setHasSuperPlus
-agent GasStation.getHasGas as getHasGas
-agent GasStation.setHasGas as setHasGas
-agent GasStation.getHasMethane as getHasMethane
-agent GasStation.setHasMethane as setHasMethane
-agent GasStation.getLat as getLat
-agent GasStation.setLat as setLat
-agent GasStation.getLon as getLon
-agent GasStation.setLon as setLon
-agent GasStation.getDieselPrice as getDieselPrice
 agent GasStation.setDieselPrice as setDieselPrice
-agent GasStation.getSuperPrice as getSuperPrice
 agent GasStation.setSuperPrice as setSuperPrice
-agent GasStation.getSuperPlusPrice as getSuperPlusPrice
 agent GasStation.setSuperPlusPrice as setSuperPlusPrice
-agent GasStation.getGasPrice as getGasPrice
 agent GasStation.setGasPrice as setGasPrice
-agent GasStation.getMethanePrice as getMethanePrice
 agent GasStation.setMethanePrice as setMethanePrice
-agent GasStation.getUser as getUser
 agent GasStation.setUser as setUser
-agent GasStation.getCarSharing as getCarSharing
-agent GasStation.setCarSharing as setCarSharing
-agent GasStationDto.getGasStationId as getGasStationIdDto
-agent GasStationDto.setGasStationId as setGasStationIdDto
-agent GasStationDto.getGasStationName as getGasStationNameDto
-agent GasStationDto.setGasStationName as setGasStationNameDto
-agent GasStationDto.getGasStationAddress as getGasStationAddressDto
-agent GasStationDto.setGasStationAddress as setGasStationAddressDto
-agent GasStationDto.getReportDependability as getReportDependabilityDto
-agent GasStationDto.setReportDependability as setReportDependabilityDto
-agent GasStationDto.getReportUser as getReportUserDto
-agent GasStationDto.setReportUser as setReportUserDto
-agent GasStationDto.getReportTimestamp as getReportTimestampDto
-agent GasStationDto.setReportTimestamp as setReportTimestampDto
+agent GasStation.setReportTimestamp as setReportTimestamp
 agent GasStationDto.getHasDiesel as getHasDieselDto
-agent GasStationDto.setHasDiesel as setHasDieselDto
 agent GasStationDto.getHasSuper as getHasSuperDto
-agent GasStationDto.setHasSuper as setHasSuperDto
 agent GasStationDto.getHasSuperPlus as getHasSuperPlusDto
-agent GasStationDto.setHasSuperPlus as setHasSuperPlusDto
 agent GasStationDto.getHasGas as getHasGasDto
-agent GasStationDto.setHasGas as setHasGasDto
 agent GasStationDto.getHasMethane as getHasMethaneDto
-agent GasStationDto.setHasMethane as setHasMethaneDto
-agent GasStationDto.getLat as getLatDto
-agent GasStationDto.setLat as setLatDto
-agent GasStationDto.getLon as getLonDto
-agent GasStationDto.setLon as setLonDto
 agent GasStationDto.getDieselPrice as getDieselPriceDto
 agent GasStationDto.setDieselPrice as setDieselPriceDto
 agent GasStationDto.getSuperPrice as getSuperPriceDto
@@ -145,89 +94,12 @@ agent GasStationDto.getGasPrice as getGasPriceDto
 agent GasStationDto.setGasPrice as setGasPriceDto
 agent GasStationDto.getMethanePrice as getMethanePriceDto
 agent GasStationDto.setMethanePrice as setMethanePriceDto
-agent GasStationDto.getUser as getUserDto
-agent GasStationDto.setUser as setUserDto
-agent GasStationDto.getCarSharing as getCarSharingDto
-agent GasStationDto.setCarSharing as setCarSharingDto
 
 
-
-toGS -- setGasStationId
-toGS -- setGasStationName
-toGS -- setGasStationAddress
-toGS -- setCarSharing
-toGS -- setHasDiesel
-toGS -- setHasGas
-toGS -- setHasMethane
-toGS -- setHasSuper
-toGS -- setHasSuperPlus
-toGS -- setDieselPrice
-toGS -- setGasPrice
-toGS -- setMethanePrice
-toGS -- setSuperPrice
-toGS -- setSuperPlusPrice
-toGS -- setLat
-toGS -- setLon
-toGS -- setReportUser
-toGS -- setReportTimestamp
-toGS -- setReportDependability
-toGS -- getGasStationIdDto
-toGS -- getGasStationNameDto
-toGS -- getGasStationAddressDto
-toGS -- getCarSharingDto
-toGS -- getHasDieselDto
-toGS -- getHasGasDto
-toGS -- getHasMethaneDto
-toGS -- getHasSuperDto
-toGS -- getHasSuperPlusDto
-toGS -- getDieselPriceDto
-toGS -- getGasPriceDto
-toGS -- getMethanePriceDto
-toGS -- getSuperPriceDto
-toGS -- getSuperPlusPriceDto
-toGS -- getLatDto
-toGS -- getLonDto
-toGS -- getReportUserDto
-toGS -- getReportTimestampDto
-toGS -- getReportDependabilityDto
-toGSDto -- setGasStationIdDto
-toGSDto -- setGasStationNameDto
-toGSDto -- setGasStationAddressDto
-toGSDto -- setCarSharingDto
-toGSDto -- setHasDieselDto
-toGSDto -- setHasGasDto
-toGSDto -- setHasMethaneDto
-toGSDto -- setHasSuperDto
-toGSDto -- setHasSuperPlusDto
-toGSDto -- setDieselPriceDto
-toGSDto -- setGasPriceDto
-toGSDto -- setMethanePriceDto
-toGSDto -- setSuperPriceDto
-toGSDto -- setSuperPlusPriceDto
-toGSDto -- setLatDto
-toGSDto -- setLonDto
-toGSDto -- setReportUserDto
-toGSDto -- setReportTimestampDto
-toGSDto -- setReportDependabilityDto
-toGSDto -- getGasStationId
-toGSDto -- getGasStationName
-toGSDto -- getGasStationAddress
-toGSDto -- getCarSharing
-toGSDto -- getHasDiesel
-toGSDto -- getHasGas
-toGSDto -- getHasMethane
-toGSDto -- getHasSuper
-toGSDto -- getHasSuperPlus
-toGSDto -- getDieselPrice
-toGSDto -- getGasPrice
-toGSDto -- getMethanePrice
-toGSDto -- getSuperPrice
-toGSDto -- getSuperPlusPrice
-toGSDto -- getLat
-toGSDto -- getLon
-toGSDto -- getReportUser
-toGSDto -- getReportTimestamp
-toGSDto -- getReportDependability
+toGS -- GS
+toGS -- GSDto
+toGSDto -- GS
+toGSDto -- GSDto
 getGasStationById -- findOneGs
 getGasStationById -- toGSDto
 saveGasStation -- setDieselPriceDto
@@ -239,6 +111,7 @@ saveGasStation -- priceCorrect
 saveGasStation -- latLonCorrect
 saveGasStation -- saveGs
 saveGasStation -- toGSDto
+saveGasStation -- toGS
 saveGasStation -- findByGasStationAddress
 getAllGasStations -- findAllGs
 getAllGasStations -- toGSDto
