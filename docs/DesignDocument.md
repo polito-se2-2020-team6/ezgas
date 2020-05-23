@@ -344,7 +344,7 @@ package "it.polito.ezgas.scheduling" {
         - seenUsers : Map<INteger, User>
         + scheduleUpdateGasStationReportDependability()
         - updateGasStationsReportDependability() : int
-        - computeNewDependability(GasStation) : double
+        - computeNewDependability(String, Integer) : double
     }
 }
 

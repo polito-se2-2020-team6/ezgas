@@ -174,7 +174,7 @@ public class GasStationServiceimpl implements GasStationService {
 		User u = optU.get();
 		// Check price report compatibility with gas station
 		if(!priceCorrect(GasStationMapper.toGSDto(gs))){
-			throw new PriceException("ERROR: Price not valid or setted");
+			throw new PriceException("ERROR: Price not valid or set");
 		}
 
 		// TODO: Missing methane and lpg args

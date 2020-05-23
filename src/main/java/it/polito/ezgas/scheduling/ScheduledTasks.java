@@ -52,7 +52,7 @@ public class ScheduledTasks {
 		.forEach(gs -> {
 
 			try {
-				double newDependability = this.computeNewDependability(gs);
+				double newDependability = this.computeNewDependability(gs.getReportTimestamp(), gs.getUser().getUserId());
 				gs.setReportDependability(newDependability);
 				gasStationsToUpdate.add(gs);
 
@@ -70,8 +70,8 @@ public class ScheduledTasks {
 		return gasStationsToUpdate.size();
 	}
 
-	private double computeNewDependability(GasStation gs) throws ParseException {
-		Date reportTimestamp = this.df.parse(gs.getReportTimestamp());
+	private double computeNewDependability(String timestamp, Integer userId) throws ParseException {
+		Date reportTimestamp = this.df.parse(timestamp);
 		//    obsolescence = 0 if (today - P.time_tag) > 7 days 
 		//    otherwise obsolescence = 1 - (today - P.time_tag)/7
 		long msecDifference = this.now.getTime() - reportTimestamp.getTime();
@@ -79,16 +79,16 @@ public class ScheduledTasks {
 		double obsolescence = daysDifference > 7 ? 0 : 1 - daysDifference / 7;
 
 		User reportUser;
-		if(this.seenUsers.containsKey(gs.getUser().getUserId())) {
-			reportUser = seenUsers.get(gs.getUser().getUserId());
+		if(this.seenUsers.containsKey(userId)) {
+			reportUser = seenUsers.get(userId);
 		} else {
-			reportUser = this.userRepository.findOne(gs.getUser().getUserId());
-			this.seenUsers.put(gs.getUser().getUserId(), reportUser);
+			reportUser = this.userRepository.findOne(userId);
+			this.seenUsers.put(userId, reportUser);
 		}
 		int reputation = reportUser.getReputation();
 
 		// pr.trust_level = 50 * (U.trust_level +5)/10 + 50 * obsolescence
-		double newDependability = (reputation + 5) / 10 + 50 * obsolescence;
+		double newDependability = 50*(reputation + 5) / 10 + 50 * obsolescence;
 		return newDependability;
 	}
 }
