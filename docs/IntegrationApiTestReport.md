@@ -2,7 +2,7 @@
 
 Authors: Alessandro Borione, Giacomo Garaccione, Corrado Vecchio, Marco Vinai
 
-Date: 20/05/2020
+Date: 23/05/2020
 
 Version: 0.1
 
@@ -10,17 +10,25 @@ Version: 0.1
 - [Integration and API Test Documentation](#integration-and-api-test-documentation)
 - [Contents](#contents)
 - [Dependency graph](#dependency-graph)
-	- [Class it.polito.ezgas.service.impl.UserServiceimpl](#class-itpolitoezgasserviceimpluserserviceimpl)
 - [Integration approach](#integration-approach)
 - [Tests](#tests)
 	- [Step 1](#step-1)
 	- [Step 2](#step-2)
-	- [Step n API Tests](#step-n-api-tests)
+	- [Step 3 - API Tests](#step-3---api-tests)
 - [Scenarios](#scenarios)
 	- [Scenario UC1.2](#scenario-uc12)
 	- [Scenario UC2.2](#scenario-uc22)
 	- [Scenario UC2.3](#scenario-uc23)
 	- [Scenario UC3.2](#scenario-uc32)
+	- [Scenario UC4.2](#scenario-uc42)
+	- [Scenario UC4.3](#scenario-uc43)
+	- [Scenario UC5.2](#scenario-uc52)
+	- [Scenario UC6.2](#scenario-uc62)
+	- [Scenario UC7.2](#scenario-uc72)
+	- [Scenario UC7.3](#scenario-uc73)
+	- [Scenario UC7.4](#scenario-uc74)
+	- [Scenario UC8.2](#scenario-uc82)
+	- [Scenario UC8.3](#scenario-uc83)
 	- [Scenario UC10.3](#scenario-uc103)
 	- [Scenario UC10.4](#scenario-uc104)
 	- [Scenario UC10.5](#scenario-uc105)
@@ -31,8 +39,6 @@ Version: 0.1
 - [Line coverage](#line-coverage)
 
 # Dependency graph 
-
-## Class it.polito.ezgas.service.impl.UserServiceimpl
 
 ```plantuml
 @startuml
@@ -60,6 +66,59 @@ agent "new LoginDto" as newLoginDto
 agent UserServiceimpl.increaseUserReputation as increaseUserReputation
 agent User.setReputation as setReputation
 agent UserServiceimpl.decreaseUserReputation as decreaseUserReputation
+agent User.getUserId as getUserId
+agent UserDto.getUserId as getUserIdDto
+agent User.getReputation as getReputation
+agent UserDto.getEmail as getEmailDto
+
+agent GasStation as GS
+agent GasStationDto as GSDto
+agent GasStationServiceimpl.getGasStationById as getGasStationById
+agent GasStationServiceimpl.saveGasStation as saveGasStation
+agent GasStationServiceimpl.getAllGasStations as getAllGasStations
+agent GasStationServiceimpl.deleteGasStation as deleteGasStation
+agent GasStationServiceimpl.getGasStationsByGasolineType as getGasStationsByGasolineType
+agent GasStationServiceimpl.getGasStationsByProximity as getGasStationsByProximity
+agent GasStationServiceimpl.getGasStationsWithCoordinates as getGasStationsWithCoordinates
+agent GasStationServiceimpl.getGasStationsWithoutCoordinates as getGasStationsWithoutCoordinates
+agent GasStationServiceimpl.setReport as setReport
+agent GasStationServiceimpl.getGasStationByCarSharing as getGasStationByCarSharing
+agent GasStationServiceimpl.isGasolineTypeValid as isGasolineTypeValid
+agent GasStationServiceimpl.mapGasolineTypeToMethod as mapGasolineTypeToMethod
+agent GasStationServiceimpl.priceCorrect as priceCorrect
+agent GasStationServiceimpl.geoPointDistance as geoPointDistance
+agent GasStationServiceimpl.latLonCorrect as latLonCorrect
+agent GasStationRepository.findOne as findOneGs
+agent GasStationRepository.findAll as findAllGs
+agent GasStationRepository.findByCarSharing as findByCarSharing
+agent GasStationRepository.findByGasStationAddress as findByGasStationAddress
+agent GasStationRepository.save as saveGs
+agent GasStationMapper.toGSDto as toGSDto
+agent GasStationMapper.toGS as toGS
+agent GasStation.setReportDependability as setReportDependability
+agent GasStation.setReportUser as setReportUser
+agent GasStation.setDieselPrice as setDieselPrice
+agent GasStation.setSuperPrice as setSuperPrice
+agent GasStation.setSuperPlusPrice as setSuperPlusPrice
+agent GasStation.setGasPrice as setGasPrice
+agent GasStation.setMethanePrice as setMethanePrice
+agent GasStation.setUser as setUser
+agent GasStation.setReportTimestamp as setReportTimestamp
+agent GasStationDto.getHasDiesel as getHasDieselDto
+agent GasStationDto.getHasSuper as getHasSuperDto
+agent GasStationDto.getHasSuperPlus as getHasSuperPlusDto
+agent GasStationDto.getHasGas as getHasGasDto
+agent GasStationDto.getHasMethane as getHasMethaneDto
+agent GasStationDto.getDieselPrice as getDieselPriceDto
+agent GasStationDto.setDieselPrice as setDieselPriceDto
+agent GasStationDto.getSuperPrice as getSuperPriceDto
+agent GasStationDto.setSuperPrice as setSuperPriceDto
+agent GasStationDto.getSuperPlusPrice as getSuperPlusPriceDto
+agent GasStationDto.setSuperPlusPrice as setSuperPlusPriceDto
+agent GasStationDto.getGasPrice as getGasPriceDto
+agent GasStationDto.setGasPrice as setGasPriceDto
+agent GasStationDto.getMethanePrice as getMethanePriceDto
+agent GasStationDto.setMethanePrice as setMethanePriceDto
 
 getUserById -- findOne
 getUserById -- toUserDto
@@ -67,6 +126,9 @@ toUserDto -- newUserDto
 saveUser -- toUser
 saveUser -- save
 saveUser -- toUserDto
+saveUser -- getEmailDto
+saveUser -- getUserId
+saveUser -- getUserIdDto
 toUser -- newUser
 getAllUsers -- findAll
 getAllUsers -- toUserDto
@@ -81,107 +143,202 @@ login -- toLoginDto
 toLoginDto -- newLoginDto
 increaseUserReputation -- findOne
 increaseUserReputation -- setReputation
+increaseUserReputation -- getReputation
 increaseUserReputation -- save
 decreaseUserReputation -- findOne
 decreaseUserReputation -- setReputation
+decreaseUserReputation -- getReputation
 decreaseUserReputation -- save
 
+toGS -- GS
+toGS -- GSDto
+toGSDto -- GS
+toGSDto -- GSDto
+getGasStationById -- findOneGs
+getGasStationById -- toGSDto
+saveGasStation -- setDieselPriceDto
+saveGasStation -- setGasPriceDto
+saveGasStation -- setMethanePriceDto
+saveGasStation -- setSuperPriceDto
+saveGasStation -- setSuperPlusPriceDto
+saveGasStation -- priceCorrect
+saveGasStation -- latLonCorrect
+saveGasStation -- saveGs
+saveGasStation -- toGSDto
+saveGasStation -- toGS
+saveGasStation -- findByGasStationAddress
+getAllGasStations -- findAllGs
+getAllGasStations -- toGSDto
+deleteGasStation -- findOneGs
+getGasStationsByGasolineType -- isGasolineTypeValid
+getGasStationsByGasolineType -- findAllGs
+getGasStationsByGasolineType -- toGSDto
+getGasStationsByGasolineType -- mapGasolineTypeToMethod
+getGasStationsByProximity -- latLonCorrect
+getGasStationsByProximity -- findAllGs
+getGasStationsByProximity -- geoPointDistance
+getGasStationsByProximity -- toGSDto
+getGasStationsWithCoordinates -- latLonCorrect
+getGasStationsWithCoordinates -- getGasStationsWithoutCoordinates
+getGasStationsWithCoordinates -- geoPointDistance
+getGasStationsWithoutCoordinates -- isGasolineTypeValid
+getGasStationsWithoutCoordinates -- getGasStationByCarSharing
+getGasStationsWithoutCoordinates -- mapGasolineTypeToMethod
+setReport -- findOneGs
+setReport -- findOne
+setReport -- priceCorrect
+setReport -- toGSDto
+setReport -- setDieselPrice
+setReport -- setGasPrice
+setReport -- setMethanePrice
+setReport -- setSuperPrice
+setReport -- setSuperPlusPrice
+setReport -- setReportUser
+setReport -- setUser
+setReport -- getUserId
+setReport -- setReportTimestamp
+setReport -- setReportDependability
+setReport -- getReputation
+setReport -- saveGs
+getGasStationByCarSharing -- getAllGasStations
+getGasStationByCarSharing -- findByCarSharing
+getGasStationByCarSharing -- toGSDto
+mapGasolineTypeToMethod -- getHasDieselDto
+mapGasolineTypeToMethod -- getHasGasDto
+mapGasolineTypeToMethod -- getHasMethaneDto
+mapGasolineTypeToMethod -- getHasSuperDto
+mapGasolineTypeToMethod -- getHasSuperPlusDto
+priceCorrect -- getHasDieselDto
+priceCorrect -- getDieselPriceDto
+priceCorrect -- getHasGasDto
+priceCorrect -- getGasPriceDto
+priceCorrect -- getHasMethaneDto
+priceCorrect -- getMethanePriceDto
+priceCorrect -- getHasSuperDto
+priceCorrect -- getSuperPriceDto
+priceCorrect -- getHasSuperPlusDto
+priceCorrect -- getSuperPlusPriceDto
 @enduml
 ```
-
-	  
 # Integration approach
 
 Bottom up integration:
 
 0. Unit testing -> Entity and Dto classes assumed reliable, since have only basic getters/setters (checks done at upper layers)	 
-1. Mapper testing -> UserMapper, LoginMapper (Individual test)
-2. Service testing -> UserServiceImpl + UserMapper + LoginMapper 
+1. Mapper testing -> UserMapper, LoginMapper, GasStationMapper (Individual test)
+2. Service testing -> UserServiceImpl + UserMapper + LoginMapper, GasStationServiceimpl + GasStationMapper
+3. API testing -> UserServiceimpl + GasStationServiceimpl
 
 UserRepository implementation is considered reliable, since autogenerated, as well as Entity and DTO classes;
 Mockito used in tests for database simulation (fixed results with repository calls).
-   
-	 
-	 
-	 <Write here the integration sequence you adopted, in general terms (top down, bottom up, mixed) and as sequence
-	 (ex: step1: class A, step 2: class A+B, step 3: class A+B+C, etc)> 
-	 <The last integration step corresponds to API testing at level of Service package>
-	 <Tests at level of Controller package will be done later>
-
-
 
 #  Tests
 
-	<define below a table for each integration step. For each integration step report the group of classes under test, and the names of
-	  JUnit test cases applied to them>
-
 ## Step 1
-|   Classes   | JUnit test cases  |
-| :---------: | :---------------: |
-| UserMapper  | testToUserDto1()  |
-|             | testToUserDto2()  |
-|             | testToUserDto3()  |
-|             | testToUserDto4()  |
-|             | testToUserDto5()  |
-|             | testToUserDto6()  |
-|             | testToUserDto7()  |
-|             | testToUserDto8()  |
-|             |   testToUser1()   |
-|             |   testToUser2()   |
-|             |   testToUser3()   |
-|             |   testToUser4()   |
-| LoginMapper | testToLoginDto1() |
-|             | testToLoginDto2() |
-|             | testToLoginDto3() |
-|             | testToLoginDto4() |
+|     Classes      | JUnit test cases  |
+| :--------------: | :---------------: |
+|    UserMapper    | testToUserDto1()  |
+|                  | testToUserDto2()  |
+|                  | testToUserDto3()  |
+|                  | testToUserDto4()  |
+|                  | testToUserDto5()  |
+|                  | testToUserDto6()  |
+|                  | testToUserDto7()  |
+|                  | testToUserDto8()  |
+|                  |   testToUser1()   |
+|                  |   testToUser2()   |
+|                  |   testToUser3()   |
+|                  |   testToUser4()   |
+|   LoginMapper    | testToLoginDto1() |
+|                  | testToLoginDto2() |
+|                  | testToLoginDto3() |
+|                  | testToLoginDto4() |
+| GasStationMapper |    testToGS1()    |
+|                  |    testToGS2()    |
+|                  |    testToGS3()    |
+|                  |    testToGS4()    |
+|                  |    testToGS5()    |
+|                  |    testToGS6()    |
+|                  |  testToGSDto1()   |
+|                  |  testToGSDto2()   |
+|                  |  testToGSDto3()   |
+|                  |  testToGSDto4()   |
 
 
 ## Step 2
-|                  Classes                   |     JUnit test cases      |
-| :----------------------------------------: | :-----------------------: |
-| UserServiceImpl + UserMapper + LoginMapper |    testGetUserById1()     |
-|                                            |    testGetUserById2()     |
-|                                            |      testSaveUser1()      |
-|                                            |      testSaveUser2()      |
-|                                            |      testSaveUser3()      |
-|                                            |      testSaveUser4()      |
-|                                            |      testSaveUser5()      |
-|                                            |     testDeleteUser1()     |
-|                                            |     testDeleteUser2()     |
-|                                            |       testLogin1()        |
-|                                            |       testLogin2()        |
-|                                            |       testLogin3()        |
-|                                            |    testGetAllUsers1()     |
-|                                            |    testGetAllUsers2()     |
-|                                            | testIncreaseReputation1() |
-|                                            | testIncreaseReputation2() |
-|                                            | testIncreaseReputation3() |
-|                                            | testIncreaseReputation4() |
-|                                            | testDecreaseReputation1() |
-|                                            | testDecreaseReputation2() |
-|                                            | testDecreaseReputation3() |
-|                                            | testDecreaseReputation4() |
+|                  Classes                   |            JUnit test cases             |
+| :----------------------------------------: | :-------------------------------------: |
+| UserServiceImpl + UserMapper + LoginMapper |           testGetUserById1()            |
+|                                            |           testGetUserById2()            |
+|                                            |             testSaveUser1()             |
+|                                            |             testSaveUser2()             |
+|                                            |             testSaveUser3()             |
+|                                            |             testSaveUser4()             |
+|                                            |             testSaveUser5()             |
+|                                            |            testDeleteUser1()            |
+|                                            |            testDeleteUser2()            |
+|                                            |              testLogin1()               |
+|                                            |              testLogin2()               |
+|                                            |              testLogin3()               |
+|                                            |           testGetAllUsers1()            |
+|                                            |           testGetAllUsers2()            |
+|                                            |        testIncreaseReputation1()        |
+|                                            |        testIncreaseReputation2()        |
+|                                            |        testIncreaseReputation3()        |
+|                                            |        testIncreaseReputation4()        |
+|                                            |        testDecreaseReputation1()        |
+|                                            |        testDecreaseReputation2()        |
+|                                            |        testDecreaseReputation3()        |
+|                                            |        testDecreaseReputation4()        |
+|  GasStationServiceimpl + GasStationMapper  |        testGetGasStationById1()         |
+|                                            |        testGetGasStationById2()         |
+|                                            |          testSaveGasStation1()          |
+|                                            |          testSaveGasStation2()          |
+|                                            |          testSaveGasStation3()          |
+|                                            |          testSaveGasStation4()          |
+|                                            |          testSaveGasStation5()          |
+|                                            |          testSaveGasStation6()          |
+|                                            |        testGetAllGasStations1()         |
+|                                            |        testGetAllGasStations2()         |
+|                                            |         testDeleteGasStation1()         |
+|                                            |         testDeleteGasStation2()         |
+|                                            |   testGetGasStationsByGasolineType1()   |
+|                                            |   testGetGasStationsByGasolineType2()   |
+|                                            |   testGetGasStationsByGasolineType3()   |
+|                                            |      testGasStationsByProximity1()      |
+|                                            |      testGasStationsByProximity2()      |
+|                                            |      testGasStationsByProximity3()      |
+|                                            |      testGasStationsByProximity4()      |
+|                                            |    testGetGasStationsByCarSharing1()    |
+|                                            |    testGetGasStationsByCarSharing2()    |
+|                                            |    testGetGasStationsByCarSharing3()    |
+|                                            |  testGetGasStationsWithCoordinates1()   |
+|                                            |  testGetGasStationsWithCoordinates2()   |
+|                                            |  testGetGasStationsWithCoordinates3()   |
+|                                            |  testGetGasStationsWithCoordinates4()   |
+|                                            |  testGetGasStationsWithCoordinates5()   |
+|                                            |  testGetGasStationsWithCoordinates6()   |
+|                                            | testGetGasStationsWithoutCoordinates1() |
+|                                            | testGetGasStationsWithoutCoordinates2() |
+|                                            | testGetGasStationsWithoutCoordinates3() |
+|                                            |     testMapGasolineTypeToMethod1()      |
+|                                            |           testPriceCorrect1()           |
+|                                            |           testPriceCorrect2()           |
+|                                            |            testSetReport1()             |
+|                                            |            testSetReport2()             |
+|                                            |            testSetReport3()             |
+|                                            |            testSetReport4()             |
 
+## Step 3 - API Tests
 
+|                 Classes                 | JUnit test cases |
+| :-------------------------------------: | :--------------: |
+| UserServiceimpl + GasStationServiceimpl |        -         |
 
-
-
-## Step n API Tests
-
-	<The last integration step  should correspond to API testing, or tests applied to all classes implementing the APIs defined in the Service package>
-
-| Classes | JUnit test cases |
-| ------- | ---------------- |
-|         |                  |
-
-
+Since those implementation are independent, no tests are needed.
 
 
 # Scenarios
-
-
-<If needed, define here additional scenarios for the application. Scenarios should be named
- referring the UC they detail>
 
 ## Scenario UC1.2
 
@@ -222,6 +379,90 @@ Mockito used in tests for database simulation (fixed results with repository cal
 | Precondition   |  Account U does not exist   |
 | Post condition |       Raise exception       |
 | Notes          |       Fail-safe check       |
+
+## Scenario UC4.2
+
+| Scenario       | Create new Gas Station with already registered address |
+| -------------- | :----------------------------------------------------: |
+| Precondition   |              Gas Station G does not exist              |
+|                | Gas Station with the same address as G already exists  |
+| Post condition |                  Error message shown                   |
+| Step#          |                      Description                       |
+| 1              |    Admin inserts all of G's information and submits    |
+| 2              |  System checks if address is already in the database   |
+| 3              |                  System returns null                   |
+
+## Scenario UC4.3
+
+| Scenario       |     Create new Gas Station with impossible coordinates     |
+| -------------- | :--------------------------------------------------------: |
+| Precondition   |                Gas Station G does not exist                |
+|                | Gas Station's latitude and/or longitude are not acceptable |
+| Post condition |                      Exception shown                       |
+| Step#          |                        Description                         |
+| 1              |      Admin inserts all of G's information and submits      |
+| 2              |  System checks if latitude and longitude are both correct  |
+| 3              |                 System throws an exception                 |
+
+## Scenario UC5.2
+
+| Scenario       |               Update existing Gas Station with already existing address               |
+| -------------- | :-----------------------------------------------------------------------------------: |
+| Precondition   |                         Gas Station G exists in the database                          |
+|                | Admin wants to update the gas station's address with one used for another Gas Station |
+| Post condition |                                    Exception shown                                    |
+| Step#          |                                      Description                                      |
+| 1              |                   Admin inserts all of G's information and submits                    |
+| 2              |                  System checks if address chosen is not already used                  |
+| 3              |                              System throws an exception                               |
+
+## Scenario UC6.2
+
+| Scenario       | Delete a Gas Station that does not exist |
+| -------------- | :--------------------------------------: |
+| Precondition   |       Gas Station G does not exist       |
+| Post condition |             Raise exception              |
+| Notes          |             Fail-safe check              |
+
+## Scenario UC7.2
+
+| Scenario       | Report on a Gas Station that does not exist |
+| -------------- | :-----------------------------------------: |
+| Precondition   |        Gas Station G does not exist         |
+| Post condition |               Raise exception               |
+| Notes          |               Fail-safe check               |
+
+## Scenario UC7.3
+
+| Scenario       | Report on a Gas Station done by a User that does not exist |
+| -------------- | :--------------------------------------------------------: |
+| Precondition   |                   User U does not exist                    |
+| Post condition |                      Raise exception                       |
+| Notes          |                      Fail-safe check                       |
+
+## Scenario UC7.4
+
+| Scenario       | Report on a Gas Station with non existing fuel types reported |
+| -------------- | :-----------------------------------------------------------: |
+| Precondition   |      One/some of the reported fuel types does not exist       |
+| Post condition |                        Raise exception                        |
+| Notes          |                        Fail-safe check                        |
+
+## Scenario UC8.2
+
+| Scenario       |  User U inserts incorrect coordinates   |
+| -------------- | :-------------------------------------: |
+| Precondition   | Latitude and/or longitude are incorrect |
+| Post condition |             Raise exception             |
+| Notes          |             Fail-safe check             |
+
+## Scenario UC8.3
+
+| Scenario       | User U inserts an invalid fuel type for a given gas station |
+| -------------- | :---------------------------------------------------------: |
+| Precondition   |        Fuel type does not exist for the gas station         |
+| Post condition |                       Raise exception                       |
+| Notes          |                       Fail-safe check                       |
 
 ## Scenario UC10.3
 
@@ -272,52 +513,52 @@ Mockito used in tests for database simulation (fixed results with repository cal
 | Notes          |             Fail-safe check              |
 
 
+
 # Coverage of Scenarios and FR
 
-
-<Report in the following table the coverage of  scenarios (from official requirements and from above) vs FR. 
-Report also for each of the scenarios the (one or more) API JUnit tests that cover it. >
-
-Scenarios UCx.1 are **always** nominal scenarios.
-
-
-| Scenario ID | Functional Requirements covered |                    JUnit Test(s)                     |
-| :---------: | :-----------------------------: | :--------------------------------------------------: |
-|    UC1.1    |          FR1.1, FR1.4           |                   testSaveUser4()                    |
-|    UC1.2    |              FR1.4              |                   testSaveUser5()                    |
-|    UC2.1    |          FR1.1, FR1.4           |                   testSaveUser1()                    |
-|    UC2.2    |              FR1.4              |                   testSaveUser2()                    |
-|    UC2.3    |              FR1.4              |                   testSaveUser3()                    |
-|    UC3.1    |          FR1.2, FR1.4           |                  testDeleteUser1()                   |
-|    UC3.2    |              FR1.4              |                  testDeleteUser2()                   |
-|    UC4.1    |                                 |                                                      |
-|    UC5.1    |                                 |                                                      |
-|    UC6.1    |                                 |                                                      |
-|    UC7.1    |                                 |                                                      |
-|    UC8.1    |                                 |                                                      |
-|    UC9.1    |                                 |                                                      |
-|   UC10.1    |       FR1.4, FR5.3, FR1.1       | testIncreaseReputation2(), testIncreaseReputation3() |
-|   UC10.2    |       FR1.4, FR5.3, FR1.1       | testDecreaseReputation1(), testDecreaseReputation2() |
-|   UC10.3    |          FR1.4, FR5.3           |              testIncreaseReputation1()               |
-|   UC10.4    |          FR1.4, FR5.3           |              testDecreaseReputation3()               |
-|   UC10.5    |              FR1.4              |              testIncreaseReputation4()               |
-|   UC10.6    |              FR1.4              |              testDecreaseReputation4()               |
-
+| Scenario ID | Functional Requirements covered |                                                                JUnit Test(s)                                                                 |
+| :---------: | :-----------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------: |
+|    UC1.1    |          FR1.1, FR1.4           |                                                               testSaveUser4()                                                                |
+|    UC1.2    |              FR1.4              |                                                               testSaveUser5()                                                                |
+|    UC2.1    |          FR1.1, FR1.4           |                                                               testSaveUser1()                                                                |
+|    UC2.2    |              FR1.4              |                                                               testSaveUser2()                                                                |
+|    UC2.3    |              FR1.4              |                                                               testSaveUser3()                                                                |
+|    UC3.1    |          FR1.2, FR1.4           |                                                              testDeleteUser1()                                                               |
+|    UC3.2    |              FR1.4              |                                                              testDeleteUser2()                                                               |
+|    UC4.1    |              FR3.1              |                                                            testSaveGasStation1()                                                             |
+|    UC4.2    |              FR3.1              |                                                            testSaveGasStation4()                                                             |
+|    UC4.3    |              FR3.1              |                                                 testSaveGasStation2(), testSaveGasStation3()                                                 |
+|    UC5.1    |              FR3.1              |                                                 testSaveGasStation5(), testSaveGasStation6()                                                 |
+|    UC5.2    |              FR3.1              |                                                            testSaveGasStation4()                                                             |
+|    UC6.1    |              FR3.2              |                                                           testDeleteGasStation1()                                                            |
+|    UC6.2    |              FR3.2              |                                                           testDeleteGasStation2()                                                            |
+|    UC7.1    |              FR5.3              |                                                               testSetReport1()                                                               |
+|    UC7.2    |              FR5.3              |                                                               testSetReport2()                                                               |
+|    UC7.3    |              FR5.3              |                                                               testSetReport4()                                                               |
+|    UC7.4    |              FR5.3              |                                                               testSetReport3()                                                               |
+|    UC8.1    |              FR4.1              |                 testGetGasStationByProximity1(), testGetGasStationWithCoordinates1(), testGetGasStationWithoutCoordinates1()                 |
+|    UC8.2    |              FR4.1              | testGetGasStationByProximity2(), testGetGasStationByProximity3(), testGetGasStationsWithCoordinates2(), testGetGasStationsWithCoordinates3() |
+|    UC8.3    |              FR4.1              |                                 testGetGasStationWithCoordinates4(), testGetGasStationsWithoutCoordinates2()                                 |
+|    UC9.1    |                                 |                                                                                                                                              |
+|   UC10.1    |       FR1.4, FR5.3, FR1.1       |                                             testIncreaseReputation2(), testIncreaseReputation3()                                             |
+|   UC10.2    |       FR1.4, FR5.3, FR1.1       |                                             testDecreaseReputation1(), testDecreaseReputation2()                                             |
+|   UC10.3    |          FR1.4, FR5.3           |                                                          testIncreaseReputation1()                                                           |
+|   UC10.4    |          FR1.4, FR5.3           |                                                          testDecreaseReputation3()                                                           |
+|   UC10.5    |              FR1.4              |                                                          testIncreaseReputation4()                                                           |
+|   UC10.6    |              FR1.4              |                                                          testDecreaseReputation4()                                                           |
 
 
 # Coverage of Non Functional Requirements
 
-
-<Report in the following table the coverage of the Non Functional Requirements of the application - only those that can be tested with automated testing frameworks.>
-
-
 ### 
 
 | Non Functional Requirement | Test name |
-| -------------------------- | --------- |
-|                            |           |
+| :------------------------: | :-------: |
+|            NFR2            |    All    |
+
+![](Images/Tests/testPerformance.png)
 
 
 # Line coverage
 
-![]()
+![](Images/Tests/totalCoverage.png)
