@@ -93,7 +93,8 @@ decreaseUserReputation -- save
 	  
 # Integration approach
 
-	 Bottom up integration:
+Bottom up integration:
+
 0. Unit testing -> Entity and Dto classes assumed reliable, since have only basic getters/setters (checks done at upper layers)	 
 1. Mapper testing -> UserMapper, LoginMapper (Individual test)
 2. Service testing -> UserServiceImpl + UserMapper + LoginMapper 
