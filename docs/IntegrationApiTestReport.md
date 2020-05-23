@@ -21,6 +21,7 @@ Version: 0.1
 - [Scenarios](#scenarios)
   - [Scenario UC4.2](#scenario-uc42)
   - [Scenario UC4.3](#scenario-uc43)
+  - [Scenario UC5.2](#scenario-uc52)
   - [Scenario UC6.2](#scenario-uc62)
   - [Scenario UC7.2](#scenario-uc72)
   - [Scenario UC7.3](#scenario-uc73)
@@ -66,7 +67,6 @@ agent GasStationRepository.findAll as findAllGs
 agent GasStationRepository.findByCarSharing as findByCarSharing
 agent GasStationRepository.findByAddress as findByAddress
 agent GasStationRepository.save as saveGs
-agent GasStationRepository.delete as deleteGs
 agent GasStationMapper.toGSDto as toGSDto
 agent GasStationMapper.toGS as toGS
 agent GasStation.getGasStationId as getGasStationId
@@ -243,13 +243,12 @@ saveGasStation -- findByAddress
 getAllGasStations -- findAllGs
 getAllGasStations -- toGSDto
 deleteGasStation -- findOneGs
-deleteGasStation -- deleteGs
 getGasStationsByGasolineType -- isGasolineTypeValid
 getGasStationsByGasolineType -- findAllGs
 getGasStationsByGasolineType -- toGSDto
 getGasStationsByGasolineType -- mapGasolineTypeToMethod
 getGasStationsByProximity -- latLonCorrect
-getGasStationsByProximity -- findAll
+getGasStationsByProximity -- findAllGs
 getGasStationsByProximity -- geoPointDistance
 getGasStationsByProximity -- toGSDto
 getGasStationsWithCoordinates -- latLonCorrect
@@ -332,6 +331,8 @@ priceCorrect -- getSuperPlusPriceDto
 |                                          |          testSaveGasStation2          |
 |                                          |          testSaveGasStation3          |
 |                                          |          testSaveGasStation4          |
+|                                          |          testSaveGasStation5          |
+|                                          |          testSaveGasStation6          |
 |                                          |        testGetAllGasStations1         |
 |                                          |        testGetAllGasStations2         |
 |                                          |         testDeleteGasStation1         |
@@ -355,6 +356,7 @@ priceCorrect -- getSuperPlusPriceDto
 |                                          | testGetGasStationsWithoutCoordinates1 |
 |                                          | testGetGasStationsWithoutCoordinates2 |
 |                                          | testGetGasStationsWithoutCoordinates3 |
+|                                          |     testMapGasolineTypeToMethod1      |
 |                                          |           testPriceCorrect1           |
 |                                          |           testPriceCorrect2           |
 
@@ -396,6 +398,18 @@ priceCorrect -- getSuperPlusPriceDto
 | 1              |      Admin inserts all of G's information and submits      |
 | 2              |  System checks if latitude and longitude are both correct  |
 | 3              |                 System throws an exception                 |
+
+## Scenario UC5.2
+
+| Scenario       |               Update existing Gas Station with already existing address               |
+| -------------- | :-----------------------------------------------------------------------------------: |
+| Precondition   |                         Gas Station G exists in the database                          |
+|                | Admin wants to update the gas station's address with one used for another Gas Station |
+| Post condition |                                    Exception shown                                    |
+| Step#          |                                      Description                                      |
+| 1              |                   Admin inserts all of G's information and submits                    |
+| 2              |                  System checks if address chosen is not already used                  |
+| 3              |                              System throws an exception                               |
 
 
 
@@ -460,6 +474,7 @@ priceCorrect -- getSuperPlusPriceDto
 |    UC4.2    |              FR3.1              |          testSaveGasStation4()          |
 |    UC4.3    |              FR3.1              |          testSaveGasStation2()          |
 |             |                                 |          testSaveGasStation3()          |
+|    UC5.2    |             FR 3.1              |          testSaveGasStation4()          |
 |    UC6.2    |              FR3.2              |         testDeleteGasStation2()         |
 |    UC7.2    |              FR5.3              |            testSetReport2()             |
 |    UC7.3    |              FR5.3              |            testSetReport4()             |
