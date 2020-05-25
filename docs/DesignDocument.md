@@ -1,12 +1,10 @@
 # Design Document 
 
-
 Authors: Alessandro Borione, Giacomo Garaccione, Corrado Vecchio, Marco Vinai
 
 Date: 25/04/2020
 
 Version: 1.0
-
 
 # Contents
 
@@ -14,11 +12,22 @@ Version: 1.0
 - [Contents](#contents)
 - [Instructions](#instructions)
 - [High level design](#high-level-design)
-	- [Front End](#front-end)
-	- [Back End](#back-end)
+  - [Front End](#front-end)
+  - [Back End](#back-end)
 - [Low level design](#low-level-design)
 - [Verification traceability matrix](#verification-traceability-matrix)
 - [Verification sequence diagrams](#verification-sequence-diagrams)
+    - [Use Case 1](#use-case-1)
+    - [Use Case 2](#use-case-2)
+    - [Use Case 3](#use-case-3)
+    - [Use Case 4](#use-case-4)
+    - [Use Case 5](#use-case-5)
+    - [Use Case 6](#use-case-6)
+    - [Use Case 7](#use-case-7)
+    - [Use Case 8](#use-case-8)
+    - [Use Case 9](#use-case-9)
+    - [Scenario 10.1](#scenario-101)
+    - [Scenario 10.2](#scenario-102)
 
 # Instructions
 
@@ -35,9 +44,7 @@ The server has two components: the frontend, which is developed with web technol
 Together, they implement a layered style: Presentation layer (front end), Application logic and data layer (back end). 
 Together, they implement also an MVC pattern, with the V on the front end and the MC on the back end.
 
-
-
-```plantuml
+``` plantuml
 @startuml
 package "Backend" {
 
@@ -47,13 +54,10 @@ package "Frontend" {
 
 }
 
-
 Frontend -> Backend
 @enduml
 
-
 ```
-
 
 ## Front End
 
@@ -65,8 +69,7 @@ Styles: the package contains .css style sheets that are used to render the GUI.
 
 Controller: the package contains the JavaScript files that catch the user's inputs. Based on the user's inputs and on the status of the GUI widgets, the JavaScript controller creates REST API calls that are sent to the Java Controller implemented in the back-end.
 
-
-```plantuml
+``` plantuml
 @startuml
 package "Frontend" {
 
@@ -74,22 +77,17 @@ package "Frontend" {
 
 	}
 
-
 package "it.polito.ezgas.resources.controller" {
 
 	}
-
 
 package "it.polito.ezgas.resources.styles" {
 
 	}
 
-
-
 it.polito.ezgas.resources.styles -down-> it.polito.ezgas.resources.views
 
 it.polito.ezgas.resources.views -right-> it.polito.ezgas.resources.controller
-
 
 }
 @enduml
@@ -107,9 +105,7 @@ See in the package diagram below the project structure of Spring.
 
 For more information about the Spring design guidelines and naming conventions:  https://medium.com/the-resonant-web/spring-boot-2-0-project-structure-and-best-practices-part-2-7137bdcba7d3
 
-
-
-```plantuml
+``` plantuml
 @startuml
 package "Backend" {
 
@@ -117,7 +113,6 @@ package "it.polito.ezgas.service"  as ps {
    interface "GasStationService"
    interface "UserService"
 } 
-
 
 package "it.polito.ezgas.controller" {
 
@@ -146,11 +141,7 @@ n -- ps
 @enduml
 ```
 
-
-
 The Spring framework implements the MC of the MVC pattern. The M is implemented in the packages Entity and Repository. The C is implemented in the packages Service, ServiceImpl and Controller. The packages DTO and Converter contain classes for translation services.
-
-
 
 **Entity Package**
 
@@ -158,9 +149,6 @@ Each Model class should have a corresponding class in this package. Model classe
 The various models of the application are organised under the model package, their DTOs(data transfer objects) are present under the dto package.
 
 In the Entity package all the Entities of the system are provided. Entities classes provide the model of the application, and represent all the data that the application must handle.
-
-
-
 
 **Repository Package**
 
@@ -170,16 +158,11 @@ For each Entity class, a Repository class is created (in a 1:1 mapping) to allow
 
 Extending class JpaRepository provides a lot of CRUD operations by inheritance. The programmer can also overload or modify them. 
 
-
-
 **DTO package**
 
 The DTO package contains all the DTO classes. DTO classes are used to transfer only the data that we need to share with the user interface and not the entire model object that we may have aggregated using several sub-objects and persisted in the database.
 
 For each Entity class, a DTO class is created (in a 1:1 mapping).  For Spring the Dto class associated to class "XClass" must be called "XClassDto".  This allows Spring to find automatically the DTO class having the corresponding Entity class, and viceversa. 
-
-
-
 
 **Converter Package**
 
@@ -188,9 +171,6 @@ The Converter Package contains all the Converter classes of the project.
 For each Entity class, a Converter class is created (in a 1:1 mapping) to allow conversion from Entity class to DTO class and viceversa.
 
 For Spring to be able to map the association at runtime, the Converter class associated to class "XClass" has to be exactly named "XClassConverter".
-
-
-
 
 **Controller Package**
 
@@ -202,285 +182,441 @@ The controller layer interacts with the service layer (packages Service and Serv
 
 The service layer never accepts a model as input and never ever returns one either. This is another best practice that Spring enforces to implement  a layered architecture.
 
-
-
 **Service Package**
-
 
 The service package provides interfaces, that collect the calls related to the management of a specific entity in the project.
 The Java interfaces are already defined (see file ServicePackage.zip) and the low level design must comply with these interfaces.
-
 
 **ServiceImpl Package**
 
 Contains Service classes that implement the Service Interfaces in the Service package.
 
-
 # Low level design
 
-```plantuml
+``` plantuml
 @startuml
 scale 0.8
 package "Backend" {
 
 package "it.polito.ezgas.service" as service {
    interface "GasStationService" as gss {
-		+ getGasStationById(Integer) : GasStationDto
-		+ saveGasStation(GasStationDto) : GasStationDto
-		+ getAllGasStations() : List<GasStationsDto>
-		+ deleteGasStation(Integer) : Boolean
-		+ getGasStationsByGasolineType(String) : List<GasStationDto>
-		+ getGasStationsByProximity(double, double) : List<GasStationDto>
-		+ getGasStationsWithCoordinates(double, double, String, String) : List<GasStationDto>
-		+ getGasStationsWithoutCoordinates(String, String) : List<GasStationDto>
-		+ setReport(Integer, double, double, double, double, double, Integer) : void
-		+ getGasStationByCarSharing(String) : List<GasStationDto>
+
+    - getGasStationById(Integer) : GasStationDto
+    - saveGasStation(GasStationDto) : GasStationDto
+    - getAllGasStations() : List<GasStationsDto>
+    - deleteGasStation(Integer) : Boolean
+    - getGasStationsByGasolineType(String) : List<GasStationDto>
+    - getGasStationsByProximity(double, double) : List<GasStationDto>
+    - getGasStationsWithCoordinates(double, double, String, String) : List<GasStationDto>
+    - getGasStationsWithoutCoordinates(String, String) : List<GasStationDto>
+    - setReport(Integer, double, double, double, double, double, Integer) : void
+    - getGasStationByCarSharing(String) : List<GasStationDto>
+
    }
 
-   interface "UserService" as us {
-		+ getUserById(Integer) : UserDto
-		+ saveUser(USerDto) : UserDto
-		+ getAllUsers() : List<UserDto>
-		+ deleteUser(Integer) : Boolean
-		+ login(IdPw) : LoginDto
-		+ increaseUserReputation(Integer) : Integer
-		+ decreaseUserReputation(Integer) : Integer
+   interface "UserService" as us {  
+    - getUserById(Integer) : UserDto
+    - saveUser(USerDto) : UserDto
+    - getAllUsers() : List<UserDto>
+    - deleteUser(Integer) : Boolean
+    - login(IdPw) : LoginDto
+    - increaseUserReputation(Integer) : Integer
+    - decreaseUserReputation(Integer) : Integer
+
    }
 
-   	class "GasStationServiceImpl" as gssi
-	class "UserServiceImpl" as usi
-	class "AnonymousUserServiceImpl" as ausi
-	class "AdminUserServiceImpl" as asi
+   	class "GasStationServiceImpl" as gssi {
+    - gasStationRepository : GasStationRepository
+    - userRepository : UserRepository
+
+    - isGasolineTypeValid(String) : boolean
+    - mapGasolineTypeToMethod(String) : Predicate<GasStationDto>
+    - geoPointDistance(double, double, double, double) : double
+    - latLonCorrect(double, double) : boolean
+	   }
+
+	class "UserServiceImpl" as usi{
+        - repository : UserRepository 
+    }
 
 	gssi -up-|> gss
 	usi -up-|> us
-	ausi -up-|> us
-	asi -up-|> us
 }
 
 package "it.polito.ezgas.controller" as controller {
-	class "GasStationController"
-	class "UserController"
-	class "AnonymousUserController"
-	class "AdminUserController"
-}
-
-package "it.polito.ezgas.converter" as converter {
-	class "UserConverter"
-	class "PriceListConverter"
-	class "GasStationConverter"
-	class "GeoPointConverter"
-	class "IdPwConverter"
-	class "LoginConverter"
+	class "GasStationController" as gscont
+	class "UserController" as ucont
+	class "HomeController" as hcont
 }
 
 package "it.polito.ezgas.dto" as dto {
-	class "UserDto"
-	class "PriceListDto"
-	class "GasStationDto"
-	class "GeoPointDto"
-	class "IdPwDto"
-	class "LoginDto"
+	class "UserDto" as udto
+	class "UserMapper" as um
+	class "PriceReportDto" as prdto
+	class "GasStationDto" as gsdto
+	class "GasStationMapper" as gsm
+	class "IdPw" as idpw
+	class "LoginDto" as ldto
+	class "LoginMapper" as lm
 }
 
 package "it.polito.ezgas.entity" as entity {
 	class "User" as u {
-		- id : Integer
-		- accountName : String
+
+    - userId : Integer
+    - userName : String
+    - password : String
+
  		- email : String
- 		- trustLevel : Integer
-		- accessRight : AccessRight
-		- setAccountName(String) : void
-		- setEmail(String) : void
-		- setTrustLevel(Integer) : void
-		- setAccessRight(AccessRight) : void
-		+ getAccountName() : String
-		+ getEmail() : String
-		+ getTrustLevel() : Integer
-		+ getAccessRight() : AccessRight
+ 		- reputation : Integer
+
+    - admin : Boolean
+
 	}
 
-	class "PriceList" as pl {
-		- idPrice : Integer
-		- timeTag : Date
-		- dieselPrice : double
-		- gasolinePrice : double
-		- premumDieselPrice : double
-		- premumGasolinePrice : double
-		- lpgPrice : double
-		- methanPrice : double 
-		- trustLevel : Integer
-		- user : User
+	class "PriceReport" as pr {
 
-		- setTimeTag(Date) : void
-		- setDieselPrice(double) : void
-		- setGasolinePrice(double) : void
-		- setPremumDieselPrice(double) : void
-		- setPremumGasolinePrice(double) : void
-		- setLpgPrice(double) : void
-		- setMethanPrice(double) : void
-		- setTrustLevel(Integer) : void
-		- setUser(Integer): void
-		+ getId() : Integer
-		+ getTimeTag(): Date 
-		+ getDieselPrice() : double
-		+ getGasolinePrice() : double
-		+ getPremumDieselPrice() : double
-		+ getPremumGasolinePrice() : double
-		+ getLpgPrice() : double
-		+ getMethanPrice() : double
-		+ getTrustLevel() : Integer
-		+ getUser() : User
+    - priceReportId : Integer
+    - user : User
+    - dieselPrice : double
+    - superPrice : double
+    - superPlusPrice : double
+    - gasPrice : double
+
 	}
 
 	class "GasStation" as gs {
-		- id : Integer
-		- name : String
-		- address : String
-		- brand : String
-		- hasDiesel : Boolean
-		- hasGasoline : Boolean
-		- hasPremiumDiesel : Boolean
-		- hasPremiumGasoline : Boolean
-		- hasLPG : Boolean
-		- hasMethan : Boolean
-		- carSharingCompany : String
-		- priceList : PriceList
-		- geoPoint : GeoPoint
 
-		- setName(String) : void
-		- setAddress(String) : void
-		- setBrand(String) : void
-		- setHasDiesel(Boolean) : void
-		- setHasGasoline(Boolean) : void
-		- setHasPremiumDiesel(Boolean) : void
-		- setHasPremiumGaoline(Boolean) : void
-		- setHasLPG(Boolean) : void
-		- setHasMethan(Boolean) : void
-		- setCarSharingCompany(String) : void
-		- setPriceList(PriceList) : void
-		- setGeoPoint(GeoPoint) : void
-		+ getId() : Integer
-		+ getName() : String
-		+ getAddress() : String
-		+ getBrand() : String
-		+ getHasDiesel() : Boolean
-		+ getHasGasoline() : Boolean
-		+ getHasPremiumDiesel() : Boolean
-		+ getHasPremiumGaoline() : Boolean
-		+ getHasLPG() : Boolean
-		+ getHasMethan() : Boolean
-		+ getCarSharingCOmpany() : String
-		+ getPriceList() : PriceList
-		+ getGeoPoint() : GeoPoint
+    - gasStationId : Integer
+    - gasStationName : String
+    - gasStationAddress : String
+    - brand : String
+    - hasDiesel : Boolean
+    - hasSuper : Boolean
+    - hasSuperPlus : Boolean
+    - hasGas : Boolean
+    - hasMethane : Boolean
+    - carSharing : String
+    - lat : double
+    - lon : double
+    - dieselPrice : double
+    - superPrice : double
+    - superPlusPrice : double
+    - gasPrice : double
+    - methanePrice : double
+    - reportUser : Integer
+    - reportTimestamp : String
+    - reportDependability : double
+
 	}
 
-	class "GeoPoint" as gp {
-		- latitude : double
-		- longitude : double
-
-		- setLatitude(double) : void
-		- setLongitude(double) : void
-		+ getLatitude() : double
-		+ getLongitude() : double
-		+ computeDistance(GeoPoint) : double
-	}
-
-	class "IdPw" as ip {
-		- email : String
-		- password : String
-
-		- setEmail(String) : void
-		- setPassword(String) : void
-		+ getEmail() : String
-		+ getPassword() : String
-	}
-
-	class "Login" as l {
-		- userId : Integer
-		- timeStamp : Date
-		- sessionId : Integer
-
-		- setUserId(Integer) : void
-		- setTimeStamp(Date) : void
-		- setSessionId() : void
-		+ getUserId() : Integer
-		+ getTimeStamp() : Date
-		+ getSessionId() : Integer
-	}
-
-	class "AccessRight" << (e,yellow) >>{
-		+ ADMIN
-		+ USER
-	}
 }
 
 package "it.polito.ezgas.repository" as repository {
-	class "UserRepository"
-	class "PriceListRepository"
-	class "GasStationRepository"
-	class "GeoPointRepository"
-	class "IdPwRepository"
-	class "LoginRepository"
-}
+	interface "UserRepository" as urep {
+
+    - findAll() : List<User>
+    - countByAdmin(boolean) : Integer
+    - findByEmail(String) : User
+
+	}
+	interface "PriceReportRepository" as prrep
+	interface "GasStationRepository" as gsrep{
+
+    - findAll() : List<GasStation>
+    - findByCarSharing(String) : List<GasStation>
+    - delete(GasStation) : void 
+
+	}
+
 }
 
+package "org.springframework.data.repository" {
+	interface "CrudRepository <T, ID>" as crud 
+}
 
+package "it.polito.ezgas.scheduling" {
+    class "ScheduledTasks" as st {
+        - userRepository : UserRepository
+        - gasStationRepository : GasStationRepository
+        - df : DateFormat
+        - now : Date
+        - seenUsers : Map<INteger, User>
+        + scheduleUpdateGasStationReportDependability()
+        - updateGasStationsReportDependability() : int
+        - computeNewDependability(GasStation) : double
+    }
+}
+
+urep -up-|> crud : "<User, Integer>"
+prrep -up-|> crud : "<PriceReport, Integer>"
+gsrep -up-|> crud : "<GasStation, Integer>"
+
+gss --* gsdto
+us --* idpw
+us --* ldto
+us --* udto
+gssi --* gsdto
+gssi --* gsm
+gssi --* gs
+gssi --* pr
+gssi --* u
+gssi --* gsrep
+gssi --* prrep
+gssi --* urep
+usi --* idpw
+usi --* ldto
+usi --* udto
+usi --* um
+usi --* lm
+usi --* urep
+usi --* u
+gscont --* gsdto
+gscont --* gss
+ucont --* idpw
+ucont --* ldto
+ucont --* udto
+ucont --* us
+gsm --* gs
+lm --* u
+prdto --* u
+um --* u
+gsrep --* gs
+prrep --* pr
+urep --* u
+
+st --* urep
+st --* gsrep
+st --* gs
+st --* u
+}
 
 @enduml
 ```
 
 # Verification traceability matrix
 
-
-|                                                     | User  | PriceList | GasStation | GeoPoint | UserService | GasStationService |
-| --------------------------------------------------- | :---: | :-------: | :--------: | :------: | :---------: | :---------------: |
-| **FR1 Manage Users**                                |       |           |            |          |             |                   |
-| FR1.1 New/Edit User                                 |   X   |           |            |          |      X      |                   |
-| FR1.2 Delete User                                   |       |           |            |          |      X      |                   |
-| FR1.3 List all Users                                |       |           |            |          |      X      |                   |
-| FR1.4 Search User                                   |   X   |           |            |          |      X      |                   |
-| **FR2 Manage Rights**                               |   X   |           |            |          |             |                   |
-| **FR3 Manage Gas Station**                          |       |           |            |          |             |                   |
-| FR3.1 New/Edit Gas Station                          |       |           |     X      |          |             |         X         |
-| FR3.2 Delete Gas Station                            |       |           |            |          |             |         X         |
-| FR3.3 List all Gas Stations                         |       |           |            |          |             |         X         |
-| **FR4 Search Gas Station**                          |       |           |     X      |    X     |             |                   |
-| FR4.1 Radius r Geo Point                            |       |           |     X      |    X     |             |         X         |
-| FR4.2 Radius r Address                              |       |           |     X      |    X     |             |         X         |
-| FR4.3 Show on Map                                   |       |     X     |     X      |    X     |             |                   |
-| FR4.4 Sort according to Fuel Price                  |       |     X     |     X      |          |             |                   |
-| FR4.5 Filter according to Fuel Type and Car Sharing |       |           |     X      |          |             |         X         |
-| **FR5 Manage Price List and Trust**                 |       |           |            |          |             |                   |
-| FR5.1 New Price List                                |       |     X     |            |          |             |                   |
-| FR5.2 Update Trust Level of Price List              |       |     X     |            |          |             |                   |
-| FR5.3 Evaluate Price List                           |   X   |           |            |          |      X      |                   |
+|                                                     | User  | GasStation | UserService | UserServiceImpl | UserMapper | UserDto | UserRepository | GasStationService | GasStationServiceImpl | GasStationMapper | GasStationDto | GasStationRepository | LoginMapper | Spring Application | ScheduledTasks | HomeController | UserServiceController | GasStationController |
+| --------------------------------------------------- | :---: | :--------: | :---------: | :-------------: | :--------: | :-----: | :------------: | :---------------: | :-------------------: | :--------------: | :-----------: | :------------------: | :---------: | :----------------: | :------------: | :------------: | :-------------------: | :------------------: |
+| **FR1 Manage Users**                                |       |            |             |                 |            |         |                |                   |                       |                  |               |                      |             |                    |                |                |                       |                      |
+| FR1.1 New/Edit User                                 |   X   |            |      X      |        X        |     X      |    X    |       X        |                   |                       |                  |               |                      |             |                    |                |                |           X           |                      |
+| FR1.2 Delete User                                   |   X   |            |      X      |        X        |            |         |       X        |                   |                       |                  |               |                      |             |                    |                |                |           X           |                      |
+| FR1.3 List all Users                                |   X   |            |      X      |        X        |     X      |    X    |       X        |                   |                       |                  |               |                      |             |                    |                |                |           X           |                      |
+| FR1.4 Search User                                   |   X   |            |      X      |        X        |     X      |    X    |       X        |                   |                       |                  |               |                      |             |                    |                |                |           X           |                      |
+| **FR2 Manage Rights**                               |   X   |            |             |        X        |     X      |    X    |       X        |                   |                       |                  |               |                      |      X      |                    |                |       X        |                       |                      |
+| **FR3 Manage Gas Station**                          |       |            |             |                 |            |         |                |                   |                       |                  |               |                      |             |                    |                |                |                       |                      |
+| FR3.1 New/Edit Gas Station                          |       |     X      |             |                 |            |         |                |         X         |           X           |        X         |       X       |          X           |             |                    |                |                |                       |          X           |
+| FR3.2 Delete Gas Station                            |       |     X      |             |                 |            |         |                |         X         |           X           |                  |               |          X           |             |                    |                |                |                       |          X           |
+| FR3.3 List all Gas Stations                         |       |     X      |             |                 |            |         |                |         X         |           X           |        X         |       X       |          X           |             |                    |                |                |                       |          X           |
+| **FR4 Search Gas Station**                          |       |            |             |                 |            |         |                |                   |                       |                  |               |                      |             |                    |                |                |                       |                      |
+| FR4.1 Radius r Geo Point                            |       |     X      |             |                 |            |         |                |         X         |           X           |        X         |       X       |          X           |             |                    |                |                |                       |          X           |
+| FR4.2 Radius r Address                              |       |     X      |             |                 |            |         |                |         X         |           X           |        X         |       X       |          X           |             |                    |                |                |                       |          X           |
+| FR4.3 Show on Map                                   |       |     X      |             |                 |            |         |                |         X         |           X           |        X         |       X       |          X           |             |                    |                |       X        |                       |                      |
+| FR4.4 Sort according to Fuel Price                  |       |     X      |             |                 |            |         |                |         X         |           X           |        X         |       X       |          X           |             |                    |                |       X        |                       |                      |
+| FR4.5 Filter according to Fuel Type and Car Sharing |       |     X      |             |                 |            |         |                |         X         |           X           |        X         |       X       |          X           |             |                    |                |                |                       |          X           |
+| **FR5 Manage Price List and Trust**                 |       |            |             |                 |            |         |                |                   |                       |                  |               |                      |             |                    |                |                |                       |                      |
+| FR5.1 New Price List                                |   X   |     X      |             |                 |            |         |       X        |         X         |           X           |                  |               |          X           |             |                    |                |                |                       |          X           |
+| FR5.2 Update Trust Level of Price List              |   X   |     X      |             |                 |            |         |       X        |                   |                       |                  |               |          X           |             |         X          |       X        |                |                       |                      |
+| FR5.3 Evaluate Price List                           |   X   |            |      X      |        X        |            |         |       X        |                   |                       |                  |               |                      |             |                    |                |                |           X           |                      |
 
 # Verification sequence diagrams 
 
+### Use Case 1
+
+``` plantuml
+@startuml
+Actor User as u
+u -> userController : 1 - saveUser()
+userController ->UserServiceImpl :2 - saveUser()
+UserServiceImpl -> UserMapper :3 - toUser()
+UserMapper --> UserServiceImpl :User object
+UserServiceImpl -> UserRepository :4 - save()
+UserRepository --> UserServiceImpl :User object
+UserServiceImpl -> UserMapper :5 - toUserDto()
+UserMapper --> UserServiceImpl :UserDto object
+UserServiceImpl --> UserServiceController :UserDto object
+UserServiceController --> u: 200 ok
+@enduml
+```
+
+### Use Case 2
+
+``` plantuml
+@startuml
+Actor User as u
+u -> userController : 1 - saveUser()
+userController ->UserServiceImpl :2 - saveUser()
+UserServiceImpl -> UserMapper :3 - toUser()
+UserMapper --> UserServiceImpl :User object
+UserServiceImpl -> UserRepository :4 - save()
+UserRepository --> UserServiceImpl :User object
+UserServiceImpl -> UserMapper :5 - toUserDto()
+UserMapper --> UserServiceImpl :UserDto object
+UserServiceImpl --> UserServiceController :UserDto object
+UserServiceController --> u: 200 ok
+@enduml
+```
+
+### Use Case 3
+
+``` plantuml
+@startuml
+actor User as u
+u -> userController : 1 - deleteUser()
+userController ->UserServiceImpl :2 - deleteUser()
+UserServiceImpl -> UserRepository : 3 - findOne()
+UserRepository --> UserServiceImpl : User
+UserServiceImpl -> UserRepository : 4 - delete()
+UserServiceController --> u :  200 ok
+@enduml
+```
+
+### Use Case 4
+
+``` plantuml
+@startuml
+actor Administrator as a
+a -> GasStationController: 1 - saveGasStation()
+GasStationController ->  GasStationServiceImpl :2 - saveGasStation()
+GasStationServiceImpl -> GasStationMapper : 3 - toGS()
+GasStationMapper --> GasStationServiceImpl : GasStation object
+GasStationServiceImpl -> GasStationRepository : 4 - save()
+GasStationRepository --> GasStationServiceImpl : GasStation object
+GasStationServiceImpl -> GasStationMapper : 5 - toGSDto()
+GasStationMapper --> GasStationServiceImpl : GasStationDto object
+GasStationServiceImpl --> GasStationController : GasStatinoDto object
+GasStationController --> a :200 OK
+@enduml
+```
+
+### Use Case 5
+
+``` plantuml
+@startuml
+actor Administrator as a
+a -> GasStationController: 1 - saveGasStation()
+GasStationController ->  GasStationServiceImpl :2 - saveGasStation()
+GasStationServiceImpl -> GasStationMapper : 3 - toGS()
+GasStationMapper --> GasStationServiceImpl : GasStation object
+GasStationServiceImpl -> GasStationRepository : 4 - save()
+GasStationRepository --> GasStationServiceImpl : GasStation object
+GasStationServiceImpl -> GasStationMapper : 5 - toGSDto()
+GasStationMapper --> GasStationServiceImpl : GasStationDto object
+GasStationServiceImpl --> GasStationController : GasStatinoDto object
+GasStationController --> a :200 OK
+@enduml
+```
+
+### Use Case 6
+
+``` plantuml
+@startuml
+Actor Administrator as a
+a -> GasStationController :1 - deleteUser()
+GasStationController -> GasStationServiceImpl :2 - deleteGasStation()
+GasStationServiceImpl -> GasStationRepository :3 - findOne()
+GasStationRepository --> GasStationServiceImpl :GasStation object
+GasStationServiceImpl -> GasStationRepository :4 - delete()
+GasStationServiceImpl -> GasStationRepository :5 - findOne()
+GasStationRepository --> GasStationServiceImpl :null
+GasStationServiceImpl --> GasStationController :true
+GasStationController --> a :200 OK
+@enduml
+```
+
+### Use Case 7
+
+``` plantuml
+@startuml
+actor User as u
+u -> GasStationController :1 - setGasStationReport()
+GasStationController -> GasStationServiceImpl :2 - setReport()
+GasStationServiceImpl -> GasStationRepository :3 - findOne()
+GasStationRepository --> GasStationServiceImpl :GasStation object
+GasStationServiceImpl -> UserRepository :4 - findOne()
+UserRepository --> GasStationServiceImpl :User object
+GasStationServiceImpl -> GasStation :5 - setters()
+GasStationServiceImpl -> GasStationRepository : 6 - save()
+GasStationRepository --> GasStationServiceImpl :GasStation object
+GasStationServiceImpl --> GasStationController
+GasStationController --> u :200 ok
+@enduml
+```
+
+### Use Case 8
+
+``` plantuml
+@startuml
+Actor "Anonymous User" as u
+u -> GasStationController :1 - getGasStationsByProximity()
+GasStationController -> GasStationServiceImpl :2 - getGasStationByProximity()
+GasStationServiceImpl -> GasStationRepository :3 - findAll()
+GasStarionRepository --> GasStationServiceImpl :GasStation List
+GasStationServiceImpl -> GasStationMapper :4 - toGSDto()
+activate GasStationMapper
+note right of GasStationMapper: Repeat for every object returned in the list.
+GasStationMapper --> GasStationServiceImpl :GasStationDto object
+deactivate GasStationMapper
+GasStationServiceImpl --> GasStationController :GasStationDto List
+GasStationController --> u :200 OK
+@enduml
+```
+
+### Use Case 9
+
+``` plantuml
+@startuml
+title Repeated every 12 h
+
+SpringApplication -> ScheduledTasks :1 - run()
+ScheduledTasks -> GasStationRepository :2 - findAll()
+GasStationRepository --> ScheduledTasks :GasStation List
+ScheduledTasks -> UserRepository :3 - findOne()
+activate ScheduledTasks
+UserRepository --> ScheduledTasks :User object
+note left of ScheduledTasks: Repeat for every object returned in the list with prices set.
+ScheduledTasks -> ScheduledTasks :4 - computeReputation()
+ScheduledTasks -> GasStationRepository :5 - save()
+GasStationRepository --> ScheduledTasks :GasStation
+deactivate ScheduledTasks
+
+@enduml
+```
+
 ### Scenario 10.1
 
-```plantuml
+``` plantuml
 @startuml
-
-User -> GasStation : 1 - getGasStationById()
-GasStation -> PriceList : 2 - getPriceList()
-PriceList -> User : 3 - getUser()
-User -> User : 4 - increaseUserReputation()
-
+actor User as u
+u -> userController : 1 - increaseUserReputation()
+userController ->UserServiceImpl : 2 - increaseUserReputation()
+UserServiceImpl -> UserRepository : 3 - findOne()
+UserRepository --> UserServiceImpl : User object
+UserServiceImpl -> User: 4 - getReputation()
+User --> UserServiceImpl : reputation
+UserServiceImpl -> User: 5 - setReputation()
+UserServiceImpl -> UserRepository : 6 - save()
+UserRepository --> UserServiceImpl : User object
+UserServiceImpl --> UserServiceController : reputation
+UserServiceController --> u : 200 ok
 @enduml
 ```
 
 ### Scenario 10.2
 
-```plantuml
+``` plantuml
 @startuml
-
-User -> GasStation : 1 - getGasStationById()
-GasStation -> PriceList : 2 - getPriceList()
-PriceList -> User : 3 - getUser()
-User -> User : 4 - decreaseUserReputation()
-
+actor User as u
+u -> userController : 1 - decreaseUserReputation()
+userController ->UserServiceImpl :2 - decreaseUserReputation()
+UserServiceImpl -> UserRepository : 3 - findOne()
+UserRepository --> UserServiceImpl : User object
+UserServiceImpl -> User: 4 - getReputation()
+User --> UserServiceImpl : reputation
+UserServiceImpl -> User: 5 - setReputation()
+UserServiceImpl -> UserRepository : 6 - save()
+UserRepository --> UserServiceImpl :User object
+UserServiceImpl --> UserServiceController : reputation
+UserServiceController --> u :  200 ok
 @enduml
 ```
-
