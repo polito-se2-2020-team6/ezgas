@@ -8,10 +8,14 @@ import static org.mockito.Mockito.when;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -23,11 +27,19 @@ import it.polito.ezgas.repository.UserRepository;
 
 @SpringBootTest
 public class TestScheduledTask {
-	
+
 	@Mock 
 	GasStationRepository mockGSR;
+	@Mock
 	UserRepository mockUR;
-	
+
+	static DateFormat df;
+
+	@BeforeAll
+	public static void setUpClass() {
+		df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.ENGLISH);
+	}
+
 	@BeforeEach
 	public void setUp() {
 		User dummyU = new User("Cloud Strife", "Shinra_sucks", "SOLDIERguy@avalanche.com", 5);
@@ -36,7 +48,7 @@ public class TestScheduledTask {
 
 		mockUR = mock(UserRepository.class);
 		mockGSR = mock(GasStationRepository.class);
-		
+
 		when(mockUR.findOne(eq(42))).thenReturn(dummyU);
 
 	}
@@ -44,22 +56,18 @@ public class TestScheduledTask {
 	@Test
 	public void testComputeNewDependability1() {
 		ScheduledTasks test = new ScheduledTasks(mockUR, mockGSR);
-		test.setNow(new Date(2020-1900, 4, 25, 20, 00, 00));
 		try {
+			test.setNow(df.parse("2020-05-25 21:00:00"));
 			Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
 			func.setAccessible(true);
 
 			double res = (double) func.invoke(test, "Mon May 24 17:08:15 CEST 2020", 42);
-			assertEquals( 50+50*(6.0/7.0), res);
-		} catch ( IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+			assertEquals(50+50*(6.0/7.0), res);
+		} catch ( IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
 			fail("error");
 		}
+	}
 
-		}
-		
-		
-	
-	
 	@Test
 	public void testComputeNewDependability2() {
 		ScheduledTasks test = new ScheduledTasks(mockUR, mockGSR);
@@ -69,18 +77,18 @@ public class TestScheduledTask {
 		Map<Integer, User> users = new HashMap<>();;
 		users.put(42,  dummyU);
 		test.setSeenUsers(users);
-		test.setNow(new Date(2020-1900, 4, 25, 20, 00, 00));
 		try {
+			test.setNow(df.parse("2020-05-25 21:00:00"));
 			Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
 			func.setAccessible(true);
 
 			double res = (double) func.invoke(test, "Mon May 24 17:08:15 CEST 2020", 42);
 			assertEquals(50+50*(6/7.0), res);
-		} catch ( IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+		} catch ( IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
 			fail("error");
 		}
 	}
-	
+
 	@Test
 	public void testComputeNewDependability3() {
 		ScheduledTasks test = new ScheduledTasks(mockUR, mockGSR);
@@ -90,121 +98,119 @@ public class TestScheduledTask {
 		Map<Integer, User> users = new HashMap<>();;
 		users.put(42,  dummyU);
 		test.setSeenUsers(users);
-		test.setNow(new Date(2020-1900, 4, 25, 20, 00, 00));
 		try {
+			test.setNow(df.parse("2020-05-25 21:00:00"));
 			Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
 			func.setAccessible(true);
 
 			double res = (double) func.invoke(test, "Mon May 15 17:08:15 CEST 2020", 42);
 			assertEquals(50, res);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
 			fail("error");
 		}
 	}
-		
-		@Test
-		public void testComputeNewDependability4() {
-			ScheduledTasks test = new ScheduledTasks(mockUR, mockGSR);
-			test.setNow(new Date(2020-1900, 4, 25, 20, 00, 00));
 
-			try {
-				Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
-				func.setAccessible(true);
+	@Test
+	public void testComputeNewDependability4() {
+		ScheduledTasks test = new ScheduledTasks(mockUR, mockGSR);
 
-				double res = (double) func.invoke(test, "Mon May 15 17:08:15 CEST 2020", 42);
-				assertEquals(50, res);
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-				fail("error");
-			}
+		try {
+			test.setNow(df.parse("2020-05-25 21:00:00"));
+			Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
+			func.setAccessible(true);
+
+			double res = (double) func.invoke(test, "Mon May 15 17:08:15 CEST 2020", 42);
+			assertEquals(50, res);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
+			fail("error");
+		}
 	}
-		
-		@Test
-		public void testComputeNewDependability5() {
-			ScheduledTasks test = new ScheduledTasks(mockUR, mockGSR);
-			User dummyU = new User("Cloud Strife", "Shinra_sucks", "SOLDIERguy@avalanche.com", 0);
-			dummyU.setUserId(42);
-			dummyU.setAdmin(true);
-			Map<Integer, User> users = new HashMap<>();;
-			users.put(42,  dummyU);
-			test.setSeenUsers(users);
-			test.setNow(new Date(2020-1900, 4, 25, 20, 00, 00));
 
-			try {
-				Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
-				func.setAccessible(true);
+	@Test
+	public void testComputeNewDependability5() {
+		ScheduledTasks test = new ScheduledTasks(mockUR, mockGSR);
+		User dummyU = new User("Cloud Strife", "Shinra_sucks", "SOLDIERguy@avalanche.com", 0);
+		dummyU.setUserId(42);
+		dummyU.setAdmin(true);
+		Map<Integer, User> users = new HashMap<>();;
+		users.put(42,  dummyU);
+		test.setSeenUsers(users);
 
-				double res = (double) func.invoke(test, "Mon May 23 17:08:15 CEST 2020", 42);
-				assertEquals(25+50*(5/7.0), res);
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-				fail("error");
-			}
+		try {
+			test.setNow(df.parse("2020-05-25 21:00:00"));
+			Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
+			func.setAccessible(true);
 
+			double res = (double) func.invoke(test, "Mon May 23 17:08:15 CEST 2020", 42);
+			assertEquals(25+50*(5/7.0), res);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
+			fail("error");
 		}
-		@Test
-		public void testComputeNewDependability6() {
-			ScheduledTasks test = new ScheduledTasks(mockUR, mockGSR);
-			User dummyU = new User("Cloud Strife", "Shinra_sucks", "SOLDIERguy@avalanche.com", -3);
-			dummyU.setUserId(42);
-			dummyU.setAdmin(true);
-			Map<Integer, User> users = new HashMap<>();;
-			users.put(42,  dummyU);
-			test.setSeenUsers(users);
-			test.setNow(new Date(2020-1900, 4, 25, 20, 00, 00));
+	}
 
-			try {
-				Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
-				func.setAccessible(true);
+	@Test
+	public void testComputeNewDependability6() {
+		ScheduledTasks test = new ScheduledTasks(mockUR, mockGSR);
+		User dummyU = new User("Cloud Strife", "Shinra_sucks", "SOLDIERguy@avalanche.com", -3);
+		dummyU.setUserId(42);
+		dummyU.setAdmin(true);
+		Map<Integer, User> users = new HashMap<>();;
+		users.put(42,  dummyU);
+		test.setSeenUsers(users);
 
-				double res = (double) func.invoke(test, "Mon May 20 17:08:15 CEST 2020", 42);
-				assertEquals(10+50*(2/7.0), res);
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-				fail("error");
-			}
+		try {
+			test.setNow(df.parse("2020-05-25 21:00:00"));
+			Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
+			func.setAccessible(true);
 
+			double res = (double) func.invoke(test, "Mon May 20 17:08:15 CEST 2020", 42);
+			assertEquals(10+50*(2/7.0), res);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
+			fail("error");
 		}
-		@Test
-		public void testComputeNewDependability7() {
-			ScheduledTasks test = new ScheduledTasks(mockUR, mockGSR);
-			User dummyU = new User("Cloud Strife", "Shinra_sucks", "SOLDIERguy@avalanche.com", 5);
-			dummyU.setUserId(42);
-			dummyU.setAdmin(true);
-			Map<Integer, User> users = new HashMap<>();;
-			users.put(42,  dummyU);
-			test.setSeenUsers(users);
-			test.setNow(new Date(2020-1900, 4, 25, 20, 00, 00));
+	}
 
-			try {
-				Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
-				func.setAccessible(true);
+	@Test
+	public void testComputeNewDependability7() {
+		ScheduledTasks test = new ScheduledTasks(mockUR, mockGSR);
+		User dummyU = new User("Cloud Strife", "Shinra_sucks", "SOLDIERguy@avalanche.com", 5);
+		dummyU.setUserId(42);
+		dummyU.setAdmin(true);
+		Map<Integer, User> users = new HashMap<>();;
+		users.put(42,  dummyU);
+		test.setSeenUsers(users);
 
-				double res = (double) func.invoke(test, "Mon May 25 17:08:15 CEST 2020", 42);
-				assertEquals( 100, res);
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-				fail("error");
-			}
+		try {
+			test.setNow(df.parse("2020-05-25 21:00:00"));
+			Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
+			func.setAccessible(true);
 
+			double res = (double) func.invoke(test, "Mon May 25 17:08:15 CEST 2020", 42);
+			assertEquals(100, res);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
+			fail("error");
 		}
-		@Test
-		public void testComputeNewDependability8() {
-			ScheduledTasks test = new ScheduledTasks(mockUR, mockGSR);
-			User dummyU = new User("Cloud Strife", "Shinra_sucks", "SOLDIERguy@avalanche.com", -5);
-			dummyU.setUserId(42);
-			dummyU.setAdmin(true);
-			Map<Integer, User> users = new HashMap<>();;
-			users.put(42,  dummyU);
-			test.setSeenUsers(users);
-			test.setNow(new Date(2020-1900, 4, 25, 20, 00, 00));
+	}
 
-			try {
-				Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
-				func.setAccessible(true);
+	@Test
+	public void testComputeNewDependability8() {
+		ScheduledTasks test = new ScheduledTasks(mockUR, mockGSR);
+		User dummyU = new User("Cloud Strife", "Shinra_sucks", "SOLDIERguy@avalanche.com", -5);
+		dummyU.setUserId(42);
+		dummyU.setAdmin(true);
+		Map<Integer, User> users = new HashMap<>();;
+		users.put(42,  dummyU);
+		test.setSeenUsers(users);
 
-				double res = (double) func.invoke(test, "Mon May 25 17:08:15 CEST 2020", 42);
-				assertEquals( 50, res);
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-				fail("error");
-			}
+		try {
+			test.setNow(df.parse("2020-05-25 21:00:00"));
+			Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
+			func.setAccessible(true);
 
+			double res = (double) func.invoke(test, "Mon May 25 17:08:15 CEST 2020", 42);
+			assertEquals(50, res);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
+			fail("error");
 		}
+	}
 }
-		
