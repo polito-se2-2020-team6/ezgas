@@ -35,17 +35,11 @@ public class ScheduledTasks {
 		seenUsers = new HashMap<>();
 	}
 	
-	public Date getNow() {
-		return now;
-	}
 	
 	public void setNow(Date now) {
 		this.now = now;
 	}
 
-	public Map<Integer, User> getSeenUsers() {
-		return seenUsers;
-	}
 
 	public void setSeenUsers(Map<Integer, User> seenUsers) {
 		this.seenUsers = seenUsers;
