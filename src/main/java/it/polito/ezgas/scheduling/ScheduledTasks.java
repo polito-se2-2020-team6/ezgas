@@ -34,6 +34,22 @@ public class ScheduledTasks {
 		this.df = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy", Locale.ENGLISH);
 		seenUsers = new HashMap<>();
 	}
+	
+	public Date getNow() {
+		return now;
+	}
+	
+	public void setNow(Date now) {
+		this.now = now;
+	}
+
+	public Map<Integer, User> getSeenUsers() {
+		return seenUsers;
+	}
+
+	public void setSeenUsers(Map<Integer, User> seenUsers) {
+		this.seenUsers = seenUsers;
+	}
 
 	// Every 12 hours
 	@Scheduled(fixedRate = 1000 * 60 * 60 * 12)
@@ -76,7 +92,7 @@ public class ScheduledTasks {
 		//    otherwise obsolescence = 1 - (today - P.time_tag)/7
 		long msecDifference = this.now.getTime() - reportTimestamp.getTime();
 		int daysDifference = (int)(msecDifference / (24 * 60 * 60 * 1000));
-		double obsolescence = daysDifference > 7 ? 0 : 1 - daysDifference / 7;
+		double obsolescence = daysDifference > 7 ? 0 : 1 - daysDifference / 7.0;
 
 		User reportUser;
 		if(this.seenUsers.containsKey(userId)) {
