@@ -572,10 +572,7 @@ Since those implementation are independent, no tests are needed.
 | :------------------------: | :-------: |
 |            NFR2            |    All    |
 
-![](Images/Tests/testPerformance.png)
-
-As shown in the picture, only the last test of the scheduled routine takes more than 0.5 seconds (way more, actually!): this is due to the fact that the application is booting at the same time, so the test is "paused".
-Since the code of this last test is the same of the others preceding (only difference is user reputation), we can assume that with the application running they will behave equally, so there will be no problem on performance.
+![](Images/Tests/testPerformanceNew.png)
 
 # Line coverage
 
