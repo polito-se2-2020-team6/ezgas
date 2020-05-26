@@ -3,9 +3,11 @@ package it.polito.ezgas.dto;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import it.polito.ezgas.entity.User;
 
+@SpringBootTest
 public class testLoginMapper {
 	@Test
 	public void testToLoginDto1(){

@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import it.polito.ezgas.entity.GasStation;
 
-@RunWith(SpringRunner.class)
+
 @SpringBootTest
 public class TestGasStationMapper {
 	
