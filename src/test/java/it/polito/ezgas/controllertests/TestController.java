@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -12,6 +13,8 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.AfterAll;
@@ -126,6 +129,28 @@ public class TestController {
 	
 	@Test
 	public void testSaveUser() throws ClientProtocolException, IOException {
+		HttpPost req =  new HttpPost(BASE_URL + "/user/saveUser");
+		/*UserDto u = new UserDto();
+		u.setUserName("Jill");
+		u.setPassword("Va11 hall-a");
+		u.setEmail("fore@city.it");
+		u.setReputation(3);
+		
+		ObjectMapper mapper = new ObjectMapper ().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		
+		*/
+	
+		String json = "{\"userName\": \"Jill\",\"password\": \"Va11 hall-a\", \"email\":\"fore@city.it\", \"reputation\": \"5\"}";
+
+		StringEntity entity = new StringEntity(json);
+		entity.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+
+		req.setEntity(entity);
+		req.setHeader("Content-type", "application/json");
+
+		HttpResponse res = HttpClientBuilder.create().build().execute(req);
+		
+		assert (res.getStatusLine().getStatusCode() == 200);
 		
 	}
 	
@@ -156,8 +181,19 @@ public class TestController {
 	}
 	
 	@Test
-	public void testLogin() {
+	public void testLogin() throws ClientProtocolException, IOException {
+		HttpPost req =  new HttpPost(BASE_URL + "/user/saveUser");
+		String json = "{\"user\": \"SOLDIERguy@avalanche.com\",\"pw\": \"Shinra_sucks\"}";
+
+		StringEntity entity = new StringEntity(json);
+		entity.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+
+		req.setEntity(entity);
+		req.setHeader("Content-type", "application/json");
+
+		HttpResponse res = HttpClientBuilder.create().build().execute(req);
 		
+		assert (res.getStatusLine().getStatusCode() == 200);
 	}
 	
 	
