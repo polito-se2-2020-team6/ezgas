@@ -18,22 +18,18 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import it.polito.ezgas.dto.GasStationDto;
+import it.polito.ezgas.dto.UserDto;
 import it.polito.ezgas.entity.GasStation;
 import it.polito.ezgas.entity.User;
 import it.polito.ezgas.repository.GasStationRepository;
 import it.polito.ezgas.repository.UserRepository;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
 public class TestController {
 	
 	public static final String BASE_URL = "http://localhost:8080";
@@ -92,33 +88,71 @@ public class TestController {
 	}
 
 	@Test
-	public void testGetUserById() {
+	public void testGetUserById() throws ClientProtocolException, IOException {
+		HttpUriRequest req =  new HttpGet(BASE_URL+"user/getUser/3");
+		HttpResponse res = HttpClientBuilder.create().build().execute(req);
+		
+		String jsonFromResponse = EntityUtils.toString(res.getEntity());
+		
+		ObjectMapper mapper = new ObjectMapper ().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		
+		UserDto[] userArray = mapper.readValue(jsonFromResponse, UserDto[].class);
+		
+		assert (jsonFromResponse.contains("3"));
+		assert (jsonFromResponse.contains("Sephiroth"));
+		assert (jsonFromResponse.contains("FF7"));
+		assert (jsonFromResponse.contains("BestSong@battle.net"));
+		assert (jsonFromResponse.contains("-5"));
+		assert (res.getStatusLine().getStatusCode() == 200);
+		assert (userArray.length ==1);
+	
+	}
+	
+	@Test
+	public void testGetAllUsers() throws ClientProtocolException, IOException {
+		HttpUriRequest req =  new HttpGet(BASE_URL + "/user/getAllUsers");
+		HttpResponse res = HttpClientBuilder.create().build().execute(req);
+		
+		String jsonFromResponse = EntityUtils.toString(res.getEntity());
+		
+		ObjectMapper mapper = new ObjectMapper ().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		
+		UserDto[] userArray = mapper.readValue(jsonFromResponse, UserDto[].class);
+		
+		
+		assert (res.getStatusLine().getStatusCode() == 200);
+		assert (userArray.length ==3);
+	}
+	
+	@Test
+	public void testSaveUser() throws ClientProtocolException, IOException {
 		
 	}
 	
 	@Test
-	public void testGetAllUsers() {
+	public void testDeleteUser() throws ClientProtocolException, IOException {
+		HttpUriRequest req =  new HttpDelete(BASE_URL + "/user/delete/2");
+		HttpResponse res = HttpClientBuilder.create().build().execute(req);		
 		
+		assert (res.getStatusLine().getStatusCode() == 200);
 	}
 	
 	@Test
-	public void testSaveUser() {
+	public void testIncreaseUserReputation() throws ClientProtocolException, IOException {
+		HttpUriRequest req =  new HttpPost(BASE_URL + "/user/increaseUserReputation/2");
+		HttpResponse res = HttpClientBuilder.create().build().execute(req);
 		
+		
+		assert (res.getStatusLine().getStatusCode() == 200);
 	}
 	
 	@Test
-	public void testDeleteUser() {
+	public void testDecreaseUserReputation() throws ClientProtocolException, IOException {
+		HttpUriRequest req =  new HttpPost(BASE_URL + "/user/decreaseUserReputation/2");
+		HttpResponse res = HttpClientBuilder.create().build().execute(req);
 		
-	}
-	
-	@Test
-	public void testIncreaseUserReputation() {
 		
-	}
-	
-	@Test
-	public void testDecreaseUserReputation() {
-		
+		assert (res.getStatusLine().getStatusCode() == 200);
 	}
 	
 	@Test
@@ -129,8 +163,20 @@ public class TestController {
 	
 	
 	@Test
-	public void testGetGasStationById() {
+	public void testGetGasStationById() throws ClientProtocolException, IOException {
+		HttpUriRequest req =  new HttpGet(BASE_URL+"gasstation/getGasStation/0");
+		HttpResponse res = HttpClientBuilder.create().build().execute(req);
 		
+		String jsonFromResponse = EntityUtils.toString(res.getEntity());
+		
+		ObjectMapper mapper = new ObjectMapper ().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		
+		GasStationDto[] userArray = mapper.readValue(jsonFromResponse, GasStationDto[].class);
+		
+		assert (jsonFromResponse.contains("DB Carburanti"));
+		assert (jsonFromResponse.contains("Viale Trieste 135"));
+		assert (res.getStatusLine().getStatusCode() == 200);
+		assert (userArray.length ==1);
 	}
 	
 	@Test
