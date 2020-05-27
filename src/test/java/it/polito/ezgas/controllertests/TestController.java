@@ -1,32 +1,51 @@
 package it.polito.ezgas.controllertests;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.IOException;
 import java.util.List;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import it.polito.ezgas.dto.GasStationDto;
 import it.polito.ezgas.entity.GasStation;
 import it.polito.ezgas.entity.User;
 import it.polito.ezgas.repository.GasStationRepository;
 import it.polito.ezgas.repository.UserRepository;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest
 public class TestController {
 	
-	public static final String BASE_URL = "http://localhost:8080/";
+	public static final String BASE_URL = "http://localhost:8080";
 	
 	public static List<User> userDb;
 	public static List<GasStation> gsDb;
 	
 	@Autowired
-	static UserRepository userRepository;
+	public static UserRepository userRepository;
 	
 	@Autowired
-	static GasStationRepository gasStationRepository;
+	public static GasStationRepository gasStationRepository;
 	
 	@BeforeAll
 	public static void setUpClass() {
@@ -92,7 +111,6 @@ public class TestController {
 		
 	}
 	
-	
 	@Test
 	public void testIncreaseUserReputation() {
 		
@@ -116,38 +134,93 @@ public class TestController {
 	}
 	
 	@Test
-	public void testGetAllGasStations() {
+	public void testGetAllGasStations() throws ClientProtocolException, IOException {
+		HttpUriRequest request = new HttpGet(BASE_URL + "/gasstation/getAllGasStations");
+		HttpResponse response = HttpClientBuilder.create().build().execute(request);
 		
+		assertTrue(response.getStatusLine().getStatusCode() == 200);
+		
+		String jsonFromResponse = EntityUtils.toString(response.getEntity());
+		ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		GasStationDto[] gasStationArray = mapper.readValue(jsonFromResponse, GasStationDto[].class);
+		
+		assertEquals(4, gasStationArray.length);
 	}
 	
 	@Test
-	public void testSaveGasStation() {
+	public void testSaveGasStation() throws ClientProtocolException, IOException {
+		HttpUriRequest request = new HttpPost(BASE_URL + "/gasstation/saveGasStation");
+		HttpResponse response = HttpClientBuilder.create().build().execute(request);
 		
+		// TODO: Add body to be saved		
+		
+		assertTrue(response.getStatusLine().getStatusCode() == 200);
 	}
 	
 	@Test
-	public void testDeleteUser2() {
+	public void testDeleteUser2() throws ClientProtocolException, IOException {
+		HttpUriRequest request = new HttpDelete(BASE_URL + "/gasstation/deleteGasStation/3");
+		HttpResponse response = HttpClientBuilder.create().build().execute(request);
 		
+		assertTrue(response.getStatusLine().getStatusCode() == 200);
 	}
 	
 	@Test
-	public void testGetGasStationsByGasolineType() {
+	public void testGetGasStationsByGasolineType() throws ClientProtocolException, IOException {
+		HttpUriRequest request = new HttpGet(BASE_URL + "/gasstation/searchGasStationByGasolineType/Diesel");
+		HttpResponse response = HttpClientBuilder.create().build().execute(request);
 		
+		assertTrue(response.getStatusLine().getStatusCode() == 200);
+		
+		String jsonFromResponse = EntityUtils.toString(response.getEntity());
+		ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		GasStationDto[] gasStationArray = mapper.readValue(jsonFromResponse, GasStationDto[].class);
+		
+		assertEquals(3, gasStationArray.length);
+		assertEquals("Q8", gasStationArray[0].getGasStationName());
+		assertEquals("Eni", gasStationArray[1].getGasStationName());
+		assertEquals("DB Carburanti", gasStationArray[2].getGasStationName());
 	}
 	
 	@Test
-	public void testGetGasStationsByProximity() {
+	public void testGetGasStationsByProximity() throws ClientProtocolException, IOException {
+		HttpUriRequest request = new HttpGet(BASE_URL + "/gasstation/searchGasStationByProximity/44.67/7.84");
+		HttpResponse response = HttpClientBuilder.create().build().execute(request);
 		
+		assertTrue(response.getStatusLine().getStatusCode() == 200);
+		
+		String jsonFromResponse = EntityUtils.toString(response.getEntity());
+		ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		GasStationDto[] gasStationArray = mapper.readValue(jsonFromResponse, GasStationDto[].class);
+		
+		assertEquals(3, gasStationArray.length);
+		assertEquals("Q8", gasStationArray[0].getGasStationName());
+		assertEquals("DB Carburanti", gasStationArray[1].getGasStationName());
+		assertEquals("Agip", gasStationArray[2].getGasStationName());
 	}
 	
 	@Test
-	public void testGetGasStationsWithCoordinates() {
+	public void testGetGasStationsWithCoordinates() throws ClientProtocolException, IOException {
+		HttpUriRequest request = new HttpGet(BASE_URL + "/gasstation/getGasStationsWithCoordinates/44.67/7.84/Diesel/null");
+		HttpResponse response = HttpClientBuilder.create().build().execute(request);
 		
+		assertTrue(response.getStatusLine().getStatusCode() == 200);
+		
+		String jsonFromResponse = EntityUtils.toString(response.getEntity());
+		ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		GasStationDto[] gasStationArray = mapper.readValue(jsonFromResponse, GasStationDto[].class);
+		
+		assertEquals(2, gasStationArray.length);
+		assertEquals("Q8", gasStationArray[0].getGasStationName());
+		assertEquals("DB Carburanti", gasStationArray[1].getGasStationName());
 	}
 	
 	@Test
-	public void testSetGasStationReport() {
-		
+	public void testSetGasStationReport() throws ClientProtocolException, IOException {
+		HttpUriRequest request = new HttpPost(BASE_URL + "/gasstation/setGasStationReport/3/17/70/-1/13/42/3");
+		HttpResponse response = HttpClientBuilder.create().build().execute(request);
+
+		assertTrue(response.getStatusLine().getStatusCode() == 200);
 	}
 	
 }
