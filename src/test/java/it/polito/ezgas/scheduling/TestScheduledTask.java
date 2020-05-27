@@ -61,7 +61,7 @@ public class TestScheduledTask {
 			Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
 			func.setAccessible(true);
 
-			double res = (double) func.invoke(test, "Mon May 24 17:08:15 CEST 2020", 42);
+			double res = (double) func.invoke(test, "Mon May 24 21:00:00 CEST 2020", 42);
 			assertEquals(50+50*(6.0/7.0), res);
 		} catch ( IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
 			fail("error");
@@ -82,7 +82,7 @@ public class TestScheduledTask {
 			Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
 			func.setAccessible(true);
 
-			double res = (double) func.invoke(test, "Mon May 24 17:08:15 CEST 2020", 42);
+			double res = (double) func.invoke(test, "Mon May 24 21:00:00 CEST 2020", 42);
 			assertEquals(50+50*(6/7.0), res);
 		} catch ( IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
 			fail("error");
@@ -141,7 +141,7 @@ public class TestScheduledTask {
 			Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
 			func.setAccessible(true);
 
-			double res = (double) func.invoke(test, "Mon May 23 17:08:15 CEST 2020", 42);
+			double res = (double) func.invoke(test, "Mon May 23 21:00:00 CEST 2020", 42);
 			assertEquals(25+50*(5/7.0), res);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
 			fail("error");
@@ -163,7 +163,7 @@ public class TestScheduledTask {
 			Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
 			func.setAccessible(true);
 
-			double res = (double) func.invoke(test, "Mon May 20 17:08:15 CEST 2020", 42);
+			double res = (double) func.invoke(test, "Mon May 20 21:00:00 CEST 2020", 42);
 			assertEquals(10+50*(2/7.0), res);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
 			fail("error");
@@ -185,7 +185,7 @@ public class TestScheduledTask {
 			Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
 			func.setAccessible(true);
 
-			double res = (double) func.invoke(test, "Mon May 25 17:08:15 CEST 2020", 42);
+			double res = (double) func.invoke(test, "Mon May 25 21:00:00 CEST 2020", 42);
 			assertEquals(100, res);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
 			fail("error");
@@ -207,7 +207,7 @@ public class TestScheduledTask {
 			Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
 			func.setAccessible(true);
 
-			double res = (double) func.invoke(test, "Mon May 25 17:08:15 CEST 2020", 42);
+			double res = (double) func.invoke(test, "Mon May 25 21:00:00 CEST 2020", 42);
 			assertEquals(50, res);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
 			fail("error");
