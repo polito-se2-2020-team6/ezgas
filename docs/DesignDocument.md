@@ -262,71 +262,59 @@ package "it.polito.ezgas.dto" as dto {
 
 package "it.polito.ezgas.entity" as entity {
 	class "User" as u {
-
-    - userId : Integer
-    - userName : String
-    - password : String
-
- 		- email : String
- 		- reputation : Integer
-
-    - admin : Boolean
-
+        - userId : Integer
+        - userName : String
+        - password : String
+        - email : String
+        - reputation : Integer
+        - admin : Boolean
 	}
 
 	class "PriceReport" as pr {
-
-    - priceReportId : Integer
-    - user : User
-    - dieselPrice : double
-    - superPrice : double
-    - superPlusPrice : double
-    - gasPrice : double
-
+        - priceReportId : Integer
+        - user : User
+        - dieselPrice : double
+        - superPrice : double
+        - superPlusPrice : double
+        - gasPrice : double
 	}
 
 	class "GasStation" as gs {
-
-    - gasStationId : Integer
-    - gasStationName : String
-    - gasStationAddress : String
-    - brand : String
-    - hasDiesel : Boolean
-    - hasSuper : Boolean
-    - hasSuperPlus : Boolean
-    - hasGas : Boolean
-    - hasMethane : Boolean
-    - carSharing : String
-    - lat : double
-    - lon : double
-    - dieselPrice : double
-    - superPrice : double
-    - superPlusPrice : double
-    - gasPrice : double
-    - methanePrice : double
-    - reportUser : Integer
-    - reportTimestamp : String
-    - reportDependability : double
-
+        - gasStationId : Integer
+        - gasStationName : String
+        - gasStationAddress : String
+        - brand : String
+        - hasDiesel : Boolean
+        - hasSuper : Boolean
+        - hasSuperPlus : Boolean
+        - hasGas : Boolean
+        - hasMethane : Boolean
+        - carSharing : String
+        - lat : double
+        - lon : double
+        - dieselPrice : double
+        - superPrice : double
+        - superPlusPrice : double
+        - gasPrice : double
+        - methanePrice : double
+        - reportUser : Integer
+        - reportTimestamp : String
+        - reportDependability : double
 	}
 
 }
 
 package "it.polito.ezgas.repository" as repository {
 	interface "UserRepository" as urep {
-
-    - findAll() : List<User>
-    - countByAdmin(boolean) : Integer
-    - findByEmail(String) : User
-
+        - findAll() : List<User>
+        - countByAdmin(boolean) : Integer
+        - findByEmail(String) : User
 	}
 	interface "PriceReportRepository" as prrep
 	interface "GasStationRepository" as gsrep{
-
-    - findAll() : List<GasStation>
-    - findByCarSharing(String) : List<GasStation>
-    - delete(GasStation) : void 
-
+        - findAll() : List<GasStation>
+        - findByCarSharing(String) : List<GasStation>
+        - findByGasStationAddress(String) : GasStation
 	}
 
 }
@@ -344,7 +332,7 @@ package "it.polito.ezgas.scheduling" {
         - seenUsers : Map<INteger, User>
         + scheduleUpdateGasStationReportDependability()
         - updateGasStationsReportDependability() : int
-        - computeNewDependability(GasStation) : double
+        - computeNewDependability(String, Integer) : double
     }
 }
 

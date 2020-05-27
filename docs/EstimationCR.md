@@ -1,10 +1,10 @@
 # CR - Change Request Poll
 
-Authors:
+Authors: Alessandro Borione, Giacomo Garaccione, Corrado Vecchio, Marco Vinai
 
-Date:
+Date: 23/05/2020
 
-Version:
+Version: 0.1
 
 
 
@@ -21,13 +21,13 @@ update of documents. Consider only effort on the back end (changes to all packag
 
 ### 
 
-|   CR          | Priority (1 lowest 5 highest)       |          Effort (person hours) |   
-| ----------- | ------------------------------- | ---------------------------- | 
-| CR1   | | |          
-| CR2   | | | 
-| CR3   | | | 
-| CR4   | | | 
-| CR5   | | | 
-| CR6   | | | 
-| CR7   | | | 
-| CR8   | | | 
+|  CR   | Priority (1 lowest 5 highest) | Effort (person hours) |
+| :---: | :---------------------------: | :-------------------: |
+|  CR1  |               5               |          30           |
+|  CR2  |               4               |          30           |
+|  CR3  |               1               |          45           |
+|  CR4  |               2               |          10           |
+|  CR5  |               3               |          50           |
+|  CR6  |               4               |          60           |
+|  CR7  |               5               |           5           |
+|  CR8  |                               |                       |
