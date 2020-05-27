@@ -6,19 +6,24 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,6 +35,8 @@ import it.polito.ezgas.entity.User;
 import it.polito.ezgas.repository.GasStationRepository;
 import it.polito.ezgas.repository.UserRepository;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class TestController {
 	
 	public static final String BASE_URL = "http://localhost:8080";
@@ -105,7 +112,6 @@ public class TestController {
 		assert (jsonFromResponse.contains("-5"));
 		assert (res.getStatusLine().getStatusCode() == 200);
 		assert (userArray.length ==1);
-	
 	}
 	
 	@Test
@@ -160,8 +166,6 @@ public class TestController {
 		
 	}
 	
-	
-	
 	@Test
 	public void testGetGasStationById() throws ClientProtocolException, IOException {
 		HttpUriRequest req =  new HttpGet(BASE_URL+"gasstation/getGasStation/0");
@@ -169,7 +173,7 @@ public class TestController {
 		
 		String jsonFromResponse = EntityUtils.toString(res.getEntity());
 		
-		ObjectMapper mapper = new ObjectMapper ().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		
 		GasStationDto[] userArray = mapper.readValue(jsonFromResponse, GasStationDto[].class);
 		
@@ -195,11 +199,28 @@ public class TestController {
 	
 	@Test
 	public void testSaveGasStation() throws ClientProtocolException, IOException {
-		HttpUriRequest request = new HttpPost(BASE_URL + "/gasstation/saveGasStation");
+		HttpPost request = new HttpPost(BASE_URL + "/gasstation/saveGasStation");
+		// TODO: Add body to be saved
+		GasStationDto dummy = new GasStationDto();
+		dummy.setGasStationName("DummyName");
+		dummy.setGasStationAddress("Dummy Address");
+		dummy.setHasDiesel(true);
+		dummy.setHasSuper(false);
+		dummy.setHasSuper(true);
+		dummy.setHasGas(true);
+		dummy.setHasMethane(false);
+		dummy.setCarSharing("Car2Go");
+		dummy.setLat(13.878652);
+		dummy.setLon(-15.123875);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String entityAsString = mapper.writeValueAsString(dummy);
+		
+		HttpEntity entity = new StringEntity(entityAsString);
+		
+		request.setEntity(entity);
+		
 		HttpResponse response = HttpClientBuilder.create().build().execute(request);
-		
-		// TODO: Add body to be saved		
-		
 		assertTrue(response.getStatusLine().getStatusCode() == 200);
 	}
 	
