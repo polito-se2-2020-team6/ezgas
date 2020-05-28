@@ -1,0 +1,11 @@
+wait("1590593589935.png")
+find("1590593605530.png")
+click(Pattern("1590593605530.png").similar(0.71).targetOffset(360,-15))
+wheel(WHEEL_DOWN, 3)
+wait("1590593843409.png")
+type(Pattern("1590593843409.png").targetOffset(90,0), "%.7f"%1.23)
+type(Pattern("1590593856819.png").targetOffset(90,0), "%.7f"%2.07)
+type(Pattern("1590593869957.png").exact().targetOffset(90,0), "%.7f"%1.56)
+click("1590593886409.png")
+find("1590593921605.png")
+

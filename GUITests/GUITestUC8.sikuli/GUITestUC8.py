@@ -1,0 +1,6 @@
+wait("1590595017267.png")
+type(Pattern("1590594977146.png").targetOffset(59,0), "Via Roma 12 Ventimiglia Liguria Ital ")
+click("AddressMenu.PNG")
+click("1590595119208.png")
+wheel(WHEEL_DOWN, 2)
+wait("1590595182692.png")
