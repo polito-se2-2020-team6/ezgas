@@ -8,10 +8,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 import it.polito.ezgas.entity.User;
 import it.polito.ezgas.repository.*;
@@ -35,19 +33,18 @@ public class BootEZGasApplication {
 
 
 
-	private void initializationAdmin () {
-		
-			List<User> userList = repository.findAll();
-			for(User user:userList) {
-				System.out.println(String.format("'%s', '%d', '%s', '%s', '%d'", user.getAdmin() ? "admin" : "user", user.getUserId(), user.getUserName(), user.getEmail(), user.getReputation() ));
-			}
-			int admin = repository.countByAdmin(true);
-			//System.out.println("Number of admins: " + admin);
-			if(admin == 0) {
-				User user= new User("admin", "admin", "admin@ezgas.com", 5);
-				user.setAdmin(true);
-				repository.save(user);
-			
+	private void initializationAdmin() {
+		List<User> userList = repository.findAll();
+		for(User user:userList) {
+			System.out.println(String.format("'%s', '%d', '%s', '%s', '%d'", user.getAdmin() ? "admin" : "user", user.getUserId(), user.getUserName(), user.getEmail(), user.getReputation() ));
+		}
+		int admin = repository.countByAdmin(true);
+		//System.out.println("Number of admins: " + admin);
+		if(admin == 0) {
+			User user= new User("admin", "admin", "admin@ezgas.com", 5);
+			user.setAdmin(true);
+			repository.save(user);
+
 		};
 	}
 
