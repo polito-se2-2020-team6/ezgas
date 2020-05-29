@@ -12,7 +12,7 @@ import it.polito.ezgas.entity.User;
 
 
 @SpringBootTest
-public class testUserMapper {
+public class TestUserMapper {
 	
 	@Test
 	public void testToUser1() {

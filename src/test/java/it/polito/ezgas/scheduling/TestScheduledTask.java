@@ -1,7 +1,7 @@
 package it.polito.ezgas.scheduling;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -15,11 +15,13 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import it.polito.ezgas.entity.User;
 import it.polito.ezgas.repository.GasStationRepository;
@@ -35,12 +37,12 @@ public class TestScheduledTask {
 
 	static DateFormat df;
 
-	@BeforeAll
+	@BeforeClass
 	public static void setUpClass() {
 		df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.ENGLISH);
 	}
 
-	@BeforeEach
+	@Before
 	public void setUp() {
 		User dummyU = new User("Cloud Strife", "Shinra_sucks", "SOLDIERguy@avalanche.com", 5);
 		dummyU.setUserId(42);
@@ -62,7 +64,7 @@ public class TestScheduledTask {
 			func.setAccessible(true);
 
 			double res = (double) func.invoke(test, "Mon May 24 21:00:00 CEST 2020", 42);
-			assertEquals(50+50*(6.0/7.0), res);
+			assertEquals(50+50*(6.0/7.0), res, 0.001);
 		} catch ( IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
 			fail("error");
 		}
@@ -83,7 +85,7 @@ public class TestScheduledTask {
 			func.setAccessible(true);
 
 			double res = (double) func.invoke(test, "Mon May 24 21:00:00 CEST 2020", 42);
-			assertEquals(50+50*(6/7.0), res);
+			assertEquals(50+50*(6.0/7.0), res, 0.001);
 		} catch ( IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
 			fail("error");
 		}
@@ -104,7 +106,7 @@ public class TestScheduledTask {
 			func.setAccessible(true);
 
 			double res = (double) func.invoke(test, "Mon May 15 17:08:15 CEST 2020", 42);
-			assertEquals(50, res);
+			assertEquals(50, res, 0.001);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
 			fail("error");
 		}
@@ -120,7 +122,7 @@ public class TestScheduledTask {
 			func.setAccessible(true);
 
 			double res = (double) func.invoke(test, "Mon May 15 17:08:15 CEST 2020", 42);
-			assertEquals(50, res);
+			assertEquals(50, res, 0.001);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
 			fail("error");
 		}
@@ -142,7 +144,7 @@ public class TestScheduledTask {
 			func.setAccessible(true);
 
 			double res = (double) func.invoke(test, "Mon May 23 21:00:00 CEST 2020", 42);
-			assertEquals(25+50*(5/7.0), res);
+			assertEquals(25+50*(5/7.0), res, 0.001);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
 			fail("error");
 		}
@@ -164,7 +166,7 @@ public class TestScheduledTask {
 			func.setAccessible(true);
 
 			double res = (double) func.invoke(test, "Mon May 20 21:00:00 CEST 2020", 42);
-			assertEquals(10+50*(2/7.0), res);
+			assertEquals(10+50*(2/7.0), res, 0.001);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
 			fail("error");
 		}
@@ -186,7 +188,7 @@ public class TestScheduledTask {
 			func.setAccessible(true);
 
 			double res = (double) func.invoke(test, "Mon May 25 21:00:00 CEST 2020", 42);
-			assertEquals(100, res);
+			assertEquals(100, res, 0.001);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
 			fail("error");
 		}
@@ -208,7 +210,7 @@ public class TestScheduledTask {
 			func.setAccessible(true);
 
 			double res = (double) func.invoke(test, "Mon May 25 21:00:00 CEST 2020", 42);
-			assertEquals(50, res);
+			assertEquals(50, res, 0.001);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ParseException e) {
 			fail("error");
 		}
