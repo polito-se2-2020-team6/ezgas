@@ -41,13 +41,14 @@ import it.polito.ezgas.entity.User;
 import it.polito.ezgas.repository.GasStationRepository;
 import it.polito.ezgas.repository.UserRepository;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 @DataJpaTest
 @Transactional(rollbackOn = TestController.class)
 public class TestController {
 
 	public static final String BASE_URL = "http://localhost:8080";
+	
 
 	@Test
 	public void testGetUserById() throws ClientProtocolException, IOException {
@@ -61,11 +62,11 @@ public class TestController {
 		UserDto uDto = mapper.readValue(jsonFromResponse, UserDto.class);
 
 		assertEquals(200, res.getStatusLine().getStatusCode());
-		assertEquals(3, uDto.getUserId());
+		assertEquals(new Integer(3), uDto.getUserId());
 		assertEquals("Sephiroth", uDto.getUserName());
 		assertEquals("FF7", uDto.getUserName());
 		assertEquals("BestSong@battle.net", uDto.getEmail());
-		assertEquals(-5, uDto.getReputation());
+		assertEquals(new Integer(-5), uDto.getReputation());
 	}
 
 	@Test
