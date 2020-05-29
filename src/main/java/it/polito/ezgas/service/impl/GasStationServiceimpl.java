@@ -141,14 +141,15 @@ public class GasStationServiceimpl implements GasStationService {
 		if (!latLonCorrect(lat, lon)) {
 			throw new GPSDataException("ERROR: Invalid latitude(" + lat + ") or longitude(" + lon + ") values");
 		}
-		st.updateGasStationsReportDependability();
-
-		return gasStationRepository.findAll()
-				.parallelStream()
-				.filter(gs -> geoPointDistance(lat, lon, gs.getLat(), gs.getLon()) < 1)
-				.map(GasStationMapper::toGSDto)
-				.sorted((a, b) -> (geoPointDistance(lat, lon, b.getLat(), b.getLon()) - geoPointDistance(lat, lon, a.getLat(), a.getLon()) < 0 ? -1 : 1))
-				.collect(Collectors.toList());
+		
+		try {
+			return getGasStationsWithCoordinates(lat, lon, "null", "null");
+		} catch (InvalidGasTypeException e) {
+			// Dead code
+			return null;
+		}
+		
+		
 	}
 
 	@Override
