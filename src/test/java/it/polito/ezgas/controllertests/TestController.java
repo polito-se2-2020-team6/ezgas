@@ -22,7 +22,10 @@ import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -43,16 +46,16 @@ import it.polito.ezgas.repository.UserRepository;
 
 //@RunWith(SpringRunner.class)
 //@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-@DataJpaTest
-@Transactional(rollbackOn = TestController.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestController {
 
 	public static final String BASE_URL = "http://localhost:8080";
 	
 
 	@Test
+	@Order(1)
 	public void testGetUserById() throws ClientProtocolException, IOException {
-		HttpUriRequest req =  new HttpGet(BASE_URL+"user/getUser/3");
+		HttpUriRequest req =  new HttpGet(BASE_URL+"/user/getUser/4");
 		HttpResponse res = HttpClientBuilder.create().build().execute(req);
 
 		String jsonFromResponse = EntityUtils.toString(res.getEntity());
@@ -62,14 +65,12 @@ public class TestController {
 		UserDto uDto = mapper.readValue(jsonFromResponse, UserDto.class);
 
 		assertEquals(200, res.getStatusLine().getStatusCode());
-		assertEquals(new Integer(3), uDto.getUserId());
+		assertEquals(new Integer(4), uDto.getUserId());
 		assertEquals("Sephiroth", uDto.getUserName());
-		assertEquals("FF7", uDto.getUserName());
-		assertEquals("BestSong@battle.net", uDto.getEmail());
-		assertEquals(new Integer(-5), uDto.getReputation());
 	}
 
 	@Test
+	@Order(2)
 	public void testGetAllUsers() throws ClientProtocolException, IOException {
 		HttpUriRequest req =  new HttpGet(BASE_URL + "/user/getAllUsers");
 		HttpResponse res = HttpClientBuilder.create().build().execute(req);
@@ -82,10 +83,11 @@ public class TestController {
 
 
 		assertEquals(200, res.getStatusLine().getStatusCode());
-		assertEquals(3, userArray.length);
+		assertEquals(4, userArray.length);
 	}
 
 	@Test
+	@Order(15)
 	public void testSaveUser() throws ClientProtocolException, IOException {
 		HttpPost req =  new HttpPost(BASE_URL + "/user/saveUser");
 		/*UserDto u = new UserDto();
@@ -113,35 +115,37 @@ public class TestController {
 	}
 
 	@Test
+	@Order(14)
 	public void testDeleteUser() throws ClientProtocolException, IOException {
-		HttpUriRequest req =  new HttpDelete(BASE_URL + "/user/delete/2");
-		HttpResponse res = HttpClientBuilder.create().build().execute(req);		
+		HttpUriRequest req =  new HttpDelete(BASE_URL + "/user/deleteUser/3");
+		HttpResponse res = HttpClientBuilder.create().build().execute(req);
 
 		assertEquals(200, res.getStatusLine().getStatusCode());
 	}
 
 	@Test
+	@Order(3)
 	public void testIncreaseUserReputation() throws ClientProtocolException, IOException {
 		HttpUriRequest req =  new HttpPost(BASE_URL + "/user/increaseUserReputation/2");
 		HttpResponse res = HttpClientBuilder.create().build().execute(req);
 
-
 		assertEquals(200, res.getStatusLine().getStatusCode());
 	}
 
 	@Test
+	@Order(4)
 	public void testDecreaseUserReputation() throws ClientProtocolException, IOException {
 		HttpUriRequest req =  new HttpPost(BASE_URL + "/user/decreaseUserReputation/2");
 		HttpResponse res = HttpClientBuilder.create().build().execute(req);
 
-
 		assertEquals(200, res.getStatusLine().getStatusCode());
 	}
 
 	@Test
+	@Order(5)
 	public void testLogin() throws ClientProtocolException, IOException {
 		HttpPost req =  new HttpPost(BASE_URL + "/user/saveUser");
-		String json = "{\"user\": \"SOLDIERguy@avalanche.com\",\"pw\": \"Shinra_sucks\"}";
+		String json = "{\"user\": \"SOLDIERguy@avalanche.com\",\"pw\": \"tifa\"}";
 
 		StringEntity entity = new StringEntity(json);
 		entity.setContentType(ContentType.APPLICATION_JSON.getMimeType());
@@ -155,8 +159,9 @@ public class TestController {
 	}
 
 	@Test
+	@Order(6)
 	public void testGetGasStationById() throws ClientProtocolException, IOException {
-		HttpUriRequest req =  new HttpGet(BASE_URL+"gasstation/getGasStation/0");
+		HttpUriRequest req =  new HttpGet(BASE_URL+"/gasstation/getGasStation/1");
 		HttpResponse res = HttpClientBuilder.create().build().execute(req);
 
 		String jsonFromResponse = EntityUtils.toString(res.getEntity());
@@ -166,10 +171,11 @@ public class TestController {
 		GasStationDto gsDto = mapper.readValue(jsonFromResponse, GasStationDto.class);
 
 		assertEquals(200, res.getStatusLine().getStatusCode());
-		assertEquals("DB Carburanti", gsDto.getGasStationName());
+		assertEquals("Q8", gsDto.getGasStationName());
 	}
 
 	@Test
+	@Order(7)
 	public void testGetAllGasStations() throws ClientProtocolException, IOException {
 		HttpUriRequest request = new HttpGet(BASE_URL + "/gasstation/getAllGasStations");
 		HttpResponse response = HttpClientBuilder.create().build().execute(request);
@@ -184,6 +190,7 @@ public class TestController {
 	}
 
 	@Test
+	@Order(13)
 	public void testSaveGasStation() throws ClientProtocolException, IOException {
 		HttpPost request = new HttpPost(BASE_URL + "/gasstation/saveGasStation");
 		// TODO: Add body to be saved
@@ -212,6 +219,7 @@ public class TestController {
 	}
 
 	@Test
+	@Order(12)
 	public void testDeleteUser2() throws ClientProtocolException, IOException {
 		HttpUriRequest request = new HttpDelete(BASE_URL + "/gasstation/deleteGasStation/3");
 		HttpResponse response = HttpClientBuilder.create().build().execute(request);
@@ -220,6 +228,7 @@ public class TestController {
 	}
 
 	@Test
+	@Order(8)
 	public void testGetGasStationsByGasolineType() throws ClientProtocolException, IOException {
 		HttpUriRequest request = new HttpGet(BASE_URL + "/gasstation/searchGasStationByGasolineType/Diesel");
 		HttpResponse response = HttpClientBuilder.create().build().execute(request);
@@ -232,13 +241,14 @@ public class TestController {
 
 		assertEquals(3, gasStationArray.length);
 		assertEquals("Q8", gasStationArray[0].getGasStationName());
-		assertEquals("Eni", gasStationArray[1].getGasStationName());
-		assertEquals("DB Carburanti", gasStationArray[2].getGasStationName());
+		assertEquals("DB Carburanti", gasStationArray[1].getGasStationName());
+		assertEquals("Eni", gasStationArray[2].getGasStationName());
 	}
 
 	@Test
+	@Order(9)
 	public void testGetGasStationsByProximity() throws ClientProtocolException, IOException {
-		HttpUriRequest request = new HttpGet(BASE_URL + "/gasstation/searchGasStationByProximity/44.67/7.84");
+		HttpUriRequest request = new HttpGet(BASE_URL + "/gasstation/searchGasStationByProximity/44.689/7.848/");
 		HttpResponse response = HttpClientBuilder.create().build().execute(request);
 
 		assertTrue(response.getStatusLine().getStatusCode() == 200);
@@ -254,8 +264,9 @@ public class TestController {
 	}
 
 	@Test
+	@Order(10)
 	public void testGetGasStationsWithCoordinates() throws ClientProtocolException, IOException {
-		HttpUriRequest request = new HttpGet(BASE_URL + "/gasstation/getGasStationsWithCoordinates/44.67/7.84/Diesel/null");
+		HttpUriRequest request = new HttpGet(BASE_URL + "/gasstation/getGasStationsWithCoordinates/44.689/7.848/Diesel/null");
 		HttpResponse response = HttpClientBuilder.create().build().execute(request);
 
 		assertTrue(response.getStatusLine().getStatusCode() == 200);
@@ -270,8 +281,9 @@ public class TestController {
 	}
 
 	@Test
+	@Order(11)
 	public void testSetGasStationReport() throws ClientProtocolException, IOException {
-		HttpUriRequest request = new HttpPost(BASE_URL + "/gasstation/setGasStationReport/3/17/70/-1/13/42/3");
+		HttpUriRequest request = new HttpPost(BASE_URL + "/gasstation/setGasStationReport/1/17/-1/-1/-1/-1/1");
 		HttpResponse response = HttpClientBuilder.create().build().execute(request);
 
 		assertEquals(200, response.getStatusLine().getStatusCode());
