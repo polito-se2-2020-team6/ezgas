@@ -79,6 +79,7 @@ public class TestLoginMapper {
 		assertEquals(admin, res.getAdmin());
 		assertEquals(reputation, res.getReputation());		
 	}
+	
 	@Test
 	public void testToLoginDto4(){
 		String userName = null;

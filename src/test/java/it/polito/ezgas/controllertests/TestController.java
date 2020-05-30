@@ -19,12 +19,12 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-import org.junit.Test;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +81,6 @@ public class TestController {
 
 		UserDto[] userArray = mapper.readValue(jsonFromResponse, UserDto[].class);
 
-
 		assertEquals(200, res.getStatusLine().getStatusCode());
 		assertEquals(4, userArray.length);
 	}
@@ -93,14 +92,14 @@ public class TestController {
 		/*UserDto u = new UserDto();
 		u.setUserName("Jill");
 		u.setPassword("Va11 hall-a");
-		u.setEmail("fore@city.it");
+		u.setEmail("rad.shiba@btc.gc");
 		u.setReputation(3);
 
 		ObjectMapper mapper = new ObjectMapper ().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 		 */
 
-		String json = "{\"userName\": \"Jill\",\"password\": \"Va11 hall-a\", \"email\":\"fore@city.it\", \"reputation\": \"5\"}";
+		String json = "{\"userName\": \"Jill\",\"password\": \"Va11 hall-a\", \"email\":\"rad.shiba@gbtc.gc\", \"reputation\": \"5\"}";
 
 		StringEntity entity = new StringEntity(json);
 		entity.setContentType(ContentType.APPLICATION_JSON.getMimeType());

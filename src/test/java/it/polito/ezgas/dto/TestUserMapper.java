@@ -234,6 +234,7 @@ public class TestUserMapper {
 		assertEquals(admin, res.getAdmin());
 		assertEquals(reputation, res.getReputation());		
 	}
+	
 	@Test
 	public void testToUserDto4(){
 		String userName = null;
