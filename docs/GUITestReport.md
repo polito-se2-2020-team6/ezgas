@@ -48,6 +48,8 @@ Version: 1.0
 | GasStationController.getGasStationsWithCoordinates() |              FR4.1              | testGetGasStationsWtihCoordinates() |
 | GasStationController.setGasStationReport()           |              FR5.1              |      testSetGasStationReport()      |
 
+All tests are meant to be run using the provided db. After the execution, changes are not rolled back, so the db should be discarded.
+
 ## API Test result
 
 ![](Images/Tests/controllerTests.png)
