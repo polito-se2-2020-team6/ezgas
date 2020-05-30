@@ -46,11 +46,11 @@ public class ScheduledTasks {
 	}
 
 	// Every 12 hours
-	/*@Scheduled(fixedRate = 1000 * 60 * 60 * 12)
+	@Scheduled(fixedRate = 1000 * 60 * 60 * 12)
 	public void scheduleUpdateGasStationReportDependability() {
 		this.updateGasStationsReportDependability();
 	}
-*/
+
 	public int updateGasStationsReportDependability() {
 
 		this.now = new Date();

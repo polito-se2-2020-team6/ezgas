@@ -218,9 +218,9 @@ public class GasStationServiceimpl implements GasStationService {
 
 	@Override
 	public List<GasStationDto> getGasStationByCarSharing(String carSharing) {
+		st.updateGasStationsReportDependability();
 
 		if(carSharing.equals("null")) return getAllGasStations();
-		st.updateGasStationsReportDependability();
 		List<GasStation> gss = gasStationRepository.findByCarSharing(carSharing);
 		return gss
 				.parallelStream()
