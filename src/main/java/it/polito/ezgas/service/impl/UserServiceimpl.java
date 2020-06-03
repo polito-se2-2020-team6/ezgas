@@ -46,7 +46,6 @@ public class UserServiceimpl implements UserService {
 	@Override
 	public UserDto saveUser(UserDto userDto) {
 		User user2 = repository.findByEmail(userDto.getEmail());
-		
 		if (userDto.getUserId()==null) {	// CASE SAVE: 
 			if (user2 != null) // account with same mail already existing -> reject
 				return null;

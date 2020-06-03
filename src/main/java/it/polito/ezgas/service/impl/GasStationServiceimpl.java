@@ -191,10 +191,6 @@ public class GasStationServiceimpl implements GasStationService {
 		Optional<User> optU = Optional.ofNullable(userRepository.findOne(userId));
 		if(!optU.isPresent()) throw new InvalidUserException("ERROR: User " + userId + " not found!");
 		User u = optU.get();
-		// Check price report compatibility with gas station
-		if(!priceCorrect(GasStationMapper.toGSDto(gs))){
-			throw new PriceException("ERROR: Price not valid or set");
-		}
 
 		// TODO: Missing methane and lpg args
 		PriceReport pr = new PriceReport(u, dieselPrice, superPrice, superPlusPrice, gasPrice);
@@ -213,6 +209,10 @@ public class GasStationServiceimpl implements GasStationService {
 		// pr.trust_level = 50 * (U.trust_level +5)/10 + 50 * obsolescence
 		gs.setReportDependability(50 * (u.getReputation() + 5) / 10 + 50 * 1);
 
+		// Check price report compatibility with gas station
+		if(!priceCorrect(GasStationMapper.toGSDto(gs))){
+			throw new PriceException("ERROR: Price not valid or set");
+		}
 		gasStationRepository.save(gs);
 	}
 

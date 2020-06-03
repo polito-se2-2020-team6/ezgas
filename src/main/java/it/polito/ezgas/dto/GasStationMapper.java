@@ -22,7 +22,7 @@ public class GasStationMapper {
 				gsDto.setLat(gs.getLat());
 				gsDto.setLon(gs.getLon());
 				gsDto.setReportUser(gs.getReportUser());
-				//TODO: gsDto.setUserDto(UserMapper.toUserDto(gs.getUser()));
+				gsDto.setUserDto(UserMapper.toUserDto(gs.getUser()));
 				gsDto.setReportTimestamp(gs.getReportTimestamp());
 				gsDto.setReportDependability(gs.getReportDependability());
 				return gsDto;
@@ -48,7 +48,7 @@ public class GasStationMapper {
 		gas.setLat(gsDto.getLat());
 		gas.setLon(gsDto.getLon());
 		gas.setReportUser(gsDto.getReportUser());
-		//TODO: gsDto.setUserDto(UserMapper.toUserDto(gs.getUser()));
+		gas.setUser(UserMapper.toUser(gsDto.getUserDto()));
 		gas.setReportTimestamp(gsDto.getReportTimestamp());
 		gas.setReportDependability(gsDto.getReportDependability());
 		return gas;
