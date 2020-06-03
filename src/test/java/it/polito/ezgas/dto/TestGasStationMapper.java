@@ -59,7 +59,6 @@ public class TestGasStationMapper {
 		assertEquals(reportUser, ret.getReportUser());
 		assertEquals(reportTimestamp, ret.getReportTimestamp());
 		assertEquals(reportDependability, ret.getReportDependability(), 0.1);
-		
 	}
 	
 	@Test
@@ -106,7 +105,6 @@ public class TestGasStationMapper {
 		assertEquals(reportUser, ret.getReportUser());
 		assertEquals(reportTimestamp, ret.getReportTimestamp());
 		assertEquals(reportDependability, ret.getReportDependability(), 0.1);
-		
 	}
 	
 	@Test
@@ -153,7 +151,6 @@ public class TestGasStationMapper {
 		assertEquals(reportUser, ret.getReportUser());
 		assertEquals(reportTimestamp, ret.getReportTimestamp());
 		assertEquals(reportDependability, ret.getReportDependability(), 0.1);
-		
 	}
 	
 	@Test
@@ -181,7 +178,6 @@ public class TestGasStationMapper {
 		assertEquals(dummy.getReportUser(), ret.getReportUser());
 		assertEquals(dummy.getReportTimestamp(), ret.getReportTimestamp());
 		assertEquals(dummy.getReportDependability(), ret.getReportDependability(), 0.1);
-		
 	}
 	
 	@Test
@@ -247,7 +243,6 @@ public class TestGasStationMapper {
 		assertEquals(reportUser, ret.getReportUser());
 		assertEquals(reportTimestamp, ret.getReportTimestamp());
 		assertEquals(reportDependability, ret.getReportDependability(), 0.1);
-		
 	}
 	
 	
@@ -314,7 +309,6 @@ public class TestGasStationMapper {
 		assertEquals(reportUser, ret.getReportUser());
 		assertEquals(reportTimestamp, ret.getReportTimestamp());
 		assertEquals(reportDependability, ret.getReportDependability(), 0.1);
-		
 	}
 	
 	@Test

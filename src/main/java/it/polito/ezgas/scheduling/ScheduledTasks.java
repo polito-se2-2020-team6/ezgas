@@ -51,7 +51,7 @@ public class ScheduledTasks {
 		this.updateGasStationsReportDependability();
 	}
 
-	private int updateGasStationsReportDependability() {
+	public int updateGasStationsReportDependability() {
 
 		this.now = new Date();
 		List<GasStation> gasStationsToUpdate = new ArrayList<>();

@@ -340,6 +340,7 @@ urep -up-|> crud : "<User, Integer>"
 prrep -up-|> crud : "<PriceReport, Integer>"
 gsrep -up-|> crud : "<GasStation, Integer>"
 
+gssi --* st
 gss --* gsdto
 us --* idpw
 us --* ldto
@@ -538,9 +539,10 @@ GasStationController --> u :200 ok
 Actor "Anonymous User" as u
 u -> GasStationController :1 - getGasStationsByProximity()
 GasStationController -> GasStationServiceImpl :2 - getGasStationByProximity()
-GasStationServiceImpl -> GasStationRepository :3 - findAll()
+GasStationServiceImpl -> ScheduledTasks : 3 - updateGasStationReportDependability()
+GasStationServiceImpl -> GasStationRepository :4 - findAll()
 GasStarionRepository --> GasStationServiceImpl :GasStation List
-GasStationServiceImpl -> GasStationMapper :4 - toGSDto()
+GasStationServiceImpl -> GasStationMapper :5 - toGSDto()
 activate GasStationMapper
 note right of GasStationMapper: Repeat for every object returned in the list.
 GasStationMapper --> GasStationServiceImpl :GasStationDto object
@@ -554,7 +556,7 @@ GasStationController --> u :200 OK
 
 ``` plantuml
 @startuml
-title Repeated every 12 h
+title Repeated every 12 h (also embedded in use cases 8)
 
 SpringApplication -> ScheduledTasks :1 - run()
 ScheduledTasks -> GasStationRepository :2 - findAll()

@@ -1,0 +1,12 @@
+wait("1590596887760.png")
+type(Pattern("1590594977146.png").targetOffset(59,0), "Via Roma 12 Ventimiglia Liguria Ital ")
+click("AddressMenu.PNG")
+click("1590595119208.png")
+wheel(WHEEL_DOWN, 3)
+wait(Pattern("1590847273345.png").similar(0.83), 10)
+wheel(WHEEL_UP, 3)
+wait("1590596887760-1.png", 10)
+click("1590595119208-1.png")
+wheel(WHEEL_DOWN, 3)
+wait(Pattern("1590847416626.png").similar(0.83), 10)
+#shows the difference in values of the report

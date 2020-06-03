@@ -22,6 +22,7 @@ import it.polito.ezgas.entity.User;
 import it.polito.ezgas.repository.GasStationRepository;
 import it.polito.ezgas.repository.PriceReportRepository;
 import it.polito.ezgas.repository.UserRepository;
+import it.polito.ezgas.scheduling.ScheduledTasks;
 import it.polito.ezgas.service.GasStationService;
 import it.polito.ezgas.service.UserService;
 
@@ -38,9 +39,11 @@ public class GasStationServiceimpl implements GasStationService {
 
 	private GasStationRepository gasStationRepository;
 	private UserRepository userRepository;
+	private ScheduledTasks st;
 	public GasStationServiceimpl(GasStationRepository gasStationRepository, UserRepository userRepository) {
 		this.gasStationRepository = gasStationRepository;
 		this.userRepository = userRepository;
+		this.st = new ScheduledTasks(this.userRepository, this.gasStationRepository);
 	}
 
 
@@ -96,6 +99,8 @@ public class GasStationServiceimpl implements GasStationService {
 
 	@Override
 	public List<GasStationDto> getAllGasStations() {
+		st.updateGasStationsReportDependability();
+		
 		return gasStationRepository.findAll()
 				.stream()
 				.map(gasStation -> GasStationMapper.toGSDto(gasStation))
@@ -121,6 +126,7 @@ public class GasStationServiceimpl implements GasStationService {
 	public List<GasStationDto> getGasStationsByGasolineType(String gasolinetype) throws InvalidGasTypeException {
 		// Check if gas station exists
 		if(!isGasolineTypeValid(gasolinetype)) throw new InvalidGasTypeException("ERROR: gasoline type " + gasolinetype + " not found!");
+		st.updateGasStationsReportDependability();
 
 		return gasStationRepository.findAll()
 				.parallelStream()
@@ -135,13 +141,15 @@ public class GasStationServiceimpl implements GasStationService {
 		if (!latLonCorrect(lat, lon)) {
 			throw new GPSDataException("ERROR: Invalid latitude(" + lat + ") or longitude(" + lon + ") values");
 		}
-
-		return gasStationRepository.findAll()
-				.parallelStream()
-				.filter(gs -> geoPointDistance(lat, lon, gs.getLat(), gs.getLon()) < 5)
-				.map(GasStationMapper::toGSDto)
-				.sorted((a, b) -> (geoPointDistance(lat, lon, b.getLat(), b.getLon()) - geoPointDistance(lat, lon, a.getLat(), a.getLon()) < 0 ? -1 : 1))
-				.collect(Collectors.toList());
+		
+		try {
+			return getGasStationsWithCoordinates(lat, lon, "null", "null");
+		} catch (InvalidGasTypeException e) {
+			// Dead code
+			return null;
+		}
+		
+		
 	}
 
 	@Override
@@ -154,8 +162,8 @@ public class GasStationServiceimpl implements GasStationService {
 
 		return getGasStationsWithoutCoordinates(gasolinetype, carsharing)
 				.parallelStream()
-				.filter(gs -> geoPointDistance(lat, lon, gs.getLat(), gs.getLon()) < 5)
-				.sorted((a, b) -> (geoPointDistance(lat, lon, b.getLat(), b.getLon()) - geoPointDistance(lat, lon, a.getLat(), a.getLon()) < 0 ? -1 : 1))
+				.filter(gs -> geoPointDistance(lat, lon, gs.getLat(), gs.getLon()) < 1)
+				.sorted((b, a) -> (geoPointDistance(lat, lon, b.getLat(), b.getLon()) - geoPointDistance(lat, lon, a.getLat(), a.getLon()) < 0 ? -1 : 1))
 				.collect(Collectors.toList());
 	}
 
@@ -210,9 +218,9 @@ public class GasStationServiceimpl implements GasStationService {
 
 	@Override
 	public List<GasStationDto> getGasStationByCarSharing(String carSharing) {
+		st.updateGasStationsReportDependability();
 
 		if(carSharing.equals("null")) return getAllGasStations();
-
 		List<GasStation> gss = gasStationRepository.findByCarSharing(carSharing);
 		return gss
 				.parallelStream()

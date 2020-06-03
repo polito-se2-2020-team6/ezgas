@@ -12,7 +12,7 @@ import it.polito.ezgas.entity.User;
 
 
 @SpringBootTest
-public class testUserMapper {
+public class TestUserMapper {
 	
 	@Test
 	public void testToUser1() {
@@ -234,6 +234,7 @@ public class testUserMapper {
 		assertEquals(admin, res.getAdmin());
 		assertEquals(reputation, res.getReputation());		
 	}
+	
 	@Test
 	public void testToUserDto4(){
 		String userName = null;

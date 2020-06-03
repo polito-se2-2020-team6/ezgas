@@ -1,11 +1,13 @@
 package it.polito.ezgas.service.impl;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import exception.InvalidLoginDataException;
 import exception.InvalidUserException;
@@ -19,27 +21,22 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assert.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.security.auth.login.LoginException;
+
 @SpringBootTest
 public class TestUserServiceimpl {
-
-	//	@Mock
-	//	UserMapper mockUM;
-	//	
-	//	@Mock
-	//	LoginMapper mockLM;
 
 	List<User> al;
 
 	@Mock
 	UserRepository mockUR;
 
-	@BeforeEach
+	@Before
 	public void setUp() {
 
 		User dummyU = new User("Cloud Strife", "Shinra_sucks", "SOLDIERguy@avalanche.com", 5);
@@ -54,26 +51,10 @@ public class TestUserServiceimpl {
 		dummyU3.setUserId(7);
 		dummyU3.setAdmin(true);
 
-//		LoginDto dummyL = new LoginDto(42, "Cloud Strife", "Mysterious Token", "SOLDIERguy@avalanche.com", 5);
-//		dummyL.setAdmin(true);
-		
 		al = new ArrayList<>();
 		al.add(dummyU);
 		al.add(dummyU2);
 		al.add(dummyU3);
-
-		//		mockUM = mock(UserMapper.class);
-		//			
-		//		verify(mockUM.toUser(any()))
-		//			.thenReturn(dummyU);
-		//		
-		//		verify(mockUM.toUserDto(any(User.class)))
-		//			.thenReturn(new UserDto(42, "Cloud Strife", "Shinra_sucks", "SOLDIERguy@avalanche.com", 5, true));;
-		//
-		//		mockLM = mock(LoginMapper.class);
-		//		
-		//		when(mockLM.toLoginDto(any(User.class), anyString()))
-		//			.thenReturn(dummyL); 
 
 		mockUR = mock(UserRepository.class);
 
@@ -108,26 +89,20 @@ public class TestUserServiceimpl {
 		when(mockUR.save(any(User.class)))
 		.thenReturn(dummyU);
 		
-//		Mockito.doNothing().when(mockUR.delete(anyInt()));
 	}
 
-
 	@Test
-	public void testGetUserById1() {
+	public void testGetUserById1() throws InvalidUserException {
 		UserServiceimpl userService = new UserServiceimpl(mockUR);
-		try {
-			UserDto res = userService.getUserById(42);
+
+		UserDto res = userService.getUserById(42);
 			assertEquals(new Integer(42), res.getUserId());
-		}
-		catch(InvalidUserException e){
-			fail("exception not expected");
-		}
 	}
 
-	@Test
-	public void testGetUserById2() {
+	@Test(expected = InvalidUserException.class)
+	public void testGetUserById2() throws InvalidUserException {
 		UserServiceimpl userService = new UserServiceimpl(mockUR);
-		assertThrows(InvalidUserException.class, ()->userService.getUserById(-3));
+		userService.getUserById(-3);
 	}
 
 	@Test
@@ -186,50 +161,42 @@ public class TestUserServiceimpl {
 	}
 
 	@Test
-	public void testDeleteUser1() {
+	public void testDeleteUser1() throws InvalidUserException {
 		UserServiceimpl userService = new UserServiceimpl(mockUR);
 		
-		try {
 			assertTrue(userService.deleteUser(42));
-		} catch (InvalidUserException e) {
-			fail();
-		}
 	}
 
-	@Test
-	public void testDeleteUser2() {
+	@Test(expected = InvalidUserException.class)
+	public void testDeleteUser2() throws InvalidUserException {
 		UserServiceimpl userService = new UserServiceimpl(mockUR);
 		
-		assertThrows(InvalidUserException.class, () -> userService.deleteUser(-3), "Expected fail");
+		userService.deleteUser(-3);
 	}
 
 	@Test
-	public void testLogin1() {
+	public void testLogin1() throws InvalidLoginDataException {
 		UserServiceimpl userService = new UserServiceimpl(mockUR);		
 		IdPw credentials = new IdPw("SOLDIERguy@avalanche.com", "Shinra_sucks");
 
-		try {
 			LoginDto login = userService.login(credentials);
 			assertEquals(credentials.getUser(), login.getEmail());
-		} catch (InvalidLoginDataException e) {
-			fail("User expected to exist");
-		}
 	}
 
-	@Test
-	public void testLogin2() {
+	@Test(expected = InvalidLoginDataException.class)
+	public void testLogin2() throws InvalidLoginDataException {
 		UserServiceimpl userService = new UserServiceimpl(mockUR);		
 		IdPw credentials = new IdPw("SOLDIERguy@avalanche.com", "wrong password");
 
-		assertThrows(InvalidLoginDataException.class, () -> userService.login(credentials), "Wrong password, test expected to fail");
+		userService.login(credentials);
 	}
 	
-	@Test
-	public void testLogin3() {
+	@Test(expected = InvalidLoginDataException.class)
+	public void testLogin3() throws InvalidLoginDataException {
 		UserServiceimpl userService = new UserServiceimpl(mockUR);		
 		IdPw credentials = new IdPw("badEmailemail.com", "wrong password");
 
-		assertThrows(InvalidLoginDataException.class, () -> userService.login(credentials), "Wrong email, test expected to fail");
+		userService.login(credentials);
 	}
 
 	@Test
@@ -255,90 +222,68 @@ public class TestUserServiceimpl {
 	}
 	
 	@Test
-	public void testIncreaseReputation1() {
+	public void testIncreaseReputation1() throws InvalidUserException {
 		UserServiceimpl userService = new UserServiceimpl(mockUR);
-		try {
-			Integer res = userService.increaseUserReputation(42);
+
+		Integer res = userService.increaseUserReputation(42);
 			assertEquals(new Integer(5), res);
-		} catch (InvalidUserException e) {
-			fail("exception not expected");		
-		}
 		
 	}
 	
 	@Test
-	public void testIncreaseReputation2() {
+	public void testIncreaseReputation2() throws InvalidUserException {
 		UserServiceimpl userService = new UserServiceimpl(mockUR);
-		try {
-			Integer res = userService.increaseUserReputation(35);
+
+		Integer res = userService.increaseUserReputation(35);
 			assertEquals(new Integer(1), res);
-		} catch (InvalidUserException e) {
-			fail("exception not expected");		
-		}
 		
 	}
 	
 	@Test
-	public void testIncreaseReputation3() {
+	public void testIncreaseReputation3() throws InvalidUserException {
 		UserServiceimpl userService = new UserServiceimpl(mockUR);
-		try {
-			Integer res = userService.increaseUserReputation(7);
+
+		Integer res = userService.increaseUserReputation(7);
 			assertEquals(new Integer(-4), res);
-		} catch (InvalidUserException e) {
-			fail("exception not expected");		
-		}
-		
 	}
 	
-	@Test
-	public void testIncreaseReputation4() {
+	@Test(expected = InvalidUserException.class)
+	public void testIncreaseReputation4() throws InvalidUserException {
 		UserServiceimpl userService = new UserServiceimpl(mockUR);
 		
-			 assertThrows(InvalidUserException.class, () -> userService.increaseUserReputation(-3), "Expected fail");
+			 userService.increaseUserReputation(-3);
 			
 		
 	}
 	
 	@Test
-	public void testDecreaseUserReputation1() {
+	public void testDecreaseUserReputation1() throws InvalidUserException {
 		UserServiceimpl userService = new UserServiceimpl(mockUR);
 		
-		try {
 			Integer res = userService.decreaseUserReputation(42);
 			assertEquals(new Integer(4), res);
-		} catch (InvalidUserException e) {
-			fail("User expected to exist");
-		}
 	}
 
 	@Test
-	public void testDecreaseUserReputation2() {
+	public void testDecreaseUserReputation2() throws InvalidUserException {
 		UserServiceimpl userService = new UserServiceimpl(mockUR);
 		
-		try {
 			Integer res = userService.decreaseUserReputation(35);
 			assertEquals(new Integer(-1), res);
-		} catch (InvalidUserException e) {
-			fail("User expected to exist");
-		}
 	}
 	
 	@Test
-	public void testDecreaseUserReputation3() {
+	public void testDecreaseUserReputation3() throws InvalidUserException {
 		UserServiceimpl userService = new UserServiceimpl(mockUR);
 		
-		try {
 			Integer res = userService.decreaseUserReputation(7);
 			assertEquals(new Integer(-5), res);
-		} catch (InvalidUserException e) {
-			fail("User expected to exist");
-		}
 	}
 	
-	@Test
-	public void testDecreaseUserReputation4() {
+	@Test(expected = InvalidUserException.class)
+	public void testDecreaseUserReputation4() throws InvalidUserException {
 		UserServiceimpl userService = new UserServiceimpl(mockUR);
 
-		assertThrows(InvalidUserException.class, () -> userService.decreaseUserReputation(-3), "Expected exception");
+		userService.decreaseUserReputation(-3);
 	}
 }
