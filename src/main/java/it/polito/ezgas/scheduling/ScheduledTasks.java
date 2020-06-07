@@ -53,7 +53,11 @@ public class ScheduledTasks {
 
 	public int updateGasStationsReportDependability() {
 
-		this.now = new Date();
+		try {
+			this.now = this.df.parse(this.df.format(new Date()));
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
 		List<GasStation> gasStationsToUpdate = new ArrayList<>();
 
 		gasStationRepository.findAll()
