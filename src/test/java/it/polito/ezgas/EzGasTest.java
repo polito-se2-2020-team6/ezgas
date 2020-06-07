@@ -411,7 +411,7 @@ public class EzGasTest extends TestCase {
             assertEquals(1.1,modified.getSuperPlusPrice());
             assertEquals(1.1,modified.getDieselPrice());
             assertEquals("newName",modified.getGasStationName());
-            assertEquals("null",modified.getCarSharing());
+            assertEquals(null,modified.getCarSharing());
             gasStationToDelete.add(stationDto.getGasStationId());
             //assertTrue(gasStationService.deleteGasStation(modified.getGasStationId()));
             //assertTrue(userService.deleteUser(admin.getUserId()));

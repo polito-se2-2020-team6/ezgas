@@ -101,6 +101,8 @@ public class GasStationServiceimpl implements GasStationService {
 			throw new GPSDataException("ERROR: Invalid latitude(" + gasStationDto.getLat() + ") or longitude(" + gasStationDto.getLon() + ") values");
 		}
 		else {
+			if (gsdto.getCarSharing()=="null")
+				gsdto.setCarSharing(null);
 			gs = gasStationRepository.save(GasStationMapper.toGS(gsdto));
 			return GasStationMapper.toGSDto(gs);
 
