@@ -85,7 +85,6 @@ public class ScheduledTasks {
 		//    obsolescence = 0 if (today - P.time_tag) > 7 days 
 		//    otherwise obsolescence = 1 - (today - P.time_tag)/7
 		long msecDifference = this.now.getTime() - reportTimestamp.getTime();
-		System.out.println("NOW: " + this.now + "REpo: " + reportTimestamp);
 		double daysDifference = msecDifference / (24 * 60 * 60 * 1000.0);
 		double obsolescence = daysDifference > 7 ? 0 : 1 - daysDifference / 7.0;
 
