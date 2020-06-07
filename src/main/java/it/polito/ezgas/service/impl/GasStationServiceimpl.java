@@ -1,5 +1,7 @@
 package it.polito.ezgas.service.impl;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -219,7 +221,9 @@ public class GasStationServiceimpl implements GasStationService {
 
 		gs.setReportUser(u.getUserId());
 		gs.setUser(userRepository.findOne(userId));
-		gs.setReportTimestamp(new Date().toString()); // TODO: Maybe change
+		DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+        Date date = new Date(System.currentTimeMillis());
+		gs.setReportTimestamp(formatter.format(date));
 		// pr.trust_level = 50 * (U.trust_level +5)/10 + 50 * obsolescence
 		gs.setReportDependability(50 * (u.getReputation() + 5) / 10 + 50 * 1);
 
