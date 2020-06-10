@@ -31,7 +31,7 @@ public class ScheduledTasks {
 		this.userRepository = ur;
 		this.gasStationRepository = gsr;
 		// Wed May 13 15:29:10 UTC 2020
-		this.df = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy", Locale.ENGLISH);
+		this.df = new SimpleDateFormat("MM-dd-yyyy");
 		seenUsers = new HashMap<>();
 	}
 	
@@ -53,7 +53,11 @@ public class ScheduledTasks {
 
 	public int updateGasStationsReportDependability() {
 
-		this.now = new Date();
+		try {
+			this.now = this.df.parse(this.df.format(new Date()));
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
 		List<GasStation> gasStationsToUpdate = new ArrayList<>();
 
 		gasStationRepository.findAll()

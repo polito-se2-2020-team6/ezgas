@@ -39,7 +39,7 @@ public class TestScheduledTask {
 
 	@BeforeClass
 	public static void setUpClass() {
-		df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.ENGLISH);
+		df = new SimpleDateFormat("MM-dd-yyyy");
 	}
 
 	@Before
@@ -57,11 +57,10 @@ public class TestScheduledTask {
 	@Test
 	public void testComputeNewDependability1() throws ParseException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		ScheduledTasks test = new ScheduledTasks(mockUR, mockGSR);
-		test.setNow(df.parse("2020-05-25 21:00:00"));
+		test.setNow(df.parse("05-25-2020"));
 		Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
 		func.setAccessible(true);
-
-		double res = (double) func.invoke(test, "Mon May 24 21:00:00 CEST 2020", 42);
+		double res = (double) func.invoke(test, "05-24-2020", 42);
 		assertEquals(50+50*(6.0/7.0), res, 0.001);
 
 	}
@@ -76,11 +75,11 @@ public class TestScheduledTask {
 		users.put(42,  dummyU);
 		test.setSeenUsers(users);
 
-		test.setNow(df.parse("2020-05-25 21:00:00"));
+		test.setNow(df.parse("05-25-2020"));
 		Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
 		func.setAccessible(true);
 
-		double res = (double) func.invoke(test, "Mon May 24 21:00:00 CEST 2020", 42);
+		double res = (double) func.invoke(test, "05-24-2020", 42);
 		assertEquals(50+50*(6.0/7.0), res, 0.001);
 		
 	}
@@ -95,11 +94,11 @@ public class TestScheduledTask {
 		users.put(42,  dummyU);
 		test.setSeenUsers(users);
 
-		test.setNow(df.parse("2020-05-25 21:00:00"));
+		test.setNow(df.parse("05-25-2020"));
 		Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
 		func.setAccessible(true);
 
-		double res = (double) func.invoke(test, "Mon May 15 17:08:15 CEST 2020", 42);
+		double res = (double) func.invoke(test, "05-15-2020", 42);
 		assertEquals(50, res, 0.001);
 	}
 
@@ -107,11 +106,11 @@ public class TestScheduledTask {
 	public void testComputeNewDependability4() throws ParseException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		ScheduledTasks test = new ScheduledTasks(mockUR, mockGSR);
 
-		test.setNow(df.parse("2020-05-25 21:00:00"));
+		test.setNow(df.parse("05-25-2020"));
 		Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
 		func.setAccessible(true);
 
-		double res = (double) func.invoke(test, "Mon May 15 17:08:15 CEST 2020", 42);
+		double res = (double) func.invoke(test, "05-15-2020", 42);
 		assertEquals(50, res, 0.001);
 	}
 
@@ -125,11 +124,11 @@ public class TestScheduledTask {
 		users.put(42,  dummyU);
 		test.setSeenUsers(users);
 
-		test.setNow(df.parse("2020-05-25 21:00:00"));
+		test.setNow(df.parse("05-25-2020"));
 		Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
 		func.setAccessible(true);
 
-		double res = (double) func.invoke(test, "Mon May 23 21:00:00 CEST 2020", 42);
+		double res = (double) func.invoke(test, "05-23-2020", 42);
 		assertEquals(25+50*(5/7.0), res, 0.001);
 	}
 
@@ -143,11 +142,11 @@ public class TestScheduledTask {
 		users.put(42,  dummyU);
 		test.setSeenUsers(users);
 
-		test.setNow(df.parse("2020-05-25 21:00:00"));
+		test.setNow(df.parse("05-25-2020"));
 		Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
 		func.setAccessible(true);
 
-		double res = (double) func.invoke(test, "Mon May 20 21:00:00 CEST 2020", 42);
+		double res = (double) func.invoke(test, "05-20-2020", 42);
 		assertEquals(10+50*(2/7.0), res, 0.001);
 	}
 
@@ -161,11 +160,11 @@ public class TestScheduledTask {
 		users.put(42,  dummyU);
 		test.setSeenUsers(users);
 
-		test.setNow(df.parse("2020-05-25 21:00:00"));
+		test.setNow(df.parse("05-25-2020"));
 		Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
 		func.setAccessible(true);
 
-		double res = (double) func.invoke(test, "Mon May 25 21:00:00 CEST 2020", 42);
+		double res = (double) func.invoke(test, "05-25-2020", 42);
 		assertEquals(100, res, 0.001);
 	}
 
@@ -179,11 +178,11 @@ public class TestScheduledTask {
 		users.put(42,  dummyU);
 		test.setSeenUsers(users);
 
-		test.setNow(df.parse("2020-05-25 21:00:00"));
+		test.setNow(df.parse("05-25-2020"));
 		Method func = ScheduledTasks.class.getDeclaredMethod("computeNewDependability", String.class, Integer.class);
 		func.setAccessible(true);
 
-		double res = (double) func.invoke(test, "Mon May 25 21:00:00 CEST 2020", 42);
+		double res = (double) func.invoke(test, "05-25-2020", 42);
 		assertEquals(50, res, 0.001);
 	}
 }

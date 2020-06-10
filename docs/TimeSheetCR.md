@@ -11,9 +11,9 @@ Activity Other refers to effort to produce other documents (such as Project risk
 
 These figures will not be used to evaluate neither the project nor the team
 
-| Week | CR0 | CR4  | CR7  | Other |
-|:-----------:|:--------:|:-----------:|:-----------:|:----------:|
-| jun 1 -  7 | | | | | 
-| jun 8 - 14 | | | | |
-| jun 15 -21 | | | | |
-| jun 22 -28 | | | | |
+|    Week    |  CR0  |  CR4  |  CR7  | Other |
+| :--------: | :---: | :---: | :---: | :---: |
+| jun 1 -  7 | 13.5  |       |       |   3   |
+| jun 8 - 14 |       |       |       |       |
+| jun 15 -21 |       |       |       |       |
+| jun 22 -28 |       |       |       |       |
