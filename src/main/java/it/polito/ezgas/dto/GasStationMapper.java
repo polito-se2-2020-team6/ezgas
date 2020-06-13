@@ -14,11 +14,13 @@ public class GasStationMapper {
 				gsDto.setHasMethane(gs.getHasMethane());
 				gsDto.setHasSuper(gs.getHasSuper());
 				gsDto.setHasSuperPlus(gs.getHasSuperPlus());
+				gsDto.setHasPremiumDiesel(gs.getHasPremiumDiesel());
 				gsDto.setDieselPrice(gs.getDieselPrice());
 				gsDto.setMethanePrice(gs.getMethanePrice());
 				gsDto.setGasPrice(gs.getGasPrice());
 				gsDto.setSuperPlusPrice(gs.getSuperPlusPrice());
 				gsDto.setSuperPrice(gs.getSuperPrice());
+				gsDto.setPremiumDieselPrice(gs.getPremiumDieselPrice());
 				gsDto.setLat(gs.getLat());
 				gsDto.setLon(gs.getLon());
 				gsDto.setReportUser(gs.getReportUser());
@@ -40,11 +42,13 @@ public class GasStationMapper {
 		gas.setHasMethane(gsDto.getHasMethane());
 		gas.setHasSuper(gsDto.getHasSuper());
 		gas.setHasSuperPlus(gsDto.getHasSuperPlus());
+		gas.setHasPremiumDiesel(gsDto.getHasPremiumDiesel());
 		gas.setDieselPrice(gsDto.getDieselPrice());
 		gas.setMethanePrice(gsDto.getMethanePrice());
 		gas.setGasPrice(gsDto.getGasPrice());
 		gas.setSuperPlusPrice(gsDto.getSuperPlusPrice());
 		gas.setSuperPrice(gsDto.getSuperPrice());
+		gas.setPremiumDieselPrice(gsDto.getPremiumDieselPrice());
 		gas.setLat(gsDto.getLat());
 		gas.setLon(gsDto.getLon());
 		gas.setReportUser(gsDto.getReportUser());

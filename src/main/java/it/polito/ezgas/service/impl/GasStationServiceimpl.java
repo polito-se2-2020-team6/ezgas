@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import exception.GPSDataException;
+import exception.InvalidCarSharingException;
 import exception.InvalidGasStationException;
 import exception.InvalidGasTypeException;
 import exception.InvalidUserException;
@@ -76,28 +77,32 @@ public class GasStationServiceimpl implements GasStationService {
 			}
 		}	
 		//set default prices (0)	
-		gsdto.setDieselPrice(gasStationDto.getHasDiesel()  ? 0 : -1);
-		// 				gasStationDto.setLpgPrice(gasStationDto.getHasLpg() ? 0 : -1);
-
-		gsdto.setGasPrice(gasStationDto.getHasGas() ? 0 : -1);
-		gsdto.setMethanePrice(gasStationDto.getHasMethane() ? 0 : -1);
-		gsdto.setSuperPrice(gasStationDto.getHasSuper() ? 0 : -1);
-		gsdto.setSuperPlusPrice(gasStationDto.getHasSuperPlus() ? 0 : -1);
 		
-		if (gasStationDto.getHasDiesel() && gasStationDto.getDieselPrice()>0)
+		gsdto.setDieselPrice(gasStationDto.getHasDiesel()  ? 0.0 : null);
+		
+
+		gsdto.setGasPrice(gasStationDto.getHasGas() ? 0.0 : null);
+		gsdto.setMethanePrice(gasStationDto.getHasMethane() ? 0.0 : null);
+		gsdto.setSuperPrice(gasStationDto.getHasSuper() ? 0.0 : null);
+		gsdto.setSuperPlusPrice(gasStationDto.getHasSuperPlus() ? 0.0 : null);
+		gsdto.setPremiumDieselPrice(gasStationDto.getHasPremiumDiesel() ? 0.0 : null);
+		
+		if (gasStationDto.getHasDiesel() && gasStationDto.getDieselPrice() != null)
 			gsdto.setDieselPrice(gasStationDto.getDieselPrice());
-		if (gasStationDto.getHasMethane() && gasStationDto.getMethanePrice()>0)
+		if (gasStationDto.getHasMethane() && gasStationDto.getMethanePrice() != null)
 			gsdto.setMethanePrice(gasStationDto.getMethanePrice());
-		if (gasStationDto.getHasGas() && gasStationDto.getGasPrice()>0)
+		if (gasStationDto.getHasGas() && gasStationDto.getGasPrice() != null)
 			gsdto.setGasPrice(gasStationDto.getGasPrice());
-		if (gasStationDto.getHasSuper() && gasStationDto.getSuperPrice()>0)
+		if (gasStationDto.getHasSuper() && gasStationDto.getSuperPrice() != null)
 			gsdto.setSuperPrice(gasStationDto.getSuperPrice());
-		if (gasStationDto.getHasSuperPlus() && gasStationDto.getSuperPlusPrice()>0)
+		if (gasStationDto.getHasSuperPlus() && gasStationDto.getSuperPlusPrice() != null)
 			gsdto.setSuperPlusPrice(gasStationDto.getSuperPlusPrice());
+		if(gasStationDto.getHasPremiumDiesel() && gasStationDto.getPremiumDieselPrice() != null)
+			gsdto.setPremiumDieselPrice(gasStationDto.getPremiumDieselPrice());
 		//check not valid prices
 		if (!priceCorrect(gsdto))
 		{
-			throw new PriceException("ERROR: Price not valid or setted");
+			throw new PriceException("ERROR: Price not valid or set");
 		}
 		else if (!latLonCorrect(gasStationDto.getLat(), gasStationDto.getLon())) {
 			throw new GPSDataException("ERROR: Invalid latitude(" + gasStationDto.getLat() + ") or longitude(" + gasStationDto.getLon() + ") values");
@@ -150,45 +155,52 @@ public class GasStationServiceimpl implements GasStationService {
 				.filter(gasStation -> mapGasolineTypeToMethod(gasolinetype).test(gasStation))
 				.collect(Collectors.toList());
 	}
+	
+	
 
 	@Override
 	public List<GasStationDto> getGasStationsByProximity(double lat, double lon) throws GPSDataException {
-		// Check coordinates make sense
-		if (!latLonCorrect(lat, lon)) {
-			throw new GPSDataException("ERROR: Invalid latitude(" + lat + ") or longitude(" + lon + ") values");
-		}
-		
-		try {
-			return getGasStationsWithCoordinates(lat, lon, "null", "null");
-		} catch (InvalidGasTypeException e) {
-			// Dead code
-			return null;
-		}
-		
-		
+		return getGasStationsByProximity(lat, lon, 0);
 	}
 
 	@Override
-	public List<GasStationDto> getGasStationsWithCoordinates(double lat, double lon, String gasolinetype,
-			String carsharing) throws InvalidGasTypeException, GPSDataException {
+	public List<GasStationDto> getGasStationsByProximity(double lat, double lon, int radius) throws GPSDataException {
+		// Check coordinates make sense
+				if (!latLonCorrect(lat, lon)) {
+					throw new GPSDataException("ERROR: Invalid latitude(" + lat + ") or longitude(" + lon + ") values");
+				}
+				
+				try {
+					return getGasStationsWithCoordinates(lat, lon, radius, "null", "null");
+				} catch (InvalidGasTypeException | InvalidCarSharingException e ) {
+					// Dead code
+					return null;
+				}
+	}
+	
+	@Override
+	public List<GasStationDto> getGasStationsWithCoordinates(double lat, double lon, int radius, String gasolinetype,
+			String carsharing) throws InvalidGasTypeException, GPSDataException, InvalidCarSharingException {
 		// Check coordinates make sense
 		if (!latLonCorrect(lat, lon)) {
 			throw new GPSDataException("ERROR: Invalid latitude(" + lat + ") or longitude(" + lon + ") values");
 		}
-
+		final int r = radius <= 0 ? 1 : radius;
 		return getGasStationsWithoutCoordinates(gasolinetype, carsharing)
 				.parallelStream()
-				.filter(gs -> geoPointDistance(lat, lon, gs.getLat(), gs.getLon()) < 1)
+				.filter(gs -> geoPointDistance(lat, lon, gs.getLat(), gs.getLon()) < r)
 				.sorted((b, a) -> (geoPointDistance(lat, lon, b.getLat(), b.getLon()) - geoPointDistance(lat, lon, a.getLat(), a.getLon()) < 0 ? -1 : 1))
 				.collect(Collectors.toList());
 	}
 
 	@Override
 	public List<GasStationDto> getGasStationsWithoutCoordinates(String gasolinetype, String carsharing)
-			throws InvalidGasTypeException {
+			throws InvalidGasTypeException, InvalidCarSharingException {
 		// Check if gas station exists
 		if(!isGasolineTypeValid(gasolinetype)) throw new InvalidGasTypeException("ERROR: gasoline type " + gasolinetype + " not found!");
 
+		if(!carsharing.equals("null") && !carsharing.equals("Enjoy") && !carsharing.equals("Car2Go"))
+			throw new InvalidCarSharingException("ERROR: car sharing company " + carsharing + " not found!");
 		return getGasStationByCarSharing(carsharing)
 				.parallelStream()
 				.filter(gasStation -> mapGasolineTypeToMethod(gasolinetype).test(gasStation))
@@ -196,8 +208,8 @@ public class GasStationServiceimpl implements GasStationService {
 	}
 
 	@Override
-	public void setReport(Integer gasStationId, double dieselPrice, double superPrice, double superPlusPrice,
-			double gasPrice, double methanePrice, Integer userId)
+	public void setReport(Integer gasStationId, Double dieselPrice, Double superPrice, Double superPlusPrice,
+			Double gasPrice, Double methanePrice, Double premiumDieselPrice, Integer userId)
 					throws InvalidGasStationException, PriceException, InvalidUserException {
 		// Check if gas station exists
 		Optional<GasStation> optGS = Optional.ofNullable(gasStationRepository.findOne(gasStationId));
@@ -208,16 +220,15 @@ public class GasStationServiceimpl implements GasStationService {
 		if(!optU.isPresent()) throw new InvalidUserException("ERROR: User " + userId + " not found!");
 		User u = optU.get();
 
-		// TODO: Missing methane and lpg args
-		PriceReport pr = new PriceReport(u, dieselPrice, superPrice, superPlusPrice, gasPrice);
-
+		
 		// Set gas station fields
-		gs.setDieselPrice(pr.getDieselPrice());
+		gs.setDieselPrice(dieselPrice);
 		//		gs.setLpgPrice(pr.getLpgPrice());
 		gs.setMethanePrice(/*pr.getMethanePrice*/methanePrice);
-		gs.setGasPrice(pr.getGasPrice());
-		gs.setSuperPrice(pr.getSuperPrice());
-		gs.setSuperPlusPrice(pr.getSuperPlusPrice());
+		gs.setGasPrice(gasPrice);
+		gs.setSuperPrice(superPrice);
+		gs.setSuperPlusPrice(superPlusPrice);
+		gs.setPremiumDieselPrice(premiumDieselPrice);
 
 		gs.setReportUser(u.getUserId());
 		gs.setUser(userRepository.findOne(userId));
@@ -256,6 +267,7 @@ public class GasStationServiceimpl implements GasStationService {
 		case "Methane": return true;
 		case "Super": return true;
 		case "SuperPlus": return true;
+		case "PremiumDiesel": return true;
 		default: return false;
 		}
 	}
@@ -268,18 +280,20 @@ public class GasStationServiceimpl implements GasStationService {
 		case "Methane": return GasStationDto::getHasMethane;
 		case "Super": return GasStationDto::getHasSuper;
 		case "SuperPlus": return GasStationDto::getHasSuperPlus;
+		case "PremiumDiesel": return GasStationDto::getHasPremiumDiesel;
 		case "null": return (gsdto) -> true;
 		default: return (gsdto) -> false;
 		}
 	}
 
 	private boolean priceCorrect(GasStationDto gs) {
-		if (gs.getHasDiesel() && gs.getDieselPrice() < 0 || !gs.getHasDiesel() && gs.getDieselPrice() >= 0 ||
+		if (gs.getHasDiesel() && gs.getDieselPrice() == null || !gs.getHasDiesel() && gs.getDieselPrice() != null ||
 				//				gs.getHasLpg() && gs.getLpgPrice() <= 0 || !gs.getHasLpg() && gs.getLpgPrice() > 0 ||
-				gs.getHasGas() && gs.getGasPrice() < 0 || !gs.getHasGas() && gs.getGasPrice() >= 0 ||
-				gs.getHasMethane() && gs.getMethanePrice() < 0 || !gs.getHasMethane() && gs.getMethanePrice() >= 0 ||
-				gs.getHasSuper() && gs.getSuperPrice() < 0 || !gs.getHasSuper() && gs.getSuperPrice() >= 0 ||
-				gs.getHasSuperPlus() && gs.getSuperPlusPrice() < 0 || !gs.getHasSuperPlus() && gs.getSuperPlusPrice() >= 0) {
+				gs.getHasGas() && gs.getGasPrice() == null || !gs.getHasGas() && gs.getGasPrice() != null ||
+				gs.getHasMethane() && gs.getMethanePrice() == null || !gs.getHasMethane() && gs.getMethanePrice() != null ||
+				gs.getHasSuper() && gs.getSuperPrice() == null || !gs.getHasSuper() && gs.getSuperPrice() != null ||
+				gs.getHasSuperPlus() && gs.getSuperPlusPrice() == null || !gs.getHasSuperPlus() && gs.getSuperPlusPrice() != null || 
+				gs.getHasPremiumDiesel() && gs.getPremiumDieselPrice() == null || !gs.getHasPremiumDiesel() && gs.getPremiumDieselPrice() != null) {
 			return false;
 		}
 		else 
@@ -313,5 +327,8 @@ public class GasStationServiceimpl implements GasStationService {
 	private boolean latLonCorrect(double lat, double lon) {
 		return lat > -90.0 && lat <= 90.0 && lon > -180.0 && lon <= 180.0;
 	}
+
+
+	
 }
 
