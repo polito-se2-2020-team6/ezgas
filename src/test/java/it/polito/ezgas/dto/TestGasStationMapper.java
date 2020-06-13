@@ -2,6 +2,7 @@ package it.polito.ezgas.dto;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -179,14 +180,16 @@ public class TestGasStationMapper {
 		assertEquals(dummy.getHasSuperPlus(), ret.getHasSuperPlus());
 		assertEquals(dummy.getHasGas(), ret.getHasGas());
 		assertEquals(dummy.getHasMethane(), ret.getHasMethane());
+		assertEquals(dummy.getHasPremiumDiesel(), ret.getHasPremiumDiesel());
 		assertEquals(dummy.getCarSharing(), ret.getCarSharing());
 		assertEquals(dummy.getLat(), ret.getLat(), 0.1);
 		assertEquals(dummy.getLon(), ret.getLon(), 0.1);
-		assertEquals(dummy.getDieselPrice(), ret.getDieselPrice(), 0.1);
-		assertEquals(dummy.getSuperPrice(), ret.getSuperPrice(), 0.1);
-		assertEquals(dummy.getSuperPlusPrice(), ret.getSuperPlusPrice(), 0.1);
-		assertEquals(dummy.getGasPrice(), ret.getGasPrice(), 0.1);
-		assertEquals(dummy.getMethanePrice(), ret.getMethanePrice(), 0.1);
+		assertNull(ret.getDieselPrice());
+		assertNull(ret.getSuperPrice());
+		assertNull(ret.getSuperPlusPrice());
+		assertNull(ret.getGasPrice());
+		assertNull(ret.getMethanePrice());
+		assertNull(ret.getPremiumDieselPrice());
 		assertEquals(dummy.getReportUser(), ret.getReportUser());
 		assertEquals(dummy.getReportTimestamp(), ret.getReportTimestamp());
 		assertEquals(dummy.getReportDependability(), ret.getReportDependability(), 0.1);
@@ -410,7 +413,7 @@ public class TestGasStationMapper {
 		assertFalse(ret.getHasSuperPlus());
 		assertTrue(ret.getHasGas());
 		assertTrue(ret.getHasMethane());
-		assertFalse(ret.getHasPremiumDiesel());
+		assertTrue(ret.getHasPremiumDiesel());
 		assertEquals(carSharing, ret.getCarSharing());
 		assertEquals(lat, ret.getLat(), 0.1);
 		assertEquals(lon, ret.getLon(), 0.1);
