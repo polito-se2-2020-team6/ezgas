@@ -106,7 +106,9 @@ agent GasStation.setSuperPlusPrice as setSuperPlusPrice
 agent GasStation.setGasPrice as setGasPrice
 agent GasStation.setMethanePrice as setMethanePrice
 agent GasStation.setUser as setUser
+agent GasStation.getUser as getGSUser
 agent GasStation.setReportTimestamp as setReportTimestamp
+agent GasStation.getReportTimestamp as getReportTimestamp
 agent GasStationDto.getHasDiesel as getHasDieselDto
 agent GasStationDto.getHasSuper as getHasSuperDto
 agent GasStationDto.getHasSuperPlus as getHasSuperPlusDto
@@ -200,6 +202,8 @@ setReport -- setGasPrice
 setReport -- setMethanePrice
 setReport -- setSuperPrice
 setReport -- setSuperPlusPrice
+setReport -- getGSUser
+setReport -- getReportTimestamp
 setReport -- setReportUser
 setReport -- setUser
 setReport -- getUserId
@@ -592,9 +596,11 @@ Since those implementation are independent, no tests are needed.
 
 ### 
 
-| Non Functional Requirement | Test name |
-| :------------------------: | :-------: |
-|            NFR2            |    All    |
+| Non Functional Requirement |               Test name                |
+| :------------------------: | :------------------------------------: |
+|            NFR2            |                  All                   |
+|            NFR6            | testGetGasStationsWithCoordinates1-7() |
+|                            |   testGetGasStationsByProximity1-4()   |
 
 ![](Images/Tests/testPerformanceNew.png)
 
