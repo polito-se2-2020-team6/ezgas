@@ -38,6 +38,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import it.polito.ezgas.dto.GasStationDto;
+import it.polito.ezgas.dto.PriceReportDto;
 import it.polito.ezgas.dto.UserDto;
 import it.polito.ezgas.entity.GasStation;
 import it.polito.ezgas.entity.User;
@@ -91,7 +92,7 @@ public class TestController {
 		HttpPost req =  new HttpPost(BASE_URL + "/user/saveUser");
 		/*UserDto u = new UserDto();
 		u.setUserName("Jill");
-		u.setPassword("Va11 hall-a");
+		u.setPassword("Va-11 hall-a");
 		u.setEmail("rad.shiba@btc.gc");
 		u.setReputation(3);
 
@@ -99,7 +100,7 @@ public class TestController {
 
 		 */
 
-		String json = "{\"userName\": \"Jill\",\"password\": \"Va11 hall-a\", \"email\":\"rad.shiba@gbtc.gc\", \"reputation\": \"5\"}";
+		String json = "{\"userName\": \"Jill\",\"password\": \"Va-11 hall-a\", \"email\":\"rad.shiba@gbtc.gc\", \"reputation\": \"5\"}";
 
 		StringEntity entity = new StringEntity(json);
 		entity.setContentType(ContentType.APPLICATION_JSON.getMimeType());
@@ -219,7 +220,7 @@ public class TestController {
 
 	@Test
 	@Order(12)
-	public void testDeleteUser2() throws ClientProtocolException, IOException {
+	public void testDeleteGasStation() throws ClientProtocolException, IOException {
 		HttpUriRequest request = new HttpDelete(BASE_URL + "/gasstation/deleteGasStation/3");
 		HttpResponse response = HttpClientBuilder.create().build().execute(request);
 
@@ -247,7 +248,7 @@ public class TestController {
 	@Test
 	@Order(9)
 	public void testGetGasStationsByProximity() throws ClientProtocolException, IOException {
-		HttpUriRequest request = new HttpGet(BASE_URL + "/gasstation/searchGasStationByProximity/44.689/7.848/");
+		HttpUriRequest request = new HttpGet(BASE_URL + "/gasstation/searchGasStationByProximity/44.689/7.848/1/");
 		HttpResponse response = HttpClientBuilder.create().build().execute(request);
 
 		assertTrue(response.getStatusLine().getStatusCode() == 200);
@@ -257,15 +258,15 @@ public class TestController {
 		GasStationDto[] gasStationArray = mapper.readValue(jsonFromResponse, GasStationDto[].class);
 
 		assertEquals(3, gasStationArray.length);
-		assertEquals("Q8", gasStationArray[0].getGasStationName());
-		assertEquals("DB Carburanti", gasStationArray[1].getGasStationName());
-		assertEquals("Agip", gasStationArray[2].getGasStationName());
+		assertEquals("DB Carburanti", gasStationArray[0].getGasStationName());
+		assertEquals("Agip", gasStationArray[1].getGasStationName());
+		assertEquals("Q8", gasStationArray[2].getGasStationName());
 	}
 
 	@Test
 	@Order(10)
 	public void testGetGasStationsWithCoordinates() throws ClientProtocolException, IOException {
-		HttpUriRequest request = new HttpGet(BASE_URL + "/gasstation/getGasStationsWithCoordinates/44.689/7.848/Diesel/null");
+		HttpUriRequest request = new HttpGet(BASE_URL + "/gasstation/getGasStationsWithCoordinates/44.689/7.848/1/Diesel/null");
 		HttpResponse response = HttpClientBuilder.create().build().execute(request);
 
 		assertTrue(response.getStatusLine().getStatusCode() == 200);
@@ -275,14 +276,24 @@ public class TestController {
 		GasStationDto[] gasStationArray = mapper.readValue(jsonFromResponse, GasStationDto[].class);
 
 		assertEquals(2, gasStationArray.length);
-		assertEquals("Q8", gasStationArray[0].getGasStationName());
-		assertEquals("DB Carburanti", gasStationArray[1].getGasStationName());
+		assertEquals("DB Carburanti", gasStationArray[0].getGasStationName());
+		assertEquals("Q8", gasStationArray[1].getGasStationName());
 	}
 
 	@Test
 	@Order(11)
 	public void testSetGasStationReport() throws ClientProtocolException, IOException {
-		HttpUriRequest request = new HttpPost(BASE_URL + "/gasstation/setGasStationReport/1/17/-1/-1/-1/-1/1");
+		HttpPost request = new HttpPost(BASE_URL + "/gasstation/setGasStationReport");
+		PriceReportDto dummy = new PriceReportDto(1, 17.0, null, null, null, null, null, 1);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String entityAsString = mapper.writeValueAsString(dummy);
+
+		HttpEntity entity = new StringEntity(entityAsString);
+
+		request.setEntity(entity);
+		request.setHeader("Content-Type", "application/json");
+		
 		HttpResponse response = HttpClientBuilder.create().build().execute(request);
 
 		assertEquals(200, response.getStatusLine().getStatusCode());

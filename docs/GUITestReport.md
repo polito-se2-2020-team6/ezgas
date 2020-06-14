@@ -23,6 +23,7 @@ Version: 1.0
 |       9        |             FR 5.2              | GUITestUC9  |
 |       10       |             FR 5.3              | GUITestUC10 |
 | (Scenario)10.2 |             FR 5.3              | GUITestS102 |
+|   -- CR4 --    |             FR 5.1              | GUITestCR4  |
 
 
 # REST  API  Testing
@@ -42,7 +43,7 @@ Version: 1.0
 | GasStationController.getGasStationById()             |                -                |       testGetGasStationById()       |
 | GasStationController.getAllGasStations()             |              FR3.3              |       testGetAllGasStations()       |
 | GasStationController.saveGasStation()                |              FR3.1              |        testSaveGasStation()         |
-| GasStationController.deleteUser()                    |              FR3.2              |          testDeleteUser2()          |
+| GasStationController.deleteGasStation()              |              FR3.2              |       testDeleteGasStation()        |
 | GasStationController.getGasStationsByGasolineType()  |              FR4.5              | testGetGasStationsByGasolineType()  |
 | GasStationController.getGasStationsByProximity()     |              FR4.2              |   testGetGasStationsByProximity()   |
 | GasStationController.getGasStationsWithCoordinates() |              FR4.1              | testGetGasStationsWtihCoordinates() |
