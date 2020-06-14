@@ -27,6 +27,8 @@ Version: 0.1
 	- [Scenario UC7.2](#scenario-uc72)
 	- [Scenario UC7.3](#scenario-uc73)
 	- [Scenario UC7.4](#scenario-uc74)
+	- [Scenario UC7.5](#scenario-uc75)
+	- [Scenario UC7.6](#scenario-uc76)
 	- [Scenario UC8.2](#scenario-uc82)
 	- [Scenario UC8.3](#scenario-uc83)
 	- [Scenario UC10.3](#scenario-uc103)
@@ -466,6 +468,24 @@ Since those implementation are independent, no tests are needed.
 | Post condition |                        Raise exception                        |
 | Notes          |                        Fail-safe check                        |
 
+## Scenario UC7.5
+
+| Scenario       |                    Report on a Gas Station with high dependability (CR4)                    |
+| -------------- | :-----------------------------------------------------------------------------------------: |
+| Precondition   |                                Gas Station has a report set                                 |
+|                | User who submits the new report has lower reputation than the one who made the previous one |
+|                |                               Report timestamp - now < 4 days                               |
+| Post condition |                                       Raise exception                                       |
+| Notes          |                                                                                             |
+
+## Scenario UC7.6
+
+| Scenario       | Report on a Gas Station with obsolete report |
+| -------------- | :------------------------------------------: |
+| Precondition   |          Gas Station G has a report          |
+|                |       report timestamp - now >= 4 days       |
+| Post condition |               new report saved               |
+
 ## Scenario UC8.2
 
 | Scenario       |  User U inserts incorrect coordinates   |
@@ -554,6 +574,8 @@ Since those implementation are independent, no tests are needed.
 |    UC7.2    |              FR5.3              |                                                                                                                      testSetReport2()                                                                                                                      |
 |    UC7.3    |              FR5.3              |                                                                                                                      testSetReport4()                                                                                                                      |
 |    UC7.4    |              FR5.3              |                                                                                                                      testSetReport3()                                                                                                                      |
+|    UC7.5    |              FR5.3              |                                                                                                                      testSetReport5()                                                                                                                      |
+|    UC7.6    |              FR5.3              |                                                                                                                      testSetReport6()                                                                                                                      |
 |    UC8.1    |              FR4.1              |                                                                        testGetGasStationByProximity1(), testGetGasStationWithCoordinates1(), testGetGasStationWithoutCoordinates1()                                                                        |
 |    UC8.2    |              FR4.1              |                                                        testGetGasStationByProximity2(), testGetGasStationByProximity3(), testGetGasStationsWithCoordinates2(), testGetGasStationsWithCoordinates3()                                                        |
 |    UC8.3    |              FR4.1              |                                                                                        testGetGasStationWithCoordinates4(), testGetGasStationsWithoutCoordinates2()                                                                                        |
