@@ -341,10 +341,14 @@ public class TestGasStationServiceimpl {
 
 	@Before
 	public void setUp() {
+		User dummyU = new User("Cloud Strife", "Shinra_sucks", "SOLDIERguy@avalanche.com", 5);
+		dummyU.setUserId(42);
+		dummyU.setAdmin(true);
+		
+		User dummyU2 = new User("Lara Croft", "Tomb Raider", "lara.Croft@polito.it", 0);
+		dummyU2.setUserId(35);
 		
 		DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
-		
-		
 		GasStation dummyGS1 = new GasStation("DB Carburanti", "Viale Trieste 135", true, true, false, false, true, true, "Enjoy", -25.789, 45.785, 0.0, 0.0, null, null, 0.0, 0.0, 23, "05-19-2020", 25.6);
 		dummyGS1.setGasStationId(120);
 		Date jskvbd = new Date();
@@ -355,13 +359,8 @@ public class TestGasStationServiceimpl {
 		dummyGS3.setGasStationId(122);
 		GasStation dummyGS4 = new GasStation("Eni", "Via Garibaldi 33", true, true, false, true, true, false, "Car2Go", 11.233, 47.304, 1.225, 2.553, null, 2.098, 1.003, null, 42, df.format(new Date()), 23.6);
 		dummyGS4.setGasStationId(123);
+		dummyGS4.setUser(dummyU);
 
-		User dummyU = new User("Cloud Strife", "Shinra_sucks", "SOLDIERguy@avalanche.com", 5);
-		dummyU.setUserId(42);
-		dummyU.setAdmin(true);
-		
-		User dummyU2 = new User("Lara Croft", "Tomb Raider", "lara.Croft@polito.it", 0);
-		dummyU2.setUserId(35);
 
 
 		al = new ArrayList<>();
