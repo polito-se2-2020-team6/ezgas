@@ -200,6 +200,7 @@ public class GasStationController {
 			System.out.println(e.getMessage());
 		}
 	}*/
+	
 	@RequestMapping(value = Constants.SET_GASSTATION_REPORT, method = RequestMethod.POST)
 	public void setGasStationReport(@RequestBody PriceReportDto priceReportDto) {
 
