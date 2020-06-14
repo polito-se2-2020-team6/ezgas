@@ -1,6 +1,7 @@
 package it.polito.ezgas.service.impl;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -219,6 +220,25 @@ public class GasStationServiceimpl implements GasStationService {
 		Optional<User> optU = Optional.ofNullable(userRepository.findOne(userId));
 		if(!optU.isPresent()) throw new InvalidUserException("ERROR: User " + userId + " not found!");
 		User u = optU.get();
+		DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+
+        Date date = new Date(System.currentTimeMillis());
+		
+		if(gs.getUser()!= null) {
+			// a report already exists
+			Date reportTimestamp = null;
+			try {
+				reportTimestamp = formatter.parse(gs.getReportTimestamp());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			long msecDifference = date.getTime() - reportTimestamp.getTime();
+			double daysDifference = msecDifference / (24 * 60 * 60 * 1000.0);
+			// new reputation is lower and less than 4 days of difference -> no update
+			if (u.getReputation()<gs.getUser().getReputation() && daysDifference <= 4  )
+				return;
+		}
 
 		
 		// Set gas station fields
@@ -232,8 +252,7 @@ public class GasStationServiceimpl implements GasStationService {
 
 		gs.setReportUser(u.getUserId());
 		gs.setUser(userRepository.findOne(userId));
-		DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
-        Date date = new Date(System.currentTimeMillis());
+//		DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
 		gs.setReportTimestamp(formatter.format(date));
 		// pr.trust_level = 50 * (U.trust_level +5)/10 + 50 * obsolescence
 		gs.setReportDependability(50 * (u.getReputation() + 5) / 10 + 50 * 1);
@@ -287,13 +306,13 @@ public class GasStationServiceimpl implements GasStationService {
 	}
 
 	private boolean priceCorrect(GasStationDto gs) {
-		if (gs.getHasDiesel() && gs.getDieselPrice() == null || !gs.getHasDiesel() && gs.getDieselPrice() != null ||
+		if (gs.getHasDiesel() && (gs.getDieselPrice() == null ||  gs.getDieselPrice() < 0) || !gs.getHasDiesel() && gs.getDieselPrice() != null || 
 				//				gs.getHasLpg() && gs.getLpgPrice() <= 0 || !gs.getHasLpg() && gs.getLpgPrice() > 0 ||
-				gs.getHasGas() && gs.getGasPrice() == null || !gs.getHasGas() && gs.getGasPrice() != null ||
-				gs.getHasMethane() && gs.getMethanePrice() == null || !gs.getHasMethane() && gs.getMethanePrice() != null ||
-				gs.getHasSuper() && gs.getSuperPrice() == null || !gs.getHasSuper() && gs.getSuperPrice() != null ||
-				gs.getHasSuperPlus() && gs.getSuperPlusPrice() == null || !gs.getHasSuperPlus() && gs.getSuperPlusPrice() != null || 
-				gs.getHasPremiumDiesel() && gs.getPremiumDieselPrice() == null || !gs.getHasPremiumDiesel() && gs.getPremiumDieselPrice() != null) {
+				gs.getHasGas() && (gs.getGasPrice() == null || gs.getGasPrice() <0) || !gs.getHasGas() && gs.getGasPrice() != null ||
+				gs.getHasMethane() && (gs.getMethanePrice() == null || gs.getMethanePrice() <0 ) || !gs.getHasMethane() && gs.getMethanePrice() != null ||
+				gs.getHasSuper() && (gs.getSuperPrice() == null || gs.getSuperPrice() <0) || !gs.getHasSuper() && gs.getSuperPrice() != null ||
+				gs.getHasSuperPlus() && (gs.getSuperPlusPrice() == null || gs.getSuperPlusPrice() <0) || !gs.getHasSuperPlus() && gs.getSuperPlusPrice() != null || 
+				gs.getHasPremiumDiesel() && (gs.getPremiumDieselPrice() == null || gs.getPremiumDieselPrice()<0) || !gs.getHasPremiumDiesel() && gs.getPremiumDieselPrice() != null) {
 			return false;
 		}
 		else 
