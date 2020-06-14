@@ -148,7 +148,7 @@ Version: 0.1
 | -90 <= `lat` < 90 | -180 <= `lon` < 180 |      Valid      |  (90 - Double.MIN_INCREMENT, 180 - Double.MIN_INCREMENT )  | testlatLonCorrect6()  |
 | -90 <= `lat` < 90 | -180 <= `lon` < 180 |      Valid      | (-90 + Double.MIN_INCREMENT, -180 + Double.MIN_INCREMENT ) | testlatLonCorrect7()  |
 | -90 <= `lat` < 90 | -180 <= `lon` < 180 |      Valid      |                          (0, 0 )                           | testlatLonCorrect8()  |
-| -90 <= `lat` < 90 |        > 180        |     Invalid     |              (0, 180 + Double.MIN_INCREMENT)               | testlatLonCorrect9()  |
+| -90 <= `lat` < 90 |       >= 180        |     Invalid     |              (0, 180 + Double.MIN_INCREMENT)               | testlatLonCorrect9()  |
 |       >= 90       |          -          |     Invalid     |             (90 + Double.MIN_INCREMENT, 50.0)              | testlatLonCorrect10() |
 
 
