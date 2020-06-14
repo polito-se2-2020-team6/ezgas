@@ -237,7 +237,7 @@ public class GasStationServiceimpl implements GasStationService {
 			double daysDifference = msecDifference / (24 * 60 * 60 * 1000.0);
 			// new reputation is lower and less than 4 days of difference -> no update
 			if (u.getReputation()<gs.getUser().getReputation() && daysDifference <= 4  )
-				return;
+				throw new PriceException("ERROR: Report not set because of CR4 limitations");
 		}
 
 		

@@ -15,7 +15,7 @@ public interface Constants {
 	static final String GET_GASSTATIONS_BY_NEIGHBORHOOD = "/searchGasStationByNeighborhood/{neighborhood}";
 	static final String GET_GASSTATIONS_BY_GASOLINETYPE = "/searchGasStationByGasolineType/{gasolinetype}";
 	static final String GET_GASSTATIONS_BY_PROXIMITY = "/searchGasStationByProximity/{myLat}/{myLon}/{myRadius}";
-	static final String SET_GASSTATION_REPORT = "/setGasStationReport/{gasStationId}/{dieselPrice}/{superPrice}/{superPlusPrice}/{gasPrice}/{methanePrice}/{userId}";
+	static final String SET_GASSTATION_REPORT = "/setGasStationReport";
 	static final String GET_GASSTATIONS_WITH_COORDINATES = "/getGasStationsWithCoordinates/{myLat}/{myLon}/{myRadius}/{gasolineType}/{carSharing}";
 	static final String GET_GASSTATIONS_WITHOUT_COORDINATES = "/getGasStationsWithoutCoordinates/{gasolineType}/{carSharing}";
 
