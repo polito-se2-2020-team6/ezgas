@@ -334,9 +334,11 @@ Test done only on computeNewDependability function, since the only properly cust
 |                                                           |  testGetGasStationsWithCoordinates4()   |
 |                                                           |  testGetGasStationsWithCoordinates5()   |
 |                                                           |  testGetGasStationsWithCoordinates6()   |
+|                                                           |  testGetGasStationsWithCoordinates7()   |
 |                                                           | testGetGasStationsWithoutCoordinates1() |
 |                                                           | testGetGasStationsWithoutCoordinates2() |
 |                                                           | testGetGasStationsWithoutCoordinates3() |
+|                                                           | testGetGasStationsWithoutCoordinates4() |
 |                                                           |     testMapGasolineTypeToMethod1()      |
 |                                                           |           testPriceCorrect1()           |
 |                                                           |           testPriceCorrect2()           |
