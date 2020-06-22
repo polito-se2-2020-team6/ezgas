@@ -2,9 +2,9 @@
 
 Authors: Alessandro Borione, Giacomo Garaccione, Corrado Vecchio, Marco Vinai
 
-Date: 29/05/2020
+Date: 22/06/2020
 
-Version: 1.0
+Version: 2.0
 
 # GUI testing
 
