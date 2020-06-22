@@ -8,28 +8,28 @@ We consider two phases: <br>
 Report effort figures from the timesheet or timesheetCR document, compute size from the source code.
 
 ## New development 
-| Measure| Value |
-|---|---|
-|effort E (report here effort in person hours, for New development, from timesheet)  ||
-|size S (report here size in LOC of all code written, excluding test cases)  ||
-|productivity = S/E ||
-|defects after release D (number of defects found running official acceptance tests and fixed in CR0) ||
-|defect density = D/S||
-| effort for non-quality ENQ (effort for CR0, or effort to fix defects found running official acceptance tests, from timesheetCR) ||
-| effort for non quality, relative = ENQ / E ||
+| Measure                                                                                                                         | Value  |
+| ------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| effort E (report here effort in person hours, for New development, from timesheet)                                              | 261.05 |
+| size S (report here size in LOC of all code written, excluding test cases)                                                      | 2317   |
+| productivity = S/E                                                                                                              | 8.88   |
+| defects after release D (number of defects found running official acceptance tests and fixed in CR0)                            | 4      |
+| defect density = D/S                                                                                                            | 0.1%   |
+| effort for non-quality ENQ (effort for CR0, or effort to fix defects found running official acceptance tests, from timesheetCR) | 13.5   |
+| effort for non quality, relative = ENQ / E                                                                                      | 5%     |
 
 ## Maintenance
 
-| Measure | Value|
-|---|---|
-| size S_CR4 = only lines added for CR4 = total size with CR4 - S ||
-| actual effort (from timesheetCR) AE_CR4 ||
-| productivity P_CR4 = S_CR4/ EA_CR4 ||
-| estimated effort (from estimationCR) EE_CR4 ||
-|estimation accuracy CR4 = EE_CR4/AE_CR4  ||
-|||
-| size S_CR7 =only lines added for CR7 = total size with CR7 - S ||
-| actual effort (from timesheetCR) AE_CR7 ||
-| productivity P_CR7 = S_CR7/ AE_CR7 ||
-| estimated effort (from estimationCR) EE_CR7 ||
-|estimation accuracy CR7 = EE_CR7/AE_CR7  ||
+| Measure                                                         | Value |
+| --------------------------------------------------------------- | ----- |
+| size S_CR4 = only lines added for CR4 = total size with CR4 - S | 19    |
+| actual effort (from timesheetCR) AE_CR4                         | 10    |
+| productivity P_CR4 = S_CR4/ EA_CR4                              | 1.9   |
+| estimated effort (from estimationCR) EE_CR4                     | 10    |
+| estimation accuracy CR4 = EE_CR4/AE_CR4                         | 100%  |
+|                                                                 |       |
+| size S_CR7 =only lines added for CR7 = total size with CR7 - S  | 315   |
+| actual effort (from timesheetCR) AE_CR7                         | 12.6  |
+| productivity P_CR7 = S_CR7/ AE_CR7                              | 25    |
+| estimated effort (from estimationCR) EE_CR7                     | 5     |
+| estimation accuracy CR7 = EE_CR7/AE_CR7                         | 20%   |
